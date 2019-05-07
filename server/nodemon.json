@@ -1,0 +1,8 @@
+{
+    "env": {
+        "PORT": 3001,
+        "MONGO_USER": "sergio",
+        "MONGO_PASSWORD": "R6vs9TSoHZyOsQnW",
+        "MONGO_DB": "libT"
+    }
+}
