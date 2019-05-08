@@ -7,6 +7,8 @@ import Toolbar from './components/Toolbar/Toolbar';
 import MainNavigation from './components/Navigation/MainNavigation/MainNavigation';
 import MobileNavigation from "./components/Navigation/MobileNavigation/MobileNavigation";
 import ErrorHandler from './components/ErrorHandler/ErrorHandler';
+import FeedPage from "./pages/Feed/Feed";
+import SinglePostPage from "./pages/Feed/SinglePost/SinglePost";
 import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
 import './App.css';
@@ -188,7 +190,7 @@ class App extends Component {
     if (this.state.isAuth) {
       routes = (
         <Switch>
-          {/* <Route
+          <Route
             path="/"
             exact
             render={props => (
@@ -204,7 +206,7 @@ class App extends Component {
                 token={this.state.token}
               />
             )}
-          /> */}
+          />
           <Redirect to="/" />
         </Switch>
       );
