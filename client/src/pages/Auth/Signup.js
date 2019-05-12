@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Input from '../../components/Form/Input/Input';
 import Button from '../../components/Button/Button';
 import { required, length, email } from '../../util/validators';
+import * as actions from '../../store/actions/index';
 import Auth from './Auth';
 
 class Signup extends Component {
@@ -114,5 +116,22 @@ class Signup extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    onSignup: (event, authData) => {
+      event.preventDefault();
+      const params = {
+        email: authData.signupForm.email.value,
+        password: authData.signupForm.email.password,
+        name: authData.signupForm.email.name,
+        isSignUp: false
+      };
+      dispatch(actions.auth(params));
+    }
+  };
+};
 
-export default Signup;
+export default connect(
+  null,
+  mapDispatchToProps
+)(Signup);

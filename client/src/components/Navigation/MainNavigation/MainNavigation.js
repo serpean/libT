@@ -1,9 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import MobileToggle from '../MobileToggle/MobileToggle';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
+
+import * as actions from '../../../store/actions/index';
 
 import './MainNavigation.css';
 
@@ -22,4 +25,19 @@ const mainNavigation = props => (
   </nav>
 );
 
-export default mainNavigation;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.token != null
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => dispatch(actions.logout())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(mainNavigation);
