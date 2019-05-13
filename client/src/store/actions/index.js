@@ -5,3 +5,5 @@ export {
   authCheckState,
   errorHandler
 } from './auth';
+
+export { loadPosts } from './feed';
