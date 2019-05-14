@@ -1,3 +1,7 @@
+.feed {
+  margin: auto;
+}
+
 .feed__status {
   width: 90%;
   margin: 1rem auto;

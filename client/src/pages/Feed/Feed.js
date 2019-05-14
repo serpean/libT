@@ -37,9 +37,10 @@ class Feed extends Component {
                   id={post._id}
                   action={post.action}
                   type={post.resource.type}
-                  author={post.creator.name}
+                  name={post.creator.name}
                   date={new Date().toLocaleDateString()}
                   title={post.resource.title}
+                  author={post.resource.author}
                   image={post.resource.image}
                   content={post.resource.description}
                 />
