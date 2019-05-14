@@ -1,6 +1,8 @@
 .dropdown {
   position: relative;
   display: inline-block;
+  border: 1px solid #0375b4;
+  margin: 1rem 0;
 }
 
 .dropdown-content {
@@ -16,4 +18,24 @@
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.dropdown-content li {
+  text-align: left;
+  list-style: none;
+}
+
+.dropdown-content li:hover,
+.dropdown-content li:active {
+  background: rgba(0, 23, 98, 0.3);
+}
+
+.dropdown-content li a {
+  color: #0375b4;
+  text-decoration: none;
+}
+
+.dropdown-content li a:hover,
+.dropdown-content li a:active {
+  color: #0375b4;
 }

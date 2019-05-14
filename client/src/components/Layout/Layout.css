@@ -8,6 +8,7 @@
 .content {
   margin-top: 3.5rem;
   padding: 1rem;
+  display: flex;
 }
 
 @media (min-width: 768px) {

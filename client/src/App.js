@@ -6,6 +6,7 @@ import Layout from './components/Layout/Layout';
 import Backdrop from './components/Backdrop/Backdrop';
 import ErrorHandler from './components/ErrorHandler/ErrorHandler';
 import FeedPage from './pages/Feed/Feed';
+import LibraryPage from './pages/Library/Library';
 import SinglePostPage from './pages/Feed/SinglePost/SinglePost';
 import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
@@ -38,6 +39,7 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path="/" exact component={FeedPage} />
+          <Route path="/library" exact component={LibraryPage} />
           <Route path="/:postId" component={SinglePostPage} />
           <Redirect to="/" />
         </Switch>
@@ -50,8 +52,7 @@ class App extends Component {
           <Backdrop onClick={this.backdropClickHandler} />
         )}
         <ErrorHandler />
-        <Layout />
-        {routes}
+        <Layout>{routes}</Layout>
       </Fragment>
     );
   }

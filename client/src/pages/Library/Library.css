@@ -1,0 +1,13 @@
+.page {
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+}
+
+.libraries {
+  width: 30%;
+}
+
+.actual-library {
+  width: 70%;
+}

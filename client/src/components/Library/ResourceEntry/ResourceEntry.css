@@ -1,0 +1,50 @@
+.entry {
+  margin: 1rem 0;
+  border: 1px solid #0375b4;
+  border-radius: 5px;
+  padding: 0.5rem;
+  display: flex;
+}
+
+.entry__image {
+  height: 10rem;
+  width: 30%;
+}
+
+.entry__content {
+  padding: 1.5rem;
+  width: 70%;
+}
+
+.entry__title {
+  margin: 0.5rem 0;
+}
+
+.entry__title {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+  color: #0375b4;
+}
+
+.entry__title a {
+  color: inherit;
+  font-size: inherit;
+  text-decoration: none;
+}
+
+.entry__author {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.entry__author {
+  margin: 0;
+}
+
+.entry__ratings {
+  display: flex;
+}
+
+.entry__rating {
+  margin: 0 20px;
+}
