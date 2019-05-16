@@ -51,7 +51,7 @@ export const auth = params => {
     dispatch(authStart);
     let options, url;
     if (params.isSignUp) {
-      url = 'http://localhost:3001/api/auth/login';
+      url = 'http://localhost:3001/auth/login';
       options = {
         method: 'POST',
         headers: {
@@ -63,16 +63,16 @@ export const auth = params => {
         })
       };
     } else {
-      url = 'http://localhost:3001/api/auth/signup';
+      url = 'http://localhost:3001/auth/signup';
       options = {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           email: params.email,
           password: params.password,
-          name: params.password
+          name: params.name
         })
       };
     }
@@ -89,15 +89,16 @@ export const auth = params => {
         return res.json();
       })
       .then(resData => {
-        localStorage.setItem('token', resData.token);
-        localStorage.setItem('userId', resData.userId);
+        console.log(resData.user);
+        localStorage.setItem('token', resData.user.token);
+        localStorage.setItem('userId', resData.user.username);
 
         const remainingMilliseconds = 60 * 60 * 1000;
         const expiryDate = new Date(
           new Date().getTime() + remainingMilliseconds
         );
         localStorage.setItem('expiryDate', expiryDate.toISOString());
-        dispatch(authSuccess(resData.token, resData.userId));
+        dispatch(authSuccess(resData.user.token, resData.user.userId));
         dispatch(checkAuthTimeout(remainingMilliseconds));
       })
       .catch(err => {
