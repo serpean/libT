@@ -10,6 +10,7 @@ import LibraryPage from './pages/Library/Library';
 import SinglePostPage from './pages/Feed/SinglePost/SinglePost';
 import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
+import NoMatch from './pages/NoMatch/NoMatch';
 import * as actions from './store/actions/index';
 import './App.css';
 
@@ -40,8 +41,8 @@ class App extends Component {
         <Switch>
           <Route path="/" exact component={FeedPage} />
           <Route path="/library" exact component={LibraryPage} />
-          <Route path="/:postId" component={SinglePostPage} />
-          <Redirect to="/" />
+          {/*<Route path="/:postId" component={SinglePostPage} />*/}
+          <Route component={NoMatch} />
         </Switch>
       );
     }
