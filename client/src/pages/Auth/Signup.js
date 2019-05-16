@@ -122,8 +122,8 @@ const mapDispatchToProps = dispatch => {
       event.preventDefault();
       const params = {
         email: authData.signupForm.email.value,
-        password: authData.signupForm.email.password,
-        name: authData.signupForm.email.name,
+        password: authData.signupForm.password.value,
+        name: authData.signupForm.name.value,
         isSignUp: false
       };
       dispatch(actions.auth(params));
