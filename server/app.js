@@ -3,12 +3,14 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const authRoutes = require('./routes/auth');
 
 const app = express();
 
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,12 +26,13 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/index', indexRouter);
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 // app.use('/api/feed');
 
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+  console.log(err);
   const message = err.message;
   const data = req.app.get('env') === 'development' ? err.data : {};
 
