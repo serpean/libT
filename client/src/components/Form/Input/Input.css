@@ -19,13 +19,13 @@
 }
 
 .input .touched.invalid {
-  border-color: red;
+  border-color: #db3535;
   background: #ffc2c2;
 }
 
 .input input:focus,
 .input textarea:focus {
   outline: none;
-  border-color: #0375b4;
-  color: #0375b4;
+  border-color: #004a86;
+  color: #241912;
 }
