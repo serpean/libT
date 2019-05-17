@@ -13,11 +13,12 @@ class Library extends Component {
           <LibraryMenu />
         </section>
         <section className="actual-library">
-          <header>
-            <h1>
-              Título <i class="fas fa-edit" />
-              <i class="fas fa-trash-alt" />
-            </h1>
+          <header className="actual-library__header">
+            <div className="actual-library__controls">
+              <h1>Título</h1>
+              <i className="fas fa-edit" />
+              <i className="fas fa-trash-alt" />
+            </div>
             <div>Description</div>
           </header>
           <ResourceEntry />

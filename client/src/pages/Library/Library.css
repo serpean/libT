@@ -11,3 +11,32 @@
 .actual-library {
   width: 70%;
 }
+
+.actual-library__controls {
+  display: flex;
+  align-items: center;
+}
+
+.actual-library__controls {
+  display: flex;
+  align-items: center;
+}
+
+.actual-library__controls * {
+  margin: 0;
+  margin-right: 0.5rem;
+}
+
+.libraries {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .libraries {
+    display: none;
+  }
+
+  .actual-library {
+    width: 100%;
+  }
+}

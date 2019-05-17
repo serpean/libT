@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import '../Button.css';
 import './ResourceButton.css';
 
-const button = props => (
+const resourceButton = props => (
   <div className="dropdown">
     <button
       className={[
@@ -27,4 +27,4 @@ const button = props => (
     </ul>
   </div>
 );
-export default button;
+export default resourceButton;
