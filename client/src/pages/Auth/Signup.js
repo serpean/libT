@@ -74,6 +74,7 @@ class Signup extends Component {
   render() {
     return (
       <Auth>
+        <h1>Signup</h1>
         <form onSubmit={e => this.props.onSignup(e, this.state)}>
           <Input
             id="email"
@@ -108,9 +109,12 @@ class Signup extends Component {
             valid={this.state.signupForm['password'].valid}
             touched={this.state.signupForm['password'].touched}
           />
-          <Button design="raised" type="submit" loading={this.props.loading}>
-            Signup
-          </Button>
+
+          <div className="auth-form__controls">
+            <Button design="raised" type="submit" loading={this.props.loading}>
+              Signup
+            </Button>
+          </div>
         </form>
       </Auth>
     );

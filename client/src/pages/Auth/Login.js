@@ -68,6 +68,7 @@ class Login extends Component {
   render() {
     return (
       <Auth>
+        <h1>Login</h1>
         <form
           onSubmit={e =>
             this.props.onLogin(e, {
@@ -98,9 +99,11 @@ class Login extends Component {
             valid={this.state.loginForm['password'].valid}
             touched={this.state.loginForm['password'].touched}
           />
-          <Button design="raised" type="submit" loading={this.props.loading}>
-            Login
-          </Button>
+          <div className="auth-form__controls">
+            <Button design="raised" type="submit" loading={this.props.loading}>
+              Login
+            </Button>
+          </div>
         </form>
       </Auth>
     );

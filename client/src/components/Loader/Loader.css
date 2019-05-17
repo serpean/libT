@@ -11,10 +11,10 @@
     width: 51px;
     height: 51px;
     margin: 6px;
-    border: 6px solid #0375B4;
+    border: 6px solid #e5e3dd;
     border-radius: 50%;
     animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #0375B4 transparent transparent transparent;
+    border-color: #e5e3dd transparent transparent transparent;
   }
   .loader div:nth-child(1) {
     animation-delay: -0.45s;
