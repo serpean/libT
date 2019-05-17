@@ -40,6 +40,7 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path="/" exact component={FeedPage} />
+          <Route path="/library/:libraryId" component={LibraryPage} />
           <Route path="/library" exact component={LibraryPage} />
           {/*<Route path="/:postId" component={SinglePostPage} />*/}
           <Route component={NoMatch} />

@@ -4,7 +4,7 @@
 
 .navigation-item a {
   text-decoration: none;
-  color: white;
+  color: #241912;
 }
 
 .navigation-item.mobile {
@@ -13,7 +13,7 @@
 }
 
 .navigation-item.mobile a {
-  color: #0375B4;
+  color: #241912;
 }
 
 .navigation-item a:hover,
@@ -30,7 +30,7 @@
   font: inherit;
   background: transparent;
   border: none;
-  color: white;
+  color: #241912;
   cursor: pointer;
   padding: 0;
 }
