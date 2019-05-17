@@ -1,10 +1,10 @@
 const { validationResult } = require('express-validator/check');
 
 const User = require('../models/user');
+const List = require('../models/list');
 
 exports.signup = async (req, res, next) => {
   const error = validationResult(req);
-  console.log(error.array());
   if (!error.isEmpty()) {
     const errors = new Error('Validation failed.');
     errors.statusCode = 422;
@@ -18,6 +18,14 @@ exports.signup = async (req, res, next) => {
     user.username = req.body.name;
     await user.setPassword(req.body.password);
     const userSaved = await user.save();
+
+    const wantedList = await libraryBuilder('Lo quiero', 1, user);
+    await userSaved.addList(wantedList.id);
+    const inProgressList = await libraryBuilder('En progreso', 2, user);
+    await userSaved.addList(inProgressList.id);
+    const doneList = await libraryBuilder('Terminado', 3, user);
+    await userSaved.addList(doneList.id);
+
     res.status(201).json({
       message: 'User created!',
       user: userSaved.toAuthJSON()
@@ -52,4 +60,14 @@ exports.login = async (req, res, next) => {
     }
     next(err);
   }
+};
+
+const libraryBuilder = async (name, type, user) => {
+  const list = new List({
+    name: name,
+    type: type,
+    exclusive: true,
+    creator: user.id
+  });
+  return list.save();
 };

@@ -25,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/index', indexRouter);
+app.use('/', indexRouter);
 app.use('/auth', authRoutes);
 // app.use('/api/feed');
 

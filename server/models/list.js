@@ -7,18 +7,19 @@ const listSchema = new Schema({
     type: String,
     required: true
   },
+  description: String,
   type: {
-    type: String,
-    enum: ['W', 'I', 'R', 'O'],
-    default: 'O'
+    type: Number,
+    enum: [0, 1, 2, 3],
+    default: 0
   },
   public: {
     type: Boolean,
     default: true
   },
   exclusive: {
-      type: Boolean,
-      default: false
+    type: Boolean,
+    default: false
   },
   creator: {
     type: Schema.Types.ObjectId,

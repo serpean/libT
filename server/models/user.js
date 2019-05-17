@@ -126,4 +126,11 @@ userSchema.methods.isFollowing = function(id) {
   });
 };
 
+userSchema.methods.addList = function(id) {
+  if (this.lists.indexOf(id) === -1) {
+    this.lists.push(id);
+  }
+  return this.save();
+};
+
 module.exports = mongoose.model('User', userSchema);
