@@ -12,17 +12,17 @@
   width: 70%;
 }
 
-.actual-library__controls {
+.actual-library__title {
   display: flex;
   align-items: center;
 }
 
-.actual-library__controls {
+.actual-library__title {
   display: flex;
   align-items: center;
 }
 
-.actual-library__controls * {
+.actual-library__title * {
   margin: 0;
   margin-right: 0.5rem;
 }

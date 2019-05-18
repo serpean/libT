@@ -5,7 +5,8 @@ const initialState = {
   posts: [],
   totalPosts: 0,
   postPage: 1,
-  postsLoading: true
+  postsLoading: true,
+  error: null
 };
 
 const feedStart = (state, action) => {
@@ -36,6 +37,12 @@ const updatePages = (state, action) => {
   });
 };
 
+const errorHandler = (state, action) => {
+  return updateObject(state, {
+    error: false
+  });
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FEED_START:
@@ -46,6 +53,8 @@ export default (state = initialState, action) => {
       return feedFail(state, action);
     case actionTypes.UPDATE_PAGES:
       return updatePages(state, action);
+    case actionTypes.ERROR_HANDLER:
+      return errorHandler(state, action);
     default:
       return state;
   }

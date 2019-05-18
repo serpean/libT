@@ -1,26 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import thunk from 'redux-thunk';
+import { ConnectedRouter } from 'connected-react-router';
+
+import configureStore, { history } from './store/configureStore';
 
 import './index.css';
 import App from './App';
-import reducer from './store/reducers/index';
 
-const composeEnhancers =
-  process.env.NODE_ENV === 'development'
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : null || compose;
-
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ConnectedRouter history={history}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

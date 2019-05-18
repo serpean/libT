@@ -33,11 +33,6 @@ export const logout = () => {
     token: null
   };
 };
-
-export const errorHandler = () => {
-  return { type: actionTypes.ERROR_HANDLER, error: null };
-};
-
 export const checkAuthTimeout = milliseconds => {
   return dispatch => {
     setTimeout(() => {
@@ -48,7 +43,7 @@ export const checkAuthTimeout = milliseconds => {
 
 export const auth = params => {
   return dispatch => {
-    dispatch(authStart);
+    dispatch(authStart());
     let options, url;
     if (params.isSignUp) {
       url = 'http://localhost:3001/auth/login';
@@ -98,19 +93,12 @@ export const auth = params => {
           new Date().getTime() + remainingMilliseconds
         );
         localStorage.setItem('expiryDate', expiryDate.toISOString());
-        dispatch(authSuccess(resData.user.token, resData.user.userId));
+        dispatch(authSuccess(resData.user.token, resData.user.username));
         dispatch(checkAuthTimeout(remainingMilliseconds));
       })
       .catch(err => {
         dispatch(authFail(err));
       });
-  };
-};
-
-export const setAuthRedirectPath = path => {
-  return {
-    type: actionTypes.SET_AUTH_REDIRECT_PATH,
-    path: path
   };
 };
 

@@ -24,10 +24,10 @@ const resourceEntry = props => {
         <h4 className="entry__author">por Autor</h4>
         <div className="entry__ratings">
           <div className="entry__rating">
-            <i class="fas fa-star" />7
+            <i className="fas fa-star" />7
           </div>
           <div className="entry__rating">
-            <i class="far fa-star" />-
+            <i className="far fa-star" />-
           </div>
         </div>
         <div>Description</div>

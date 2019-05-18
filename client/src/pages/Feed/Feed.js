@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Post from '../../components/Feed/Post/Post';
 import Paginator from '../../components/Paginator/Paginator';
 import Loader from '../../components/Loader/Loader';
+import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
 import * as actions from '../../store/actions/index';
 import './Feed.css';
 
@@ -15,6 +16,10 @@ class Feed extends Component {
   render() {
     return (
       <Fragment>
+        <ErrorHandler
+          error={this.props.error}
+          onHandle={this.props.onErrorHandler}
+        />
         <section className="feed">
           {this.props.postsLoading && (
             <div style={{ textAlign: 'center', marginTop: '2rem' }}>
@@ -59,13 +64,15 @@ const mapStateToProps = state => {
     posts: state.feed.posts,
     totalPosts: state.feed.totalPosts,
     postPage: state.feed.postPage,
-    postsLoading: state.feed.postsLoading
+    postsLoading: state.feed.postsLoading,
+    error: state.feed.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadPosts: () => dispatch(actions.loadPosts())
+    loadPosts: () => dispatch(actions.loadPosts()),
+    onErrorHandler: () => dispatch(actions.errorHandler())
   };
 };
 

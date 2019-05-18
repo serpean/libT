@@ -10,3 +10,16 @@ export const UPDATE_PAGES = 'UPDATE_PAGES';
 export const FEED_START = 'FEED_START';
 export const FEED_SUCCESS = 'FEED_SUCCESS';
 export const FEED_FAIL = 'FEED_FAIL';
+
+export const LIST_START = 'LIST_START';
+export const LIST_SUCCESS = 'LIST_SUCCESS';
+export const LIST_FAIL = 'LIST_FAIL';
+
+export const LISTS_START = 'LISTS_START';
+export const LISTS_SUCCESS = 'LISTS_SUCCESS';
+export const LISTS_FAIL = 'LISTS_FAIL';
+
+export const EDIT_LIST_START = 'EDIT_LIST_START';
+export const EDIT_LIST_LOAD_START = 'EDIT_LIST_LOAD_START';
+export const EDIT_LIST_SUCCESS = 'EDIT_LIST_SUCCESS';
+export const EDIT_LIST_FAIL = 'EDIT_LIST_FAIL';

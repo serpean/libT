@@ -3,21 +3,27 @@
   padding-top: 60px; /* Place content 60px from the top */
 }
 
-.sideNav a {
-  padding: 8px 8px 8px 0px;
+.sideNav__link {
+  padding: 8px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 18px;
   color: #818181;
   display: block;
-  transition: 0.3s;
+  cursor: pointer;
+}
+
+.sideNav__link:active,
+.sideNav__link:hover {
+  background: #818181;
+  color: white;
+}
+
+.sideNav li {
+  list-style: none;
 }
 
 .sideNav-list {
   padding: 0;
   padding-right: 3rem;
   margin: 0;
-}
-
-.sideNav-list li {
-  list-style: none;
 }

@@ -63,7 +63,6 @@ export const loadPosts = (token, direction, page) => {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         dispatch(feedSuccess(resData));
       })
       .catch(err => {
