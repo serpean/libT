@@ -68,7 +68,7 @@ export const listsFail = error => {
   };
 };
 
-export const loadLists = username => {
+export const loadLists = (username, listId) => {
   return dispatch => {
     dispatch(listsStart());
     const token = localStorage.getItem('token');
@@ -84,7 +84,9 @@ export const loadLists = username => {
         return res.json();
       })
       .then(resData => {
-        if (resData.length !== 0) dispatch(loadList(resData[0]._id));
+        if (listId) {
+          dispatch(loadList(listId));
+        } else if (resData.length !== 0) dispatch(loadList(resData[0]._id));
         dispatch(listsSuccess(resData));
       })
       .catch(err => {
@@ -197,9 +199,8 @@ export const finishEditHandler = (listData, editList) => {
       })
       .then(resData => {
         const userId = localStorage.getItem('userId');
-        dispatch(loadLists(userId));
-        dispatch(loadList(resData.list._id));
-        dispatch(editListSuccess(resData.list));
+        dispatch(loadLists(userId, resData.list._id));
+        dispatch(editListSuccess());
       })
       .catch(err => {
         dispatch(editListFail(err));

@@ -36,7 +36,6 @@ class FeedEdit extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.editList);
     if (
       this.props.editing &&
       this.props.editList &&
