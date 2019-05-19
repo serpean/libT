@@ -1,0 +1,31 @@
+.auth-form {
+    width: 90%;
+    margin: auto;
+    padding: 1rem;
+    border: 1px solid #e5e3dd;
+    border-radius: 5px;
+  }
+
+.auth-form .input {
+  margin-bottom: 1rem;
+}
+
+.auth-form__controls {
+  width: 100%;
+  display: flex;
+}
+
+.auth-form__controls button {
+  margin: 0 auto;
+}
+
+.auth-form h1 {
+  margin-top: 0;
+}
+  
+  @media (min-width: 768px) {
+    .auth-form {
+      width: 40rem;
+    }
+  }
+  

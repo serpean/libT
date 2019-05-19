@@ -1,0 +1,25 @@
+{
+  "name": "libt",
+  "version": "1.0.0",
+  "description": "LibT is a \"social cataloging\" website that allows individuals to freely search and reviews books, movies, \"series\" and videogames.",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serpean/libT.git"
+  },
+  "author": "serpean",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/serpean/libT/issues"
+  },
+  "homepage": "https://github.com/serpean/libT#readme",
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "prettier": "^1.16.4"
+  }
+}

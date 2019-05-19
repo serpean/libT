@@ -1,0 +1,41 @@
+.input {
+  width: 100%;
+}
+
+.input label {
+  display: block;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.input label.line {
+  display: inline;
+  text-transform: uppercase;
+}
+
+.input input,
+.input textarea {
+  display: block;
+  font: inherit;
+  padding: 0.25rem 0.5rem;
+  width: 95%;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.input input.line {
+  display: inline;
+  width: auto;
+}
+
+.input .touched.invalid {
+  border-color: #db3535;
+  background: #ffc2c2;
+}
+
+.input input:focus,
+.input textarea:focus {
+  outline: none;
+  border-color: #004a86;
+  color: #241912;
+}

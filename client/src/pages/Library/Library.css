@@ -1,0 +1,42 @@
+.page {
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+}
+
+.libraries {
+  width: 30%;
+}
+
+.actual-library {
+  width: 70%;
+}
+
+.actual-library__title {
+  display: flex;
+  align-items: center;
+}
+
+.actual-library__title {
+  display: flex;
+  align-items: center;
+}
+
+.actual-library__title * {
+  margin: 0;
+  margin-right: 0.5rem;
+}
+
+.libraries {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .libraries {
+    display: none;
+  }
+
+  .actual-library {
+    width: 100%;
+  }
+}
