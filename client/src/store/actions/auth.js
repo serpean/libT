@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { history } from '../configureStore';
 
 export const authStart = () => {
   return {
@@ -25,6 +26,7 @@ export const authFail = error => {
 };
 
 export const logout = () => {
+  history.push('/');
   localStorage.removeItem('token');
   localStorage.removeItem('expiryDate');
   localStorage.removeItem('userId');
@@ -78,13 +80,11 @@ export const auth = params => {
           throw new Error('Validation failed.');
         }
         if (res.status !== 200 && res.status !== 201) {
-          console.log('Error!');
           throw new Error('Could not authenticate you!');
         }
         return res.json();
       })
       .then(resData => {
-        console.log(resData.user);
         localStorage.setItem('token', resData.user.token);
         localStorage.setItem('userId', resData.user.username);
 
@@ -95,6 +95,7 @@ export const auth = params => {
         localStorage.setItem('expiryDate', expiryDate.toISOString());
         dispatch(authSuccess(resData.user.token, resData.user.username));
         dispatch(checkAuthTimeout(remainingMilliseconds));
+        history.push('/');
       })
       .catch(err => {
         dispatch(authFail(err));

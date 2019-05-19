@@ -13,18 +13,21 @@ const library = props => {
           <h2>Bibliotecas</h2>
         </li>
         <li
+          key={props.wantList._id}
           onClick={() => props.getList(props.wantList._id)}
           className="sideNav__link"
         >
           Lo quiero
         </li>
         <li
+          key={props.inProgressList._id}
           onClick={() => props.getList(props.inProgressList._id)}
           className="sideNav__link"
         >
           En progreso
         </li>
         <li
+          key={props.doneList._id}
           onClick={() => props.getList(props.doneList._id)}
           className="sideNav__link"
         >

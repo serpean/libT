@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Layout from './components/Layout/Layout';
@@ -10,6 +10,7 @@ import LibraryPage from './pages/Library/Library';
 import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
 import NoMatch from './pages/NoMatch/NoMatch';
+import Home from './pages/Home/home';
 import * as actions from './store/actions/index';
 import './App.css';
 
@@ -29,9 +30,9 @@ class App extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route path="/" exact component={LoginPage} />
+        <Route path="/login" exact component={LoginPage} />
         <Route path="/signup" exact component={SignupPage} />
-        <Route component={NoMatch} />
+        <Route path="/" component={Home} />
       </Switch>
     );
 
@@ -39,9 +40,8 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path="/" exact component={FeedPage} />
-          <Route path="/library/" exact component={LibraryPage} />
-          <Route path="/library/:username" component={LibraryPage} />
-          <Route component={NoMatch} />
+          <Route path="/library/:username?/:list?" component={LibraryPage} />
+          <Redirect to="/" />
         </Switch>
       );
     }
