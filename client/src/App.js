@@ -30,10 +30,9 @@ class App extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route path="/" exact component={Home} />
         <Route path="/login" exact component={LoginPage} />
         <Route path="/signup" exact component={SignupPage} />
-        <Route component={NoMatch} />
+        <Route path="/" component={Home} />
       </Switch>
     );
 
@@ -41,12 +40,11 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path="/" exact component={FeedPage} />
-          <Route path="/library/:username" component={LibraryPage} />
-          <Route component={NoMatch} />
+          <Route path="/library/:username?/:list?" component={LibraryPage} />
+          <Redirect to="/" />
         </Switch>
       );
     }
-    console.log(routes);
 
     return (
       <Fragment>

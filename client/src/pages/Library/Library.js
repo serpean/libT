@@ -13,11 +13,13 @@ import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
 class Library extends Component {
   componentDidMount() {
     const user = this.props.match.params.username || this.props.userId;
-    this.props.onLoadLists(user);
+    const list = this.props.match.params.list;
+    this.props.onLoadLists(user, list);
   }
 
   render() {
     let library = <Loader />;
+    let libraries = <Loader />;
     if (!this.props.loadingList) {
       if (this.props.actualList !== null) {
         library = (
@@ -51,7 +53,19 @@ class Library extends Component {
           </div>
         );
       } else {
-        library = <h1>List doesn't exists</h1>;
+        library = <h1>La lista no existe</h1>;
+      }
+    }
+    if (!this.props.loadingLists) {
+      if (
+        this.props.doneList !== null &&
+        this.props.inProgressList !== null &&
+        this.props.wantList !== null
+      ) {
+        libraries = <LibraryMenu />;
+      } else {
+        libraries = null;
+        library = <h1>El usuario no existe</h1>;
       }
     }
     return (
@@ -61,9 +75,7 @@ class Library extends Component {
           onHandle={this.props.onErrorHandler}
         />
         <ListEditor />
-        <section className="libraries">
-          <LibraryMenu />
-        </section>
+        <section className="libraries">{libraries}</section>
         <section className="actual-library">{library}</section>
       </Fragment>
     );
@@ -75,16 +87,20 @@ const mapStateToProps = state => {
     token: state.auth.token,
     userId: state.auth.userId,
     doneList: state.library.doneList,
+    wantList: state.library.wantList,
+    inProgressList: state.library.inProgressList,
     extraLists: state.library.extraLists,
     error: state.library.error,
     actualList: state.library.actualList,
-    loadingList: state.library.loadingList
+    loadingList: state.library.loadingList,
+    loadingLists: state.library.loadingLists
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadLists: (token, userId) => dispatch(actions.loadLists(token, userId)),
+    onLoadLists: (username, listId) =>
+      dispatch(actions.loadLists(username, listId)),
     onUpdateList: list => dispatch(actions.updateLibraryHandler(list)),
     onDeleteList: (list, nextList) =>
       dispatch(actions.deletePostHandler(list, nextList)),

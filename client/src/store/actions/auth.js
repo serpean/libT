@@ -1,5 +1,3 @@
-import { push } from 'connected-react-router';
-
 import * as actionTypes from './actionTypes';
 import { history } from '../configureStore';
 
@@ -28,10 +26,10 @@ export const authFail = error => {
 };
 
 export const logout = () => {
+  history.push('/');
   localStorage.removeItem('token');
   localStorage.removeItem('expiryDate');
   localStorage.removeItem('userId');
-  push('/login');
   return {
     type: actionTypes.AUTH_LOGOUT,
     token: null
@@ -82,13 +80,11 @@ export const auth = params => {
           throw new Error('Validation failed.');
         }
         if (res.status !== 200 && res.status !== 201) {
-          console.log('Error!');
           throw new Error('Could not authenticate you!');
         }
         return res.json();
       })
       .then(resData => {
-        console.log(resData.user);
         localStorage.setItem('token', resData.user.token);
         localStorage.setItem('userId', resData.user.username);
 
@@ -99,7 +95,7 @@ export const auth = params => {
         localStorage.setItem('expiryDate', expiryDate.toISOString());
         dispatch(authSuccess(resData.user.token, resData.user.username));
         dispatch(checkAuthTimeout(remainingMilliseconds));
-        dispatch(push('/'));
+        history.push('/');
       })
       .catch(err => {
         dispatch(authFail(err));
