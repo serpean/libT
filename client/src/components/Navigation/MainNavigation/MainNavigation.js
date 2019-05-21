@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import MobileToggle from '../MobileToggle/MobileToggle';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
+import SearchButton from '../SearchButton/SearchButton';
 
 import * as actions from '../../../store/actions/index';
 
@@ -17,7 +18,8 @@ const mainNavigation = props => (
         <Logo />
       </NavLink>
     </div>
-    <div className="spacer" />
+    {props.isAuth && <SearchButton className="spacer" />}
+
     <MobileToggle onOpen={props.onOpenMobileNav} />
     <ul className="main-nav__items">
       <NavigationItems isAuth={props.isAuth} onLogout={props.onLogout} />

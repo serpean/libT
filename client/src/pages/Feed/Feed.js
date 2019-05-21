@@ -27,7 +27,7 @@ class Feed extends Component {
             </div>
           )}
           {this.props.posts.length <= 0 && !this.props.postsLoading ? (
-            <p style={{ textAlign: 'center' }}>No posts found.</p>
+            <h1 style={{ textAlign: 'center' }}>No posts found.</h1>
           ) : null}
           {!this.props.postsLoading && (
             <Paginator

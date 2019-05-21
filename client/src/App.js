@@ -9,7 +9,7 @@ import FeedPage from './pages/Feed/Feed';
 import LibraryPage from './pages/Library/Library';
 import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
-import NoMatch from './pages/NoMatch/NoMatch';
+import ProfilePage from './pages/Profile/Profile';
 import Home from './pages/Home/home';
 import * as actions from './store/actions/index';
 import './App.css';
@@ -41,6 +41,7 @@ class App extends Component {
         <Switch>
           <Route path="/" exact component={FeedPage} />
           <Route path="/library/:username?/:list?" component={LibraryPage} />
+          <Route path="/profile/:username?" component={ProfilePage} />
           <Redirect to="/" />
         </Switch>
       );
