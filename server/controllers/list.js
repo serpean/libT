@@ -27,7 +27,9 @@ exports.getLists = async (req, res, next) => {
 
 exports.getList = async (req, res, next) => {
   try {
-    const list = await List.findOne({ _id: req.params.listId });
+    const list = await List.findOne({ _id: req.params.listId }).populate(
+      'Info'
+    );
     if (!list) {
       const error = new Error('List cannot be found.');
       throw error;
@@ -130,3 +132,23 @@ exports.deleteList = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.createItemList = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error('Validation failed, entered data is incorrect.');
+    error.statusCode = 422;
+    throw error;
+  }
+  try  {
+  const listId = req.params.listId;
+  const list = await List.findById(listId);
+  } catch(err){if (!err.statusCode) {
+    err.statusCode = 500;
+  }
+  next(err);}
+
+
+};
+
+exports.deteleItemList = (req, res, next) => {};

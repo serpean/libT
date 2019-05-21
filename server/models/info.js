@@ -8,14 +8,38 @@ const infoSchema = new Schema({
     enum: ["BOOK", "MOVIE", "GAME"],
     required: true
   },
-  resource: {
-    type: Object,
+  searchId: {
+    type: String,
     required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  authors: [{
+    type: String
+  }],
+  publishDate: {
+    type: String,
+    required: true
+  },
+  publisher: {
+    type: String
+  },
+  isbn: {
+    type: String
+  },
+  image: {
+    type: String
   },
   lists: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'List'
     }
   ],
   review: {
