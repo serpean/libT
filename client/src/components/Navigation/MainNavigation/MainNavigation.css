@@ -9,6 +9,24 @@
   flex: 1;
 }
 
+.main-nav__search {
+  flex: 2;
+}
+
+.main-nav__search li{
+  display: none;
+}
+
+.main-nav__search li input {
+  width: 50%;
+  transition: 0.5s;
+}
+
+.main-nav__search li input:focus {
+  width: 95%;
+  transition: 0.5s;
+}
+
 .main-nav__items {
   list-style: none;
   padding: 0;
@@ -19,5 +37,8 @@
 @media (min-width: 768px) {
   .main-nav__items {
     display: flex;
+  }
+  .main-nav__search li{
+    display: block;
   }
 }

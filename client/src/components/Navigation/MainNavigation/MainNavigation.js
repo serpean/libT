@@ -18,7 +18,10 @@ const mainNavigation = props => (
         <Logo />
       </NavLink>
     </div>
-    {props.isAuth && <SearchButton className="spacer" />}
+    
+    <div className="main-nav__search">
+    {props.isAuth && <SearchButton />}
+    </div>
 
     <MobileToggle onOpen={props.onOpenMobileNav} />
     <ul className="main-nav__items">

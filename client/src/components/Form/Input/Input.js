@@ -21,6 +21,7 @@ const input = props => {
           onChange={e =>
             props.onChange(props.id, e.target.value, e.target.files)
           }
+          onClick={props.onClick}
           onBlur={props.onBlur}
         />
       );
