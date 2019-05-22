@@ -140,15 +140,15 @@ exports.createItemList = async (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  try  {
-  const listId = req.params.listId;
-  const list = await List.findById(listId);
-  } catch(err){if (!err.statusCode) {
-    err.statusCode = 500;
+  try {
+    const listId = req.params.listId;
+    const list = await List.findById(listId);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
-  next(err);}
-
-
 };
 
 exports.deteleItemList = (req, res, next) => {};
