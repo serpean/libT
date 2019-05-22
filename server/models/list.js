@@ -24,7 +24,20 @@ const listSchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }
+  },
+  resources: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Info'
+    }
+  ]
 });
+
+listSchema.methods.addResource = function(info) {
+  if(!info) {
+    resources.push(info)
+  }
+  return this.save()
+}
 
 module.exports = mongoose.model('List', listSchema);
