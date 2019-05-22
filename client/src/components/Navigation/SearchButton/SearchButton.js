@@ -29,6 +29,9 @@ class SearchButton extends Component {
         .catch(err => console.log(err));
     }
   };
+  onClick = () => {
+    this.setState({ res: [] });
+  };
   render() {
     let results = null;
     if (this.state.loading)
