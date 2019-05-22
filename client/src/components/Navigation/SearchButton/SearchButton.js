@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Input from '../../Form/Input/Input';
+import Loader from '../../Loader/Loader';
 
 import './SearchButton.css';
 
@@ -8,10 +9,13 @@ const content = [{ link: '/', text: 'Hola' }];
 
 class SearchButton extends Component {
   state = {
-    res: []
+    res: [],
+    loading: false
   };
   onChange = (data, value) => {
+    this.setState({ res: [] });
     if (value.length >= 3) {
+      this.setState({ loading: true });
       fetch(`http://localhost:3030/?name=${value}`)
         .then(res => {
           if (res.status !== 200 && res.status !== 201 && res.status !== 301) {
@@ -21,7 +25,7 @@ class SearchButton extends Component {
         })
         .then(resData => {
           if (resData.response) {
-            this.setState({ res: resData.search });
+            this.setState({ res: resData.search, loading: false });
           }
         })
         .catch(err => console.log(err));
@@ -29,6 +33,14 @@ class SearchButton extends Component {
   };
   render() {
     let results = null;
+    if (this.state.loading)
+      results = (
+        <ul className="search-dropdown-content">
+          <li className="saerch-dropdown-content__loader" key="loader">
+            <Loader />
+          </li>
+        </ul>
+      );
     if (this.state.res.length !== 0) {
       results = (
         <ul className="search-dropdown-content">
@@ -47,14 +59,17 @@ class SearchButton extends Component {
                   />
                   <div className="search-dropdown__card">
                     <div className="search-dropdown__card-type">
-                      {item.type}
+                      Type {item.type}
                     </div>
                     <div className="search-dropdown__card-title">
                       {item.title}
                     </div>
                     {item.authors && item.authors.length >= 1 ? (
                       <div className="search-dropdown__card-authors">
-                        by {item.authors.map(a => a)}
+                        by{' '}
+                        {item.authors.map((a, index) =>
+                          index !== item.authors.length - 1 ? `${a}, ` : a
+                        )}
                       </div>
                     ) : null}
                   </div>

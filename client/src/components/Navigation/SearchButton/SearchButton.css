@@ -17,7 +17,7 @@
   position: absolute;
   display: none;
   background-color: #f9f9f9;
-  min-width: 160px;
+  min-width: 15rem;
   max-height: 30vh;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -27,19 +27,29 @@
 
 .search-dropdown-content li {
   margin: 0;
+  min-width: 160px;
   padding: 0.25rem;
   text-align: left;
   list-style: none;
-}
-
-.search-dropdown-content li a {
-  display: flex;
-  align-items: center;
+  display: block;
 }
 
 .search-dropdown-content li:hover,
 .search-dropdown-content li:active {
   background: #e6e6e6;
+}
+
+.search-dropdown-content li.saerch-dropdown-content__loader {
+  display: flex;
+}
+
+.saerch-dropdown-content__loader .loader {
+  margin: auto;
+}
+
+.search-dropdown-content li a {
+  display: flex;
+  align-items: center;
 }
 
 .search-dropdown-content li a {
@@ -64,5 +74,9 @@
 }
 
 .search-dropdown__card-authors {
-  font-size: 1rem;
+  font-size: 0.8rem;
+}
+
+.search-dropdown__card-type {
+  font-size: 0.8rem;
 }
