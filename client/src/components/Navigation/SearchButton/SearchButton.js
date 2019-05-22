@@ -5,8 +5,6 @@ import Loader from '../../Loader/Loader';
 
 import './SearchButton.css';
 
-const content = [{ link: '/', text: 'Hola' }];
-
 class SearchButton extends Component {
   state = {
     res: [],
@@ -47,7 +45,7 @@ class SearchButton extends Component {
           {this.state.res.map((item, index) => {
             return (
               <li key={`${item.type}_${item.id}`}>
-                <Link to={`${item.type}/${item.id}`}>
+                <Link to={`/resource/${item.type}/${item.id}`}>
                   <img
                     className="search-dropdown__img"
                     src={

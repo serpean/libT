@@ -10,6 +10,7 @@ import LibraryPage from './pages/Library/Library';
 import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
 import ProfilePage from './pages/Profile/Profile';
+import ResourcePage from './pages/Resource/Resource';
 import Home from './pages/Home/home';
 import * as actions from './store/actions/index';
 import './App.css';
@@ -42,6 +43,7 @@ class App extends Component {
           <Route path="/" exact component={FeedPage} />
           <Route path="/library/:username?/:list?" component={LibraryPage} />
           <Route path="/profile/:username?" component={ProfilePage} />
+          <Route path="/resource/:type/:id" component={ResourcePage} />
           <Redirect to="/" />
         </Switch>
       );
