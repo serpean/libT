@@ -112,7 +112,7 @@ userSchema.methods.follow = async function(id) {
 userSchema.methods.unfollow = async function(id) {
   this.followed.remove(id);
   const unfollowUser = await this.findById(id);
-  if (unfollowUser.followers.indexOf(id) !== -1) {
+  if (unfollowUser.followers.indexOf(this._id) !== -1) {
     unfollowUser.followers.remove(this._id);
     await unfollowUser.save();
   }

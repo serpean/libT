@@ -4,6 +4,8 @@ export { errorHandler, setAuthRedirectPath } from './common';
 
 export { loadPosts } from './feed';
 
+export { getResourceStatus } from './resource';
+
 export {
   loadLists,
   loadList,

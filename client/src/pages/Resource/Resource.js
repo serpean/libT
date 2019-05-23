@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/index';
+
 import Button from '../../components/Button/Button';
+import Loader from '../../components/Loader/Loader';
 import ResourceButton from '../../components/Button/ResourceButton/ResourceButton';
 
 import './Resource.css';
@@ -22,11 +26,16 @@ class Resource extends Component {
   };
   componentDidMount() {
     this.loadResource();
+    this.props.onLoadLists(this.props.userId);
+    console.log(this.props.status);
+    this.props.onLoadStatus();
   }
   componentDidUpdate() {
     const id = this.props.match.params.id.split('__')[0];
     if (this.state.id !== id) {
       this.loadResource();
+      this.props.onLoadLists(this.props.userId);
+      this.props.onLoadStatus();
     }
   }
 
@@ -76,11 +85,7 @@ class Resource extends Component {
             }
             alt={this.state.title}
           />
-          <ResourceButton
-            mode="flat"
-            actualState="Terminado"
-            content={mockLibrary}
-          />
+          <ResourceButton mode="flat" actualState={this.props.status} />
         </div>
 
         <div className="resource-content">
@@ -109,4 +114,30 @@ class Resource extends Component {
   }
 }
 
-export default Resource;
+const mapStateToProps = state => {
+  return {
+    token: state.auth.token,
+    userId: state.auth.userId,
+    doneList: state.library.doneList,
+    wantList: state.library.wantList,
+    inProgressList: state.library.inProgressList,
+    extraLists: state.library.extraLists,
+    error: state.library.error,
+    loadingLists: state.library.loadingLists,
+    status: state.resource.status
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLoadLists: (username, listId) =>
+      dispatch(actions.loadLists(username, listId)),
+    onErrorHandler: () => dispatch(actions.errorHandler()),
+    onLoadStatus: () => dispatch(actions.getResourceStatus())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Resource);

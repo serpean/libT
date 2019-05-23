@@ -49,12 +49,13 @@ class Library extends Component {
               </div>
               <div>{this.props.actualList.description}</div>
             </header>
-            {console.log(this.props.actualList)}
-            {this.props.actualList.resources.length > 0 ?
-              this.props.actualList.resources.map(resource => {
-                console.log(resource);
-                return <ResourceEntry id="1" />;
-              }): <p>Not resources found.</p>}
+            {this.props.actualList.resources.length > 0 ? (
+              this.props.actualList.resources.map(resource => (
+                <ResourceEntry id="1" />
+              ))
+            ) : (
+              <p>Not resources found.</p>
+            )}
           </div>
         );
       } else {

@@ -17,10 +17,6 @@ const listSchema = new Schema({
     type: Boolean,
     default: true
   },
-  exclusive: {
-    type: Boolean,
-    default: false
-  },
   creator: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -33,11 +29,35 @@ const listSchema = new Schema({
   ]
 });
 
-listSchema.methods.addResource = function(info) {
-  if(!info) {
-    resources.push(info)
+listSchema.methods.addResource = async function(infoModel) {
+  if (
+    infoModel &&
+    this.resources.indexOf(infoModel._id) === -1 &&
+    infoModel.lists.indexOf(this._id) === -1
+  ) {
+    this.resources.push(infoModel._id);
+    infoModel.lists.push(this._id);
+    await infoModel.save();
   }
-  return this.save()
-}
+
+  return this.save();
+};
+
+listSchema.method.removeResouce = async function(infoModel) {
+  if (
+    infoModel &&
+    this.resources.indexOf(infoModel._id) !== -1 &&
+    infoModel.lists.indexOf(this._id) !== -1
+  ) {
+    this.resources.remove(infoModel._id);
+    await infoModel.lists.remove(this._id);
+  }
+  return this.save();
+};
+
+listSchema.methods.containsResource = function(resourceId) {
+  const result = this.resourceId.find(e => e === resourceId);
+  return result ? true : false;
+};
 
 module.exports = mongoose.model('List', listSchema);

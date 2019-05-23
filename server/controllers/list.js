@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator/check');
 
 const User = require('../models/user');
 const List = require('../models/list');
+const Info = require('../models/info');
 
 exports.getLists = async (req, res, next) => {
   try {
@@ -133,7 +134,7 @@ exports.deleteList = async (req, res, next) => {
   }
 };
 
-exports.createItemList = async (req, res, next) => {
+exports.createOrModifyResourceToList = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = new Error('Validation failed, entered data is incorrect.');
@@ -141,8 +142,59 @@ exports.createItemList = async (req, res, next) => {
     throw error;
   }
   try {
-    const listId = req.params.listId;
-    const list = await List.findById(listId);
+    const listId = req.body.listId;
+    const newList = await List.findById(listId);
+    if (!newList) {
+      const error = new Error('List not exits.');
+      error.statusCode = 422;
+      throw error;
+    }
+    if (newList.creator.toString() !== req.userId) {
+      const error = new Error('You cannot add to this list');
+      error.statusCode = 403;
+      throw error;
+    }
+    let info = await Info.findOne({
+      searchId: req.body.searchParam,
+      creator: req.userId
+    }).populate('lists');
+    // si el usuario tiene el recurso ya creado
+    if (info) {
+      // comprobar si está en la misma lista en caso de ser tipo exclusivo
+      const isList = info.lists.find(list => list.type > 0);
+      if (isList && isList._id !== listId) {
+        const oldList = List.findById(isList._id);
+        // cambio entre listas
+        await oldList.removeResource(info);
+        await newList.addResource(info);
+      } else {
+        info = new Info({});
+        // cerar nueva lista
+      }
+    } else {
+      // crear nueva lista
+    }
+
+    switch (info.type) {
+      case 0:
+        // Librería opcional
+        // Primero se marca como leído
+        // Luego se añade
+        break;
+    }
+    info = new Info({
+      type: req.body.type,
+      searchId: req.body.id,
+      title: req.body.title,
+      description: req.body.description,
+      publishDate: req.body.publishDate
+    });
+    await info.save();
+    list.addResource(info._id);
+    res.status(200).json({
+      message: 'Info created!',
+      info: info
+    });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

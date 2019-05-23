@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const infoSchema = new Schema({
   type: {
     type: String,
-    enum: ["BOOK", "MOVIE", "GAME"],
     required: true
   },
   searchId: {
@@ -20,9 +19,11 @@ const infoSchema = new Schema({
     type: String,
     required: true
   },
-  authors: [{
-    type: String
-  }],
+  authors: [
+    {
+      type: String
+    }
+  ],
   publishDate: {
     type: String,
     required: true
@@ -43,15 +44,21 @@ const infoSchema = new Schema({
     }
   ],
   review: {
-      type: String
+    type: String
   },
   stars: {
-      type: Number
+    type: Number
   },
-  times: [{
+  creator: {
     type: Schema.Types.ObjectId,
-    ref: 'TimeUse'
-  }]
+    ref: 'User'
+  },
+  times: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'TimeUse'
+    }
+  ]
 });
 
 module.exports = mongoose.model('Info', infoSchema);
