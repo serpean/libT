@@ -29,28 +29,18 @@ const listSchema = new Schema({
   ]
 });
 
-listSchema.methods.addResource = async function(infoModel) {
-  if (
-    infoModel &&
-    this.resources.indexOf(infoModel._id) === -1 &&
-    infoModel.lists.indexOf(this._id) === -1
-  ) {
-    this.resources.push(infoModel._id);
-    infoModel.lists.push(this._id);
-    await infoModel.save();
+listSchema.methods.addResource = async function(infoId) {
+  if (this.resources.indexOf(infoId) === -1) {
+    console.log('ADDED INFO ' + infoId);
+    this.resources.push(infoId);
   }
-
   return this.save();
 };
-
-listSchema.method.removeResouce = async function(infoModel) {
-  if (
-    infoModel &&
-    this.resources.indexOf(infoModel._id) !== -1 &&
-    infoModel.lists.indexOf(this._id) !== -1
-  ) {
-    this.resources.remove(infoModel._id);
-    await infoModel.lists.remove(this._id);
+// TODO: desacoplar en remove resource y remove list
+listSchema.methods.removeResource = async function(infoId) {
+  if (this.resources.indexOf(infoId) !== -1) {
+    this.resources.remove(infoId);
+    console.log('REMOVED INFO ' + infoId);
   }
   return this.save();
 };

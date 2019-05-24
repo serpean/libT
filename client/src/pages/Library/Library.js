@@ -51,7 +51,15 @@ class Library extends Component {
             </header>
             {this.props.actualList.resources.length > 0 ? (
               this.props.actualList.resources.map(resource => (
-                <ResourceEntry id="1" />
+                <ResourceEntry
+                  key={resource.searchId}
+                  id={resource.searchId}
+                  title={resource.title}
+                  description={resource.description}
+                  image={resource.image}
+                  authors={resource.authors}
+                  type={resource.type}
+                />
               ))
             ) : (
               <p>Not resources found.</p>

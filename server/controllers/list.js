@@ -29,7 +29,7 @@ exports.getLists = async (req, res, next) => {
 exports.getList = async (req, res, next) => {
   try {
     const list = await List.findOne({ _id: req.params.listId }).populate(
-      'Info'
+      'resources'
     );
     if (!list) {
       const error = new Error('List cannot be found.');
@@ -133,74 +133,3 @@ exports.deleteList = async (req, res, next) => {
     next(err);
   }
 };
-
-exports.createOrModifyResourceToList = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const error = new Error('Validation failed, entered data is incorrect.');
-    error.statusCode = 422;
-    throw error;
-  }
-  try {
-    const listId = req.body.listId;
-    const newList = await List.findById(listId);
-    if (!newList) {
-      const error = new Error('List not exits.');
-      error.statusCode = 422;
-      throw error;
-    }
-    if (newList.creator.toString() !== req.userId) {
-      const error = new Error('You cannot add to this list');
-      error.statusCode = 403;
-      throw error;
-    }
-    let info = await Info.findOne({
-      searchId: req.body.searchParam,
-      creator: req.userId
-    }).populate('lists');
-    // si el usuario tiene el recurso ya creado
-    if (info) {
-      // comprobar si está en la misma lista en caso de ser tipo exclusivo
-      const isList = info.lists.find(list => list.type > 0);
-      if (isList && isList._id !== listId) {
-        const oldList = List.findById(isList._id);
-        // cambio entre listas
-        await oldList.removeResource(info);
-        await newList.addResource(info);
-      } else {
-        info = new Info({});
-        // cerar nueva lista
-      }
-    } else {
-      // crear nueva lista
-    }
-
-    switch (info.type) {
-      case 0:
-        // Librería opcional
-        // Primero se marca como leído
-        // Luego se añade
-        break;
-    }
-    info = new Info({
-      type: req.body.type,
-      searchId: req.body.id,
-      title: req.body.title,
-      description: req.body.description,
-      publishDate: req.body.publishDate
-    });
-    await info.save();
-    list.addResource(info._id);
-    res.status(200).json({
-      message: 'Info created!',
-      info: info
-    });
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  }
-};
-
-exports.deteleItemList = (req, res, next) => {};

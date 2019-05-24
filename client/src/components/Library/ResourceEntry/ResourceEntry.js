@@ -6,10 +6,18 @@ import Image from '../../Image/Image';
 import './ResourceEntry.css';
 
 const resourceEntry = props => {
+  let authors = null;
+  if (props.authors.length !== 0) {
+    authors = (
+      <h4 className="entry__author">
+        by {props.authors.map(author => author)}
+      </h4>
+    );
+  }
   return (
     <article className="entry">
       <div className="entry__image">
-        <Link to={props.id}>
+        <Link to={`/resource/${props.type}/${props.id}`}>
           <Image
             imageUrl="https://smartmobilestudio.com/wp-content/uploads/2012/06/leather-book-preview.png"
             contain
@@ -19,9 +27,9 @@ const resourceEntry = props => {
       </div>
       <div className="entry__content">
         <h3 className="entry__title">
-          <Link to={props.id}>Titulo</Link>
+          <Link to={`/resource/${props.type}/${props.id}`}>{props.title}</Link>
         </h3>
-        <h4 className="entry__author">por Autor</h4>
+        {authors}
         <div className="entry__ratings">
           <div className="entry__rating">
             <i className="fas fa-star" />7
@@ -30,7 +38,7 @@ const resourceEntry = props => {
             <i className="far fa-star" />-
           </div>
         </div>
-        <div>Description</div>
+        <div className="entry__description">{props.description}</div>
       </div>
     </article>
   );

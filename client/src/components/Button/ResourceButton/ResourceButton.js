@@ -14,12 +14,29 @@ const resourceButton = props => {
   if (props.wantList && props.inProgressList && props.doneList) {
     lists = (
       <Fragment>
-        <li key={props.wantList._id}>{props.wantList.name}</li>
-        <li key={props.inProgressList._id}>{props.inProgressList.name}</li>
-        <li key={props.doneList._id}>{props.doneList.name}</li>
+        <li
+          key={props.wantList._id}
+          onClick={() => props.onClick(props.wantList._id)}
+        >
+          {props.wantList.name}
+        </li>
+        <li
+          key={props.inProgressList._id}
+          onClick={() => props.onClick(props.inProgressList._id)}
+        >
+          {props.inProgressList.name}
+        </li>
+        <li
+          key={props.doneList._id}
+          onClick={() => props.onClick(props.doneList._id)}
+        >
+          {props.doneList.name}
+        </li>
         <hr />
         {props.extraLists.map(item => (
-          <li key={item._id}>{item.name}</li>
+          <li key={item._id} onClick={() => props.onClick(item._id)}>
+            {item.name}
+          </li>
         ))}
       </Fragment>
     );

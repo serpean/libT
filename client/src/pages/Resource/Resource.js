@@ -31,7 +31,7 @@ class Resource extends Component {
     this.props.onLoadStatus();
   }
   componentDidUpdate() {
-    const id = this.props.match.params.id.split('__')[0];
+    const id = this.props.match.params.id;
     if (this.state.id !== id) {
       this.loadResource();
       this.props.onLoadLists(this.props.userId);
@@ -41,8 +41,10 @@ class Resource extends Component {
 
   loadResource() {
     const type = this.props.match.params.type;
-    const id = this.props.match.params.id.split('__')[0];
-    this.setState({ type: type, id: id });
+    const searchId = this.props.match.params.id;
+    const id = searchId.split('__')[0];
+    console.log(id);
+    this.setState({ type: type, id: searchId });
     fetch(`http://localhost:3030/${type}/${id}`)
       .then(res => {
         if (res.status !== 200 && res.status !== 201 && res.status !== 304) {
@@ -68,6 +70,24 @@ class Resource extends Component {
     this.setState({ moreDescription: !update });
   }
 
+  infoHandler(listId) {
+    const token = localStorage.getItem('token');
+    fetch(`/api/info`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        listId: listId,
+        id: this.state.id,
+        type: this.state.type,
+        title: this.state.title,
+        description: this.state.description
+      })
+    });
+  }
+
   render() {
     let authors = null;
     if (this.state.authors.length > 0) {
@@ -85,7 +105,11 @@ class Resource extends Component {
             }
             alt={this.state.title}
           />
-          <ResourceButton mode="flat" actualState={this.props.status} />
+          <ResourceButton
+            mode="flat"
+            actualState={this.props.status}
+            onClick={this.infoHandler.bind(this)}
+          />
         </div>
 
         <div className="resource-content">

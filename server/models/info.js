@@ -25,8 +25,7 @@ const infoSchema = new Schema({
     }
   ],
   publishDate: {
-    type: String,
-    required: true
+    type: String
   },
   publisher: {
     type: String
@@ -60,5 +59,22 @@ const infoSchema = new Schema({
     }
   ]
 });
+
+infoSchema.methods.addList = function(listId) {
+  if (this.lists.indexOf(listId) === -1) {
+    console.log('ADDED LIST' + listId);
+    this.lists.push(listId);
+  }
+
+  return this.save();
+};
+// TODO: desacoplar en remove resource y remove list
+infoSchema.methods.removeList = function(listId) {
+  if (this.lists.indexOf(listId) !== -1) {
+    console.log('REMOVED LIST' + listId);
+    this.lists.remove(listId);
+  }
+  return this.save();
+};
 
 module.exports = mongoose.model('Info', infoSchema);
