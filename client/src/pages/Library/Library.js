@@ -11,10 +11,17 @@ import './Library.css';
 import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
 
 class Library extends Component {
+  state = {
+    openSideNav: false
+  };
   componentDidMount() {
     const user = this.props.match.params.username || this.props.userId;
     const list = this.props.match.params.list;
     this.props.onLoadLists(user, list);
+  }
+
+  chevronHandler(update) {
+    this.setState({ openSideNav: !update });
   }
 
   render() {
@@ -46,24 +53,37 @@ class Library extends Component {
                     />
                   </div>
                 ) : null}
+                <div
+                  className="sideNav__mobile-control"
+                  onClick={() => this.chevronHandler(this.state.openSideNav)}
+                >
+                  Libraries{' '}
+                  {this.state.openSideNav ? (
+                    <i className="fas fa-chevron-down" />
+                  ) : (
+                    <i className="fas fa-chevron-up" />
+                  )}
+                </div>
               </div>
               <div>{this.props.actualList.description}</div>
             </header>
-            {this.props.actualList.resources.length > 0 ? (
-              this.props.actualList.resources.map(resource => (
-                <ResourceEntry
-                  key={resource.searchId}
-                  id={resource.searchId}
-                  title={resource.title}
-                  description={resource.description}
-                  image={resource.image}
-                  authors={resource.authors}
-                  type={resource.type}
-                />
-              ))
-            ) : (
-              <p>Not resources found.</p>
-            )}
+            <div className="actual-library__content">
+              {this.props.actualList.resources.length > 0 ? (
+                this.props.actualList.resources.map(resource => (
+                  <ResourceEntry
+                    key={resource.searchId}
+                    id={resource.searchId}
+                    title={resource.title}
+                    description={resource.description}
+                    image={resource.image}
+                    authors={resource.authors}
+                    type={resource.type}
+                  />
+                ))
+              ) : (
+                <p>Not resources found.</p>
+              )}
+            </div>
           </div>
         );
       } else {
@@ -89,7 +109,13 @@ class Library extends Component {
           onHandle={this.props.onErrorHandler}
         />
         <ListEditor />
-        <section className="libraries">{libraries}</section>
+        <section
+          className={['libraries', this.state.openSideNav ? 'active' : ''].join(
+            ' '
+          )}
+        >
+          {libraries}
+        </section>
         <section className="actual-library">{library}</section>
       </Fragment>
     );

@@ -16,8 +16,7 @@ const infoSchema = new Schema({
     required: true
   },
   description: {
-    type: String,
-    required: true
+    type: String
   },
   authors: [
     {
@@ -62,7 +61,6 @@ const infoSchema = new Schema({
 
 infoSchema.methods.addList = function(listId) {
   if (this.lists.indexOf(listId) === -1) {
-    console.log('ADDED LIST' + listId);
     this.lists.push(listId);
   }
 
@@ -71,7 +69,6 @@ infoSchema.methods.addList = function(listId) {
 // TODO: desacoplar en remove resource y remove list
 infoSchema.methods.removeList = function(listId) {
   if (this.lists.indexOf(listId) !== -1) {
-    console.log('REMOVED LIST' + listId);
     this.lists.remove(listId);
   }
   return this.save();

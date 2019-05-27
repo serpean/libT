@@ -35,7 +35,8 @@ exports.getList = async (req, res, next) => {
       const error = new Error('List cannot be found.');
       throw error;
     }
-    res.status(200).json(list);
+    const user = await User.findById(list.creator);
+    res.status(200).json({ ...list._doc, creator: user.username });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

@@ -16,9 +16,9 @@ const LIBRARY_FORM = {
   },
   description: {
     value: '',
-    valid: false,
-    touched: false,
-    validators: [required, length({ min: 5 })]
+    valid: true,
+    touched: true,
+    validators: []
   },
   public: {
     value: true,

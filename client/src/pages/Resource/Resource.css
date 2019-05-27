@@ -8,10 +8,15 @@
 
 .resource-img {
   margin: 0 1rem 1rem 0;
+  text-align: center;
+  align-items: center;
 }
 
 .resource-img__img {
+  display: block;
+  margin: auto;
   width: 100%;
+  min-width: 10rem;
   max-width: 10rem;
   background-image: url('http://www.clker.com/cliparts/t/r/j/z/w/i/no-camera-allowed-hi.png');
   background-position: center;
@@ -22,6 +27,7 @@
 }
 
 .resource-content__description {
+  width: 100%;
   max-width: 400px;
   max-height: 100px;
   overflow: hidden;
@@ -48,5 +54,11 @@
   }
   .resource-content {
     text-align: left;
+  }
+  .resource-content__description {
+    max-width: none;
+  }
+  .resource-img__img {
+    min-width: none;
   }
 }

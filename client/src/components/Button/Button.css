@@ -31,7 +31,6 @@
 .button:hover,
 .button:active {
   background: #e6e6e6;
-  color: #241912;
 }
 
 .button--flat {

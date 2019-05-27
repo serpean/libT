@@ -12,6 +12,12 @@
   width: 70%;
 }
 
+.actual-library__header {
+  position: fixed;
+  background-color: white;
+  width: 100%;
+}
+
 .actual-library__title {
   display: flex;
   align-items: center;
@@ -31,9 +37,37 @@
   display: block;
 }
 
+.sideNav__mobile-control {
+  display: none;
+}
+
+.actual-library__content {
+  padding-top: 3.5rem;
+}
+
 @media (max-width: 768px) {
   .libraries {
     display: none;
+  }
+
+  .libraries.active {
+    display: initial;
+    position: fixed;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+  }
+
+  .sideNav__mobile-control {
+    display: block;
+    margin-left: auto;
+    margin-right: 1.25rem;
+    border: 1px #ccc solid;
+    padding: 8px;
+    cursor: pointer;
+  }
+  .sideNav__mobile-control:hover {
+    background-color: #ccc;
   }
 
   .actual-library {

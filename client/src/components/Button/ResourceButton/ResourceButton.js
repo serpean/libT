@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 
@@ -14,45 +13,68 @@ const resourceButton = props => {
   if (props.wantList && props.inProgressList && props.doneList) {
     lists = (
       <Fragment>
-        <li
-          key={props.wantList._id}
-          onClick={() => props.onClick(props.wantList._id)}
-        >
-          {props.wantList.name}
-        </li>
-        <li
-          key={props.inProgressList._id}
-          onClick={() => props.onClick(props.inProgressList._id)}
-        >
-          {props.inProgressList.name}
-        </li>
-        <li
-          key={props.doneList._id}
-          onClick={() => props.onClick(props.doneList._id)}
-        >
-          {props.doneList.name}
-        </li>
-        <hr />
-        {props.extraLists.map(item => (
-          <li key={item._id} onClick={() => props.onClick(item._id)}>
-            {item.name}
+        {props.actualState === 1 ? null : (
+          <li
+            key={props.wantList._id}
+            onClick={() => props.onClick(props.wantList._id)}
+          >
+            {props.wantList.name}
           </li>
+        )}
+        {props.actualState === 2 ? null : (
+          <li
+            key={props.inProgressList._id}
+            onClick={() => props.onClick(props.inProgressList._id)}
+          >
+            {props.inProgressList.name}
+          </li>
+        )}
+        {props.actualState === 3 ? null : (
+          <li
+            key={props.doneList._id}
+            onClick={() => props.onClick(props.doneList._id)}
+          >
+            {props.doneList.name}
+          </li>
+        )}
+        {props.extraLists.map((item, index) => (
+          <Fragment key={index}>
+            {index === 0 ? <hr /> : null}
+            <li key={item._id} onClick={() => props.onClick(item._id)}>
+              {props.lists.indexOf(item._id) !== -1 ? (
+                <i
+                  className="far fa-check-circle"
+                  style={{ marginRight: '0.5rem' }}
+                />
+              ) : (
+                <i
+                  className="far fa-check-circle"
+                  style={{ color: '#ccc', marginRight: '0.5rem' }}
+                />
+              )}
+              {item.name}
+            </li>
+          </Fragment>
         ))}
       </Fragment>
     );
   }
-
   return (
     <div className="dropdown">
       <button
         className={[
           'button',
           `button--${props.design}`,
-          `button--${props.mode}`
+          `button--${props.mode}`,
+          `status--${props.actualState}`
         ].join(' ')}
         disabled={props.disabled || props.loading}
+        onClick={() => props.onClick(props.wantList._id)}
       >
-        {listName[props.actualState]}
+        {listName[props.actualState]}{' '}
+        {props.actualState !== 0 ? (
+          <i className="far fa-check-circle" style={{ marginLeft: '0.5rem' }} />
+        ) : null}
       </button>
       <ul className="dropdown-content">{lists}</ul>
     </div>
@@ -68,7 +90,8 @@ const mapStateToProps = state => {
     inProgressList: state.library.inProgressList,
     extraLists: state.library.extraLists,
     error: state.library.error,
-    loadingLists: state.library.loadingLists
+    loadingLists: state.library.loadingLists,
+    lists: state.resource.lists
   };
 };
 

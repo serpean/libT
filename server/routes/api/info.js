@@ -6,4 +6,6 @@ const isAuth = require('../../middleware/is-auth');
 
 router.post('/', isAuth, infoController.createOrModifyResource);
 
+router.get('/status/:resourceId', isAuth, infoController.getStatus);
+
 module.exports = router;

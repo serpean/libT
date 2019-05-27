@@ -10,33 +10,33 @@ const library = props => {
     <div className="sideNav">
       <ul className="sideNav-list">
         <li>
-          <h2>Bibliotecas</h2>
+          <h2>Libraries</h2>
         </li>
         <li
           key={props.wantList._id}
           onClick={() => props.getList(props.wantList._id)}
           className="sideNav__link"
         >
-          Lo quiero
+          {props.wantList.name}
         </li>
         <li
           key={props.inProgressList._id}
           onClick={() => props.getList(props.inProgressList._id)}
           className="sideNav__link"
         >
-          En progreso
+          {props.inProgressList.name}
         </li>
         <li
           key={props.doneList._id}
           onClick={() => props.getList(props.doneList._id)}
           className="sideNav__link"
         >
-          Terminado
+          {props.doneList.name}
         </li>
         <hr />
         <li>
           <Button design="success" onClick={() => props.addList(props.token)}>
-            + Añadir
+            + New
           </Button>
         </li>
         {props.extraLists.map(list => {

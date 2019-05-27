@@ -32,13 +32,14 @@ exports.createOrModifyResource = async (req, res, next) => {
       creator: req.userId
     });
 
-    // si el usuario tiene el recurso ya creado
+    // si el usuario no tiene el recurso creado
     if (!info) {
       // cerar nueva lista
       info = new Info({
         type: req.body.type,
         searchId: req.body.id,
         title: req.body.title,
+        image: req.body.image,
         description: req.body.description,
         creator: req.userId
       });
@@ -62,9 +63,14 @@ exports.createOrModifyResource = async (req, res, next) => {
           await newList.addResource(info._id);
           await unpopulatedInfo.addList(newList._id);
         } else {
-          // agregar a la lista opcional
-          await newList.addResource(info._id);
-          await unpopulatedInfo.addList(newList._id);
+          // agregar/eliminar a la lista opcional
+          if (newList.resources.indexOf(info._id) === -1) {
+            await newList.addResource(info._id);
+            await unpopulatedInfo.addList(newList._id);
+          } else {
+            await newList.removeResource(info._id);
+            await unpopulatedInfo.removeList(newList._id);
+          }
         }
       }
     }
@@ -81,3 +87,27 @@ exports.createOrModifyResource = async (req, res, next) => {
 };
 
 exports.deteleItemList = (req, res, next) => {};
+
+exports.getStatus = async (req, res, next) => {
+  const resourceId = req.params.resourceId;
+
+  try {
+    const info = await Info.findOne({
+      searchId: resourceId,
+      creator: req.userId
+    }).populate('lists');
+    let status = 0;
+    let lists = [];
+    if (info && info !== null) {
+      const isStatusList = info.lists.find(list => list.type > 0);
+
+      lists = info.lists.map(x => x._id);
+      status = isStatusList ? isStatusList.type : 0;
+    }
+
+    res.status(200).json({ status: status, lists: lists });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};

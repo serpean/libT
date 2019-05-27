@@ -1,6 +1,7 @@
 .sideNav {
   height: 100%; /* 100% Full-height */
   padding-top: 60px; /* Place content 60px from the top */
+  position: fixed;
 }
 
 .sideNav__link {

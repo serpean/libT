@@ -52,7 +52,6 @@ const userSchema = new Schema(
 );
 
 userSchema.methods.validPassword = function(password) {
-  console.log(this.password);
   return bcrypt.compare(password, this.password);
 };
 

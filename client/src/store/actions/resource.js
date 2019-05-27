@@ -1,30 +1,118 @@
 import * as actionTypes from './actionTypes';
 
-export const resourceStart = () => {
+export const resourceStart = (type, id) => {
   return {
     type: actionTypes.RESOURCE_START,
-    status: null
+    id: id,
+    resourceType: type,
+    title: null,
+    authors: [],
+    image: null,
+    description: null,
+    lists: [],
+    loadingResource: true
   };
 };
 
-export const resourceSuccess = status => {
+export const resourceSuccess = params => {
   return {
     type: actionTypes.RESOURCE_SUCCESS,
-    status: status
+    id: params.id,
+    resourceType: params.type,
+    title: params.title,
+    authors: params.authors ? params.authors : [],
+    image: params.image,
+    description: params.description,
+    lists: params.lists,
+    loadingResource: false
   };
 };
 
 export const resourceFail = error => {
   return {
     type: actionTypes.RESOURCE_FAIL,
-    status: null,
+    title: null,
+    authors: [],
+    image: null,
+    description: null,
+    lists: [],
+    loadingResource: false,
     error: error
   };
 };
 
-export const getResourceStatus = () => {
+export const resourceStatusStart = () => {
+  return {
+    type: actionTypes.RESOURCE_STATUS_START,
+    loadingStatus: true,
+    lists: [],
+    status: 0
+  };
+};
+
+export const resourceStatusSuccess = (status, lists) => {
+  return {
+    type: actionTypes.RESOURCE_STATUS_SUCCESS,
+    loadingStatus: false,
+    status: status,
+    lists: lists
+  };
+};
+
+export const resourceStatusFail = error => {
+  return {
+    type: actionTypes.RESOURCE_STATUS_FAIL,
+    status: 0,
+    lists: [],
+    loadingStatus: false,
+    error: error
+  };
+};
+
+export const getResourceStatus = resourceId => {
   return dispatch => {
-    dispatch(resourceStart());
-    //fetch()
+    dispatch(resourceStatusStart());
+    const token = localStorage.getItem('token');
+    fetch(`/api/info/status/${resourceId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Failed to fetch Lists.');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        dispatch(resourceStatusSuccess(resData.status, resData.lists));
+      })
+      .catch(err => dispatch(resourceStatusFail(err)));
+  };
+};
+
+export const loadResource = (type, searchId) => {
+  return dispatch => {
+    dispatch(resourceStart(type, searchId));
+    const id = searchId.split('__')[0];
+    fetch(`http://localhost:3030/${type}/${id}`)
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201 && res.status !== 304) {
+          throw new Error('Error!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        if (resData.response) {
+          const params = {
+            title: resData.title,
+            image: resData.image,
+            authors: resData.authors,
+            description: resData.description
+          };
+          dispatch(resourceSuccess(params));
+        }
+      })
+      .catch(err => dispatch(resourceFail(err)));
   };
 };

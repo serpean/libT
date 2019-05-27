@@ -7,7 +7,10 @@ const listSchema = new Schema({
     type: String,
     required: true
   },
-  description: String,
+  description: {
+    type: String,
+    default: 'A new library!'
+  },
   type: {
     type: Number,
     enum: [0, 1, 2, 3],
@@ -31,7 +34,6 @@ const listSchema = new Schema({
 
 listSchema.methods.addResource = async function(infoId) {
   if (this.resources.indexOf(infoId) === -1) {
-    console.log('ADDED INFO ' + infoId);
     this.resources.push(infoId);
   }
   return this.save();
@@ -40,7 +42,6 @@ listSchema.methods.addResource = async function(infoId) {
 listSchema.methods.removeResource = async function(infoId) {
   if (this.resources.indexOf(infoId) !== -1) {
     this.resources.remove(infoId);
-    console.log('REMOVED INFO ' + infoId);
   }
   return this.save();
 };

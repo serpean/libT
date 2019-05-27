@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { history } from '../configureStore';
 
 export const listStart = () => {
   return {
@@ -112,6 +113,7 @@ export const loadList = listId => {
       })
       .then(resData => {
         dispatch(listSuccess(resData));
+        history.push(`/library/${resData.creator}/${listId}`);
       })
       .catch(err => {
         dispatch(listFail(err));

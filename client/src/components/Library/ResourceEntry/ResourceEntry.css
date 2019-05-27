@@ -47,7 +47,7 @@
 }
 
 .entry__description {
-  line-height: 1rem; /* fallback */
+  line-height: 1rem;
   max-height: 3rem;
   overflow: hidden;
 }

@@ -1,5 +1,4 @@
 .dropdown {
-  position: relative;
   display: inline-block;
   border: 1px solid #e5e3dd;
   margin: 1rem 0;
@@ -23,9 +22,10 @@
 
 .dropdown-content li {
   margin: 0;
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
   text-align: left;
   list-style: none;
+  cursor: pointer;
 }
 
 .dropdown-content li:hover,
@@ -41,4 +41,15 @@
 .dropdown-content li a:hover,
 .dropdown-content li a:active {
   color: #241912;
+}
+
+.status--0 {
+  border: 1px solid #00a151;
+  color: #00a151;
+}
+
+.status--1,
+.status--2,
+.status--3 {
+  cursor: not-allowed;
 }

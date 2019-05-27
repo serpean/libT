@@ -19,11 +19,26 @@ exports.signup = async (req, res, next) => {
     await user.setPassword(req.body.password);
     const userSaved = await user.save();
 
-    const wantedList = await libraryBuilder('Lo quiero', 1, user);
+    const wantedList = await libraryBuilder(
+      'Want it',
+      `${userSaved.username} want it list`,
+      1,
+      user
+    );
     await userSaved.addList(wantedList.id);
-    const inProgressList = await libraryBuilder('En progreso', 2, user);
+    const inProgressList = await libraryBuilder(
+      'In progress',
+      `${userSaved.username} in progress list`,
+      2,
+      user
+    );
     await userSaved.addList(inProgressList.id);
-    const doneList = await libraryBuilder('Terminado', 3, user);
+    const doneList = await libraryBuilder(
+      'Done',
+      `${userSaved.username} done list`,
+      3,
+      user
+    );
     await userSaved.addList(doneList.id);
 
     res.status(201).json({
@@ -46,7 +61,6 @@ exports.login = async (req, res, next) => {
       error.statusCode = 401;
       throw error;
     }
-    console.log(user.toAuthJSON());
     const isEqual = await user.validPassword(req.body.password);
     if (!isEqual) {
       const error = new Error('Wrong password!');
@@ -62,12 +76,13 @@ exports.login = async (req, res, next) => {
   }
 };
 
-const libraryBuilder = async (name, type, user) => {
+const libraryBuilder = async (name, description, type, user) => {
   const list = new List({
     name: name,
     type: type,
     exclusive: true,
-    creator: user.id
+    creator: user.id,
+    description: description
   });
   return list.save();
 };

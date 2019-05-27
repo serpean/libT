@@ -8,69 +8,33 @@ import ResourceButton from '../../components/Button/ResourceButton/ResourceButto
 
 import './Resource.css';
 
-const mockLibrary = [
-  { link: '/', text: 'Lo quiero' },
-  { link: '/', text: 'En proceso' },
-  { link: '/', text: 'Terminado' }
-];
-
 class Resource extends Component {
   state = {
-    id: null,
-    type: null,
-    title: null,
-    authors: [],
-    description: null,
     moreDescription: false,
-    image: null
+    resourceLoad: false
   };
   componentDidMount() {
-    this.loadResource();
-    this.props.onLoadLists(this.props.userId);
-    console.log(this.props.status);
-    this.props.onLoadStatus();
-  }
-  componentDidUpdate() {
-    const id = this.props.match.params.id;
-    if (this.state.id !== id) {
-      this.loadResource();
-      this.props.onLoadLists(this.props.userId);
-      this.props.onLoadStatus();
-    }
-  }
-
-  loadResource() {
     const type = this.props.match.params.type;
     const searchId = this.props.match.params.id;
-    const id = searchId.split('__')[0];
-    console.log(id);
-    this.setState({ type: type, id: searchId });
-    fetch(`http://localhost:3030/${type}/${id}`)
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201 && res.status !== 304) {
-          throw new Error('Error!');
-        }
-        return res.json();
-      })
-      .then(resData => {
-        if (resData.response) {
-          this.setState({
-            title: resData.title,
-            image: resData.image,
-            authors: resData.authors,
-            description: resData.description,
-            loading: false
-          });
-        }
-      })
-      .catch(err => console.log(err));
+    this.props.onLoadResource(type, searchId);
+    this.props.onLoadLists(this.props.userId);
+    this.props.onLoadStatus(this.props.match.params.id);
+  }
+  componentDidUpdate() {
+    const searchId = this.props.match.params.id;
+    if (this.props.id !== searchId) {
+      const type = this.props.match.params.type;
+      this.props.onLoadResource(type, searchId);
+      this.props.onLoadStatus(searchId);
+      this.props.onLoadLists(this.props.userId);
+    }
   }
 
   readMoreHandler(update) {
     this.setState({ moreDescription: !update });
   }
 
-  infoHandler(listId) {
+  resourceHandler(listId) {
     const token = localStorage.getItem('token');
     fetch(`/api/info`, {
       method: 'POST',
@@ -80,41 +44,55 @@ class Resource extends Component {
       },
       body: JSON.stringify({
         listId: listId,
-        id: this.state.id,
-        type: this.state.type,
-        title: this.state.title,
-        description: this.state.description
+        id: this.props.id,
+        type: this.props.type,
+        title: this.props.title,
+        description: this.props.description,
+        image: this.props.image
       })
-    });
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201 && res.status !== 304) {
+          throw new Error('Error!');
+        }
+        this.props.onLoadStatus(this.props.id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
     let authors = null;
-    if (this.state.authors.length > 0) {
-      authors = 'by ' + this.state.authors.map(a => ` ${a}`);
+    if (this.props.authors.length > 0) {
+      authors = 'by ' + this.props.authors.map(a => ` ${a}`);
     }
-    return (
+    const resourcePage = !this.props.loadingResource ? (
       <div className="resource">
         <div className="resource-img">
           <img
             className="resource-img__img"
             src={
-              this.state.image !== 'N/A'
-                ? this.state.image
+              this.props.image !== 'N/A'
+                ? this.props.image
                 : 'http://www.clker.com/cliparts/t/r/j/z/w/i/no-camera-allowed-hi.png'
             }
-            alt={this.state.title}
+            alt={this.props.title}
           />
-          <ResourceButton
-            mode="flat"
-            actualState={this.props.status}
-            onClick={this.infoHandler.bind(this)}
-          />
+          {this.props.loadingStatus ? (
+            <Loader />
+          ) : (
+            <ResourceButton
+              mode="flat"
+              actualState={this.props.status}
+              onClick={this.resourceHandler.bind(this)}
+            />
+          )}
         </div>
 
         <div className="resource-content">
-          <div className="resource-content__type">Type: {this.state.type}</div>
-          <h1 className="resource-content__title">{this.state.title}</h1>
+          <div className="resource-content__type">Type: {this.props.type}</div>
+          <h1 className="resource-content__title">{this.props.title}</h1>
           <div className="resource-content__authors">{authors}</div>
           <div
             className={[
@@ -122,10 +100,10 @@ class Resource extends Component {
               this.state.moreDescription ? 'expanded' : null
             ].join(' ')}
           >
-            {this.state.description}
+            {this.props.description}
           </div>
 
-          {this.state.description && this.state.description.length > 250 ? (
+          {this.props.description && this.props.description.length > 250 ? (
             <Button
               onClick={() => this.readMoreHandler(this.state.moreDescription)}
             >
@@ -134,7 +112,10 @@ class Resource extends Component {
           ) : null}
         </div>
       </div>
+    ) : (
+      <Loader />
     );
+    return resourcePage;
   }
 }
 
@@ -142,13 +123,16 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     userId: state.auth.userId,
-    doneList: state.library.doneList,
-    wantList: state.library.wantList,
-    inProgressList: state.library.inProgressList,
-    extraLists: state.library.extraLists,
-    error: state.library.error,
-    loadingLists: state.library.loadingLists,
-    status: state.resource.status
+    status: state.resource.status,
+    id: state.resource.id,
+    type: state.resource.type,
+    title: state.resource.title,
+    authors: state.resource.authors,
+    image: state.resource.image,
+    description: state.resource.description,
+    error: state.resource.error,
+    loadingResource: state.resource.loadingResource,
+    loadingStatus: state.resource.loadingStatus
   };
 };
 
@@ -157,7 +141,9 @@ const mapDispatchToProps = dispatch => {
     onLoadLists: (username, listId) =>
       dispatch(actions.loadLists(username, listId)),
     onErrorHandler: () => dispatch(actions.errorHandler()),
-    onLoadStatus: () => dispatch(actions.getResourceStatus())
+    onLoadStatus: resourceId => dispatch(actions.getResourceStatus(resourceId)),
+    onLoadResource: (type, resourceId) =>
+      dispatch(actions.loadResource(type, resourceId))
   };
 };
 
