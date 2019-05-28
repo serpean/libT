@@ -4,30 +4,30 @@ node_modules
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/client/node_modules
-/client/.pnp
-/client/.pnp.js
+/package/client/node_modules
+/package/client/.pnp
+/package/client/.pnp.js
 
 # testing
-/client/coverage
+/package/client/coverage
 
 # production
-/client/build
+/package/client/build
 
 # misc
-/client/.DS_Store
-/client/.env.local
-/client/.env.development.local
-/client/.env.test.local
-/client/.env.production.local
+/package/client/.DS_Store
+/package/client/.env.local
+/package/client/.env.development.local
+/package/client/.env.test.local
+/package/client/.env.production.local
 
-/client/npm-debug.log*
-/client/yarn-debug.log*
-/client/yarn-error.log*
+/package/client/npm-debug.log*
+/package/client/yarn-debug.log*
+/package/client/yarn-error.log*
 
 ## END REACT GITIGNORE ##
 
 ## START SERVER GITIGNORE ##
-/server/node_modules
+/package/server/node_modules
 ## END SERVER GITIGNORE ##
 
