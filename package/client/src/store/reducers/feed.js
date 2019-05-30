@@ -17,8 +17,9 @@ const feedStart = (state, action) => {
 };
 
 const feedSuccess = (state, action) => {
+  console.log([...state.posts, ...action.posts]);
   return updateObject(state, {
-    posts: action.posts,
+    posts: [...state.posts, ...action.posts],
     totalPosts: action.totalPosts,
     postsLoading: false
   });
@@ -33,13 +34,7 @@ const feedFail = (state, action) => {
 
 const updatePages = (state, action) => {
   return updateObject(state, {
-    postPage: action.page
-  });
-};
-
-const errorHandler = (state, action) => {
-  return updateObject(state, {
-    error: false
+    postPage: action.postPage
   });
 };
 
@@ -53,8 +48,6 @@ export default (state = initialState, action) => {
       return feedFail(state, action);
     case actionTypes.UPDATE_PAGES:
       return updatePages(state, action);
-    case actionTypes.ERROR_HANDLER:
-      return errorHandler(state, action);
     default:
       return state;
   }

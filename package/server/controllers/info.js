@@ -6,7 +6,6 @@ const Post = require('../models/post');
 
 exports.createOrModifyResource = async (req, res, next) => {
   const errors = validationResult(req);
-  let state = 0;
   if (!errors.isEmpty()) {
     const error = new Error('Validation failed, entered data is incorrect.');
     error.statusCode = 422;
@@ -79,8 +78,9 @@ exports.createOrModifyResource = async (req, res, next) => {
         }
       }
     }
-    console.log(newList.type);
-    await info.setActualState(newList.type);
+    if (newList.type !== 0) {
+      await info.setActualState(newList.type);
+    }
     const post = new Post({
       action: newList.type,
       creator: req.userId,

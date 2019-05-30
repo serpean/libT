@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { addError } from './common';
 
 export const feedStart = () => {
   return {
@@ -9,24 +10,19 @@ export const feedStart = () => {
 };
 
 export const feedSuccess = data => {
+  console.log(data);
   return {
-    posts: data.posts.map(post => {
-      return {
-        ...post,
-        imagePath: post.imageUrl
-      };
-    }),
-    totalPosts: data.totalItems,
+    posts: data.posts,
+    totalPosts: data.totalPosts,
     postsLoading: false,
     type: actionTypes.FEED_SUCCESS
   };
 };
 
-export const feedFail = error => {
+export const feedFail = () => {
   return {
     type: actionTypes.FEED_FAIL,
-    postsLoading: false,
-    error: error
+    postsLoading: false
   };
 };
 
@@ -40,18 +36,16 @@ export const updatePages = page => {
 export const loadPosts = (direction, page) => {
   return dispatch => {
     const token = localStorage.getItem('token');
-    if (direction) {
+    if (!direction) {
       dispatch(feedStart());
     }
-    let postPage = page || 1;
-    if (direction === 'next') {
+    if (direction === 'more') {
       page++;
       dispatch(updatePages(page));
     }
-    if (direction === 'previous') {
-      page--;
-      dispatch(updatePages(page));
-    }
+    let postPage = page || 1;
+
+    console.log('http://localhost:3001/api/posts/posts?page=' + postPage);
     fetch('http://localhost:3001/api/posts/posts?page=' + postPage, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -64,11 +58,11 @@ export const loadPosts = (direction, page) => {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
         dispatch(feedSuccess(resData));
       })
       .catch(err => {
-        dispatch(feedFail(err));
+        dispatch(feedFail());
+        dispatch(addError(err));
       });
   };
 };

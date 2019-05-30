@@ -1,5 +1,6 @@
 .feed {
   margin: auto;
+  width: 100%;
 }
 
 .feed__status {
@@ -33,5 +34,9 @@
   .lib-nav {
     display: block;
     margin-right: 7.5rem;
+  }
+
+  .feed {
+    width: auto;
   }
 }

@@ -89,17 +89,14 @@ const mapStateToProps = state => {
     wantList: state.library.wantList,
     inProgressList: state.library.inProgressList,
     extraLists: state.library.extraLists,
-    error: state.library.error,
-    loadingLists: state.library.loadingLists,
-    lists: state.resource.lists
+    loadingLists: state.library.loadingLists
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onLoadLists: (username, listId) =>
-      dispatch(actions.loadLists(username, listId)),
-    onErrorHandler: () => dispatch(actions.errorHandler())
+      dispatch(actions.loadLists(username, listId))
   };
 };
 export default connect(

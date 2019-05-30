@@ -4,15 +4,16 @@
 }
 
 .paginator__control {
-  width: 5rem;
+  width: 100%;
+  max-width: 10rem;
   padding: 0.25rem 0;
   margin: 0 1rem;
-  border: 1px solid #3b0062;
+  border: 1px solid #888888;
   background: transparent;
   font: inherit;
   cursor: pointer;
-  font-size: 1rem;
-  color: #3b0062;
+  font-size: 1, 2rem;
+  color: #888888;
 }
 
 .paginator__control:hover,

@@ -5,32 +5,23 @@ const initialState = {
   userId: null,
   token: null,
   authLoading: false,
-  error: null,
   authRedirectPath: '/'
 };
 const authStart = (state, action) => {
-  return updateObject(state, { error: null, authLoading: true });
+  return updateObject(state, { authLoading: true });
 };
 
 const authSuccess = (state, action) => {
   return updateObject(state, {
     token: action.idToken,
     userId: action.userId,
-    error: null,
     authLoading: false
   });
 };
 
 const authFail = (state, action) => {
   return updateObject(state, {
-    error: action.error,
     authLoading: false
-  });
-};
-
-const errorHandler = (state, action) => {
-  return updateObject(state, {
-    error: false
   });
 };
 
@@ -54,8 +45,6 @@ export default (state = initialState, action) => {
       return authLogout(state, action);
     case actionTypes.SET_AUTH_REDIRECT_PATH:
       return setAuthRedirectPath(state, action);
-    case actionTypes.ERROR_HANDLER:
-      return errorHandler(state, action);
     default:
       return state;
   }

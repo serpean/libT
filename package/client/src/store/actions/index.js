@@ -1,6 +1,6 @@
 export { auth, logout, authCheckState } from './auth';
 
-export { errorHandler, setAuthRedirectPath } from './common';
+export { errorHandler, addError } from './common';
 
 export { loadPosts } from './feed';
 

@@ -85,6 +85,7 @@ export const getResourceStatus = resourceId => {
         return res.json();
       })
       .then(resData => {
+        console.log(resData);
         dispatch(resourceStatusSuccess(resData.status, resData.lists));
       })
       .catch(err => dispatch(resourceStatusFail(err)));

@@ -8,7 +8,6 @@ import Loader from '../../components/Loader/Loader';
 import ListEditor from '../../components/Library/LibraryEditor/LibraryEditor';
 
 import './Library.css';
-import ErrorHandler from '../../components/ErrorHandler/ErrorHandler';
 
 class Library extends Component {
   state = {
@@ -122,10 +121,6 @@ class Library extends Component {
     }
     return (
       <Fragment>
-        <ErrorHandler
-          error={this.props.error}
-          onHandle={this.props.onErrorHandler}
-        />
         <ListEditor />
         <section
           className={['libraries', this.state.openSideNav ? 'active' : ''].join(
@@ -148,7 +143,6 @@ const mapStateToProps = state => {
     wantList: state.library.wantList,
     inProgressList: state.library.inProgressList,
     extraLists: state.library.extraLists,
-    error: state.library.error,
     actualList: state.library.actualList,
     loadingList: state.library.loadingList,
     loadingLists: state.library.loadingLists
@@ -162,8 +156,7 @@ const mapDispatchToProps = dispatch => {
     onLoadList: listId => dispatch(actions.loadList(listId)),
     onUpdateList: list => dispatch(actions.updateLibraryHandler(list)),
     onDeleteList: (list, nextList) =>
-      dispatch(actions.deletePostHandler(list, nextList)),
-    onErrorHandler: () => dispatch(actions.errorHandler())
+      dispatch(actions.deletePostHandler(list, nextList))
   };
 };
 

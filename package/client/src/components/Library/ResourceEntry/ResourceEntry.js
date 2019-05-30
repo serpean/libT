@@ -18,7 +18,7 @@ const resourceEntry = props => {
     <article className="entry">
       <div className="entry__image">
         <Link to={`/resource/${props.type}/${props.id}`}>
-          <Image imageUrl={props.image} contain left />
+          <Image imageUrl={props.image} />
         </Link>
       </div>
       <div className="entry__content">

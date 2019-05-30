@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { addError } from './common';
 
 export const listStart = () => {
   return {
@@ -15,10 +16,9 @@ export const listSuccess = (data, listId) => {
   };
 };
 
-export const listFail = error => {
+export const listFail = () => {
   return {
     type: actionTypes.LIST_FAIL,
-    error: error,
     loadingList: false
   };
 };
@@ -60,10 +60,9 @@ export const listsSuccess = data => {
   };
 };
 
-export const listsFail = error => {
+export const listsFail = () => {
   return {
     type: actionTypes.LISTS_FAIL,
-    error: error,
     loadingLists: false
   };
 };
@@ -84,14 +83,14 @@ export const loadLists = (username, listId) => {
         return res.json();
       })
       .then(resData => {
-        console.log(listId);
-        if (listId) {
+        if (listId && listId !== null) {
           dispatch(loadList(listId));
         } else if (resData.length !== 0) dispatch(loadList(resData[0]._id));
         dispatch(listsSuccess(resData));
       })
       .catch(err => {
-        dispatch(listsFail(err));
+        dispatch(listsFail());
+        dispatch(addError(err));
       });
   };
 };
@@ -115,7 +114,8 @@ export const loadList = listId => {
         dispatch(listSuccess(resData));
       })
       .catch(err => {
-        dispatch(listFail(err));
+        dispatch(listFail());
+        dispatch(addError(err));
       });
   };
 };
@@ -137,12 +137,11 @@ export const editListSuccess = () => {
   };
 };
 
-export const editListFail = error => {
+export const editListFail = () => {
   return {
     isEditing: false,
     editList: null,
     editListLoading: false,
-    error: error,
     type: actionTypes.EDIT_LIST_FAIL
   };
 };

@@ -66,7 +66,7 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    error: state.auth.error,
+    error: state.common.error,
     isAuth: state.auth.token != null
   };
 };

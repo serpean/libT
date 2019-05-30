@@ -9,7 +9,6 @@ const initialState = {
   actualList: null,
   loadingList: false,
   loadingLists: false,
-  error: null,
   isEditing: false,
   editList: null,
   editLoading: false
@@ -34,7 +33,6 @@ const listsSuccess = (state, action) => {
 
 const listsFail = (state, action) => {
   return updateObject(state, {
-    error: action.error,
     loadingLists: false
   });
 };
@@ -54,14 +52,7 @@ const listSuccess = (state, action) => {
 
 const listFail = (state, action) => {
   return updateObject(state, {
-    error: action.error,
     loadingList: false
-  });
-};
-
-const errorHandler = (state, action) => {
-  return updateObject(state, {
-    error: false
   });
 };
 
@@ -89,8 +80,7 @@ const editListSuccess = (state, action) => {
 const editListFail = (state, action) => {
   return updateObject(state, {
     isEditing: false,
-    editLoading: false,
-    error: action.error
+    editLoading: false
   });
 };
 
@@ -116,8 +106,6 @@ export default (state = initialState, action) => {
       return editListSuccess(state, action);
     case actionTypes.EDIT_LIST_FAIL:
       return editListFail(state, action);
-    case actionTypes.ERROR_HANDLER:
-      return errorHandler(state, action);
     default:
       return state;
   }

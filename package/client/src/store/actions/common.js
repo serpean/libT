@@ -4,9 +4,7 @@ export const errorHandler = () => {
   return { type: actionTypes.ERROR_HANDLER, error: null };
 };
 
-export const setAuthRedirectPath = path => {
-  return {
-    type: actionTypes.SET_AUTH_REDIRECT_PATH,
-    path: path
-  };
+export const addError = error => {
+  console.log(error);
+  return { type: actionTypes.ADD_ERROR, error: error };
 };

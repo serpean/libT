@@ -18,6 +18,7 @@ exports.getPosts = async (req, res, next) => {
       .limit(maxResults)
       .populate('resource')
       .populate('creator')
+      .sort('-createdAt')
       .exec();
 
     const [totalItems, posts] = await Promise.all([
@@ -27,7 +28,6 @@ exports.getPosts = async (req, res, next) => {
     res.json({
       totalPosts: totalItems,
       posts: posts.map(post => {
-        console.log(post.creator);
         return {
           ...post._doc,
           creator: post.creator.username,
@@ -44,40 +44,4 @@ exports.getPosts = async (req, res, next) => {
     }
     next(err);
   }
-
-  // res.json({
-  //   posts: [
-  //     {
-  //       action: 2,
-  //       optionalContent: '',
-  //       resource: {
-  //         type: 'book',
-  //         title: 'Harry Potter',
-  //         author: 'J.K Rolling',
-  //         image:
-  //           'https://smartmobilestudio.com/wp-content/uploads/2012/06/leather-book-preview.png',
-  //         description: 'The first book on Harry potter saga',
-  //         lists: ['3'],
-  //         status: 0,
-  //         starts: 0
-  //       },
-  //       creator: 'serpean'
-  //     },
-  //     {
-  //       action: 1,
-  //       resource: {
-  //         type: 'movie',
-  //         title: 'Rolling',
-  //         author: 'someone',
-  //         description: 'Roolling roooooling',
-  //         image:
-  //           'https://smartmobilestudio.com/wp-content/uploads/2012/06/leather-book-preview.png',
-  //         lists: ['3']
-  //       },
-  //       creator: 'serpean',
-  //       status: 0,
-  //       stars: 0
-  //     }
-  //   ]
-  // });
 };

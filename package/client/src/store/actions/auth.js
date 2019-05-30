@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { history } from '../configureStore';
+import { addError } from './common';
 
 export const authStart = () => {
   return {
@@ -17,10 +18,9 @@ export const authSuccess = (token, userId) => {
   };
 };
 
-export const authFail = error => {
+export const authFail = () => {
   return {
     type: actionTypes.AUTH_FAIL,
-    error: error,
     authLoading: false
   };
 };
@@ -98,7 +98,9 @@ export const auth = params => {
         history.push('/');
       })
       .catch(err => {
-        dispatch(authFail(err));
+        dispatch(authFail());
+        console.log(err);
+        dispatch(addError(err));
       });
   };
 };

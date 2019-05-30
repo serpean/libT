@@ -13,7 +13,8 @@
 }
 
 .actual-library__header {
-  position: fixed;
+  position: sticky;
+  top: 3.55rem;
   background-color: white;
   width: 100%;
 }

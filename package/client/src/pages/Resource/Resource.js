@@ -4,6 +4,7 @@ import * as actions from '../../store/actions/index';
 
 import Button from '../../components/Button/Button';
 import Loader from '../../components/Loader/Loader';
+import Image from '../../components/Image/Image';
 import ResourceButton from '../../components/Button/ResourceButton/ResourceButton';
 
 import './Resource.css';
@@ -70,7 +71,7 @@ class Resource extends Component {
     const resourcePage = !this.props.loadingResource ? (
       <div className="resource">
         <div className="resource-img">
-          <img
+          <Image
             className="resource-img__img"
             src={
               this.props.image !== 'N/A'
@@ -85,6 +86,7 @@ class Resource extends Component {
             <ResourceButton
               mode="flat"
               actualState={this.props.status}
+              lists={this.props.lists}
               onClick={this.resourceHandler.bind(this)}
             />
           )}
@@ -124,13 +126,13 @@ const mapStateToProps = state => {
     token: state.auth.token,
     userId: state.auth.userId,
     status: state.resource.status,
+    lists: state.resource.lists,
     id: state.resource.id,
     type: state.resource.type,
     title: state.resource.title,
     authors: state.resource.authors,
     image: state.resource.image,
     description: state.resource.description,
-    error: state.resource.error,
     loadingResource: state.resource.loadingResource,
     loadingStatus: state.resource.loadingStatus
   };
@@ -140,7 +142,6 @@ const mapDispatchToProps = dispatch => {
   return {
     onLoadLists: (username, listId) =>
       dispatch(actions.loadLists(username, listId)),
-    onErrorHandler: () => dispatch(actions.errorHandler()),
     onLoadStatus: resourceId => dispatch(actions.getResourceStatus(resourceId)),
     onLoadResource: (type, resourceId) =>
       dispatch(actions.loadResource(type, resourceId))
