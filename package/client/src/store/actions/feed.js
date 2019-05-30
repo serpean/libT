@@ -10,7 +10,6 @@ export const feedStart = () => {
 };
 
 export const feedSuccess = data => {
-  console.log(data);
   return {
     posts: data.posts,
     totalPosts: data.totalPosts,
@@ -45,7 +44,6 @@ export const loadPosts = (direction, page) => {
     }
     let postPage = page || 1;
 
-    console.log('http://localhost:3001/api/posts/posts?page=' + postPage);
     fetch('http://localhost:3001/api/posts/posts?page=' + postPage, {
       headers: {
         Authorization: `Bearer ${token}`

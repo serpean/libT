@@ -43,6 +43,15 @@
   display: flex;
 }
 
+li.search-dropdown-content__search {
+  border-top: 1px solid black;
+}
+
+.search-dropdown-content li.search-dropdown-content__search a {
+  text-align: center;
+  padding: 0.5rem;
+}
+
 .saerch-dropdown-content__loader .loader {
   margin: auto;
 }

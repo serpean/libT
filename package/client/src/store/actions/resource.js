@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { addError } from './common';
 
 export const resourceStart = (type, id) => {
   return {
@@ -28,7 +29,7 @@ export const resourceSuccess = params => {
   };
 };
 
-export const resourceFail = error => {
+export const resourceFail = () => {
   return {
     type: actionTypes.RESOURCE_FAIL,
     title: null,
@@ -36,8 +37,7 @@ export const resourceFail = error => {
     image: null,
     description: null,
     lists: [],
-    loadingResource: false,
-    error: error
+    loadingResource: false
   };
 };
 
@@ -59,13 +59,12 @@ export const resourceStatusSuccess = (status, lists) => {
   };
 };
 
-export const resourceStatusFail = error => {
+export const resourceStatusFail = () => {
   return {
     type: actionTypes.RESOURCE_STATUS_FAIL,
     status: 0,
     lists: [],
-    loadingStatus: false,
-    error: error
+    loadingStatus: false
   };
 };
 
@@ -88,7 +87,10 @@ export const getResourceStatus = resourceId => {
         console.log(resData);
         dispatch(resourceStatusSuccess(resData.status, resData.lists));
       })
-      .catch(err => dispatch(resourceStatusFail(err)));
+      .catch(err => {
+        dispatch(resourceStatusFail());
+        dispatch(addError(err));
+      });
   };
 };
 
@@ -114,6 +116,9 @@ export const loadResource = (type, searchId) => {
           dispatch(resourceSuccess(params));
         }
       })
-      .catch(err => dispatch(resourceFail(err)));
+      .catch(err => {
+        dispatch(addError(err));
+        dispatch(resourceFail());
+      });
   };
 };

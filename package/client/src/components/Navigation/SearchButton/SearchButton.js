@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions/index';
+
 import Input from '../../Form/Input/Input';
 import Loader from '../../Loader/Loader';
 
@@ -10,42 +13,27 @@ class SearchButton extends Component {
     res: [],
     loading: false
   };
-  onChange = (data, value) => {
-    this.setState({ res: [] });
-    if (value.length >= 3) {
-      this.setState({ loading: true });
-      fetch(`http://localhost:3030/?name=${value}`)
-        .then(res => {
-          if (res.status !== 200 && res.status !== 201 && res.status !== 301) {
-            throw new Error('Could not authenticate you!');
-          }
-          return res.json();
-        })
-        .then(resData => {
-          if (resData.response) {
-            this.setState({ res: resData.search, loading: false });
-          }
-        })
-        .catch(err => console.log(err));
-    }
-  };
-  onClick = () => {
-    this.setState({ res: [] });
-  };
+  onChange = (data, value) => {};
+
   render() {
     let results = null;
-    if (this.state.loading)
+    if (this.props.loading) {
       results = (
         <ul className="search-dropdown-content">
           <li className="saerch-dropdown-content__loader" key="loader">
             <Loader />
           </li>
+          <li className="search-dropdown-content__search" key="search">
+            <Link to={`/search/${this.props.query}`}>
+              See all results for {this.props.query}
+            </Link>
+          </li>
         </ul>
       );
-    if (this.state.res.length !== 0) {
+    } else if (this.props.res.length !== 0) {
       results = (
         <ul className="search-dropdown-content">
-          {this.state.res.map((item, index) => {
+          {this.props.res.map((item, index) => {
             return (
               <li key={`${item.type}_${item.id}`}>
                 <Link to={`/resource/${item.type}/${item.id}`}>
@@ -78,6 +66,12 @@ class SearchButton extends Component {
               </li>
             );
           })}
+
+          <li className="search-dropdown-content__search" key="search">
+            <Link to={`/search/${this.props.query}`}>
+              See all results for "{this.props.query}"
+            </Link>
+          </li>
         </ul>
       );
     }
@@ -86,7 +80,7 @@ class SearchButton extends Component {
         <Input
           id="search"
           placeholder="Search"
-          onChange={this.onChange}
+          onChange={this.props.onChange}
           type="text"
           control="input"
         />
@@ -95,5 +89,21 @@ class SearchButton extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    res: state.search.res,
+    query: state.search.query,
+    loading: state.search.loading
+  };
+};
 
-export default SearchButton;
+const mapDispatchToProps = dispatch => {
+  return {
+    onChange: (id, value) => dispatch(actions.onSearch(id, value))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchButton);

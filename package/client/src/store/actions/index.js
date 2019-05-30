@@ -15,3 +15,5 @@ export {
   finishEditHandler,
   cancelEditHandler
 } from './library';
+
+export { onSearch } from './search';

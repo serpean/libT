@@ -10,7 +10,6 @@ const initialState = {
   image: null,
   description: null,
   lists: [],
-  error: null,
   loadingResource: false,
   loadingStatus: false
 };
@@ -23,7 +22,6 @@ const resourceStart = (state, action) => {
     authors: [],
     image: null,
     description: null,
-    error: null,
     loadingResource: true
   });
 };
@@ -46,7 +44,6 @@ const resourceFail = (state, action) => {
     authors: [],
     image: null,
     description: null,
-    error: action.error,
     loadingResource: false
   });
 };
@@ -71,8 +68,7 @@ const resourceStatusFail = (state, action) => {
   return updateObject(state, {
     status: 0,
     lists: [],
-    loadingStatus: false,
-    error: action.error
+    loadingStatus: false
   });
 };
 

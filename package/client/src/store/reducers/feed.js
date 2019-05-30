@@ -5,8 +5,7 @@ const initialState = {
   posts: [],
   totalPosts: 0,
   postPage: 1,
-  postsLoading: true,
-  error: null
+  postsLoading: true
 };
 
 const feedStart = (state, action) => {
@@ -27,8 +26,7 @@ const feedSuccess = (state, action) => {
 
 const feedFail = (state, action) => {
   return updateObject(state, {
-    postsLoading: false,
-    error: action.error
+    postsLoading: false
   });
 };
 

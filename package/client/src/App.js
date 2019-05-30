@@ -11,6 +11,7 @@ import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
 import ProfilePage from './pages/Profile/Profile';
 import ResourcePage from './pages/Resource/Resource';
+import SearchPage from './pages/Search/Search';
 import Home from './pages/Home/home';
 import * as actions from './store/actions/index';
 import './App.css';
@@ -44,6 +45,7 @@ class App extends Component {
           <Route path="/library/:username?/:list?" component={LibraryPage} />
           <Route path="/profile/:username?" component={ProfilePage} />
           <Route path="/resource/:type/:id" component={ResourcePage} />
+          <Route path="/search/:query?" component={SearchPage} />
           <Redirect to="/" />
         </Switch>
       );

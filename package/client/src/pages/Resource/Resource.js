@@ -73,7 +73,7 @@ class Resource extends Component {
         <div className="resource-img">
           <Image
             className="resource-img__img"
-            src={
+            imageUrl={
               this.props.image !== 'N/A'
                 ? this.props.image
                 : 'http://www.clker.com/cliparts/t/r/j/z/w/i/no-camera-allowed-hi.png'
