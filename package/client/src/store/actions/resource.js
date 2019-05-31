@@ -97,6 +97,7 @@ export const getResourceStatus = resourceId => {
 export const loadResource = (type, searchId) => {
   return dispatch => {
     dispatch(resourceStart(type, searchId));
+    if (!searchId || !type) throw new Error('');
     const id = searchId.split('__')[0];
     fetch(`http://localhost:3030/${type}/${id}`)
       .then(res => {

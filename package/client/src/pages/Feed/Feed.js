@@ -11,8 +11,14 @@ import './Feed.css';
 class Feed extends Component {
   componentDidMount() {
     this.props.loadPosts();
-    const user = localStorage.getItem('userId');
-    this.props.onLoadLists(user, null);
+    if (
+      this.props.doneList === null &&
+      this.props.inProgressList === null &&
+      this.props.wantList === null
+    ) {
+      const user = localStorage.getItem('userId');
+      this.props.onLoadLists(user, null);
+    }
   }
 
   render() {
@@ -37,6 +43,7 @@ class Feed extends Component {
               <Loader />
             </div>
           )}
+          <h1 className="page__title">Updates</h1>
           {this.props.posts.length <= 0 && !this.props.postsLoading ? (
             <h1 style={{ textAlign: 'center' }}>No posts found.</h1>
           ) : null}

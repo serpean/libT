@@ -10,6 +10,7 @@ import SearchButton from '../SearchButton/SearchButton';
 import * as actions from '../../../store/actions/index';
 
 import './MainNavigation.css';
+import SearchMobile from '../SearchButton/SearchMobile/SearchMobile';
 
 const mainNavigation = props => (
   <nav className="main-nav">
@@ -20,6 +21,7 @@ const mainNavigation = props => (
     </div>
     <div className="main-nav__search">{props.isAuth && <SearchButton />}</div>
 
+    <SearchMobile />
     <MobileToggle onOpen={props.onOpenMobileNav} />
     <ul className="main-nav__items">
       <NavigationItems isAuth={props.isAuth} onLogout={props.onLogout} />

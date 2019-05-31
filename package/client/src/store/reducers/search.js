@@ -5,7 +5,8 @@ const initialState = {
   res: [],
   totalResources: 0,
   resourcePage: 1,
-  loading: false
+  loading: false,
+  filterBy: 'all'
 };
 
 const searchStartOne = (state, action) => {
@@ -46,6 +47,12 @@ const searchFail = (state, action) => {
   });
 };
 
+const filterHandler = (state, action) => {
+  return updateObject(state, {
+    filterBy: action.filterBy
+  });
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SEARCH_START_ONE:
@@ -60,6 +67,8 @@ export default (state = initialState, action) => {
       return searchFail(state, action);
     case actionTypes.UPDATE_SEARCH:
       return updateRes(state, action);
+    case actionTypes.FILTER_HANDLER:
+      return filterHandler(state, action);
     default:
       return state;
   }

@@ -16,4 +16,4 @@ export {
   cancelEditHandler
 } from './library';
 
-export { onSearch } from './search';
+export { onSearch, handleFilter } from './search';

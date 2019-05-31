@@ -21,6 +21,7 @@ export const searchStartThree = () => {
 };
 
 export const searchSuccess = data => {
+  console.log(data);
   return {
     type: actionTypes.SEARCH_SUCCESS,
     loading: false,
@@ -76,5 +77,12 @@ export const onSearch = (id, value, direction, page) => {
       dispatch(addError(err));
       dispatch(searchFail());
     }
+  };
+};
+
+export const handleFilter = event => {
+  return {
+    type: actionTypes.FILTER_HANDLER,
+    filterBy: event.target.value
   };
 };

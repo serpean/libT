@@ -1,16 +1,16 @@
 exports.createParser = type => {
   let parser;
   switch (type) {
-    case "book":
+    case 'book':
       parser = this.bookParser;
 
       break;
-    case "movie":
-    case "book":
+    case 'movie':
+    case 'book':
       parser = this.omdbParser;
       break;
     default:
-      const error = new Error("Unhandler parser");
+      const error = new Error('Unhandler parser');
       error.statusCode = 404;
       throw error;
   }
@@ -29,15 +29,16 @@ exports.bookParser = data => {
         title: element.volumeInfo.title,
         authors: element.volumeInfo.authors,
         id: `${element.id}__google`,
-        type: "book",
-        image: imageLinks && imageLinks.thumbnail ? imageLinks.thumbnail : "N/A"
+        description: element.volumeInfo.description,
+        type: 'book',
+        image: imageLinks && imageLinks.thumbnail ? imageLinks.thumbnail : 'N/A'
       };
     })
   };
 };
 
 exports.omdbParser = data => {
-  if (data.Response === "False")
+  if (data.Response === 'False')
     return { search: [], totalResults: 0, response: false };
   return {
     totalResults: data.totalResults,
@@ -47,6 +48,7 @@ exports.omdbParser = data => {
         title: element.Title,
         id: `${element.imdbID}__omdb`,
         type: element.Type,
+        description: element.Plot,
         image: element.Poster
       };
     })

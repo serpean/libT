@@ -1,0 +1,10 @@
+.page__title {
+  border-bottom: 1px solid #e5e3dd;
+  padding-bottom: 0.5rem;
+}
+
+.align-rigth {
+  margin-right: 20px;
+  margin-left: auto;
+  text-align: right;
+}

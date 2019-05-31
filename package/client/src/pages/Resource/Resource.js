@@ -23,7 +23,7 @@ class Resource extends Component {
   }
   componentDidUpdate() {
     const searchId = this.props.match.params.id;
-    if (this.props.id !== searchId) {
+    if (this.props.id !== null && this.props.id != searchId) {
       const type = this.props.match.params.type;
       this.props.onLoadResource(type, searchId);
       this.props.onLoadStatus(searchId);
@@ -68,52 +68,63 @@ class Resource extends Component {
     if (this.props.authors.length > 0) {
       authors = 'by ' + this.props.authors.map(a => ` ${a}`);
     }
-    const resourcePage = !this.props.loadingResource ? (
-      <div className="resource">
-        <div className="resource-img">
-          <Image
-            className="resource-img__img"
-            imageUrl={
-              this.props.image !== 'N/A'
-                ? this.props.image
-                : 'http://www.clker.com/cliparts/t/r/j/z/w/i/no-camera-allowed-hi.png'
-            }
-            alt={this.props.title}
-          />
-          {this.props.loadingStatus ? (
-            <Loader />
-          ) : (
-            <ResourceButton
-              mode="flat"
-              actualState={this.props.status}
-              lists={this.props.lists}
-              onClick={this.resourceHandler.bind(this)}
+    let resourcePage = !this.props.loadingResource ? (
+      this.props.title === null ? (
+        <h1>Not resource found!</h1>
+      ) : (
+        <div className="resource">
+          <div className="resource-img">
+            <Image
+              className="resource-img__img"
+              imageUrl={
+                this.props.image !== 'N/A'
+                  ? this.props.image
+                  : 'http://www.clker.com/cliparts/t/r/j/z/w/i/no-camera-allowed-hi.png'
+              }
+              alt={this.props.title}
             />
-          )}
-        </div>
-
-        <div className="resource-content">
-          <div className="resource-content__type">Type: {this.props.type}</div>
-          <h1 className="resource-content__title">{this.props.title}</h1>
-          <div className="resource-content__authors">{authors}</div>
-          <div
-            className={[
-              'resource-content__description',
-              this.state.moreDescription ? 'expanded' : null
-            ].join(' ')}
-          >
-            {this.props.description}
+            {this.props.loadingStatus ? (
+              <Loader />
+            ) : (
+              <ResourceButton
+                mode="flat"
+                actualState={this.props.status}
+                lists={this.props.lists}
+                onClick={this.resourceHandler.bind(this)}
+              />
+            )}
           </div>
 
-          {this.props.description && this.props.description.length > 250 ? (
-            <Button
-              onClick={() => this.readMoreHandler(this.state.moreDescription)}
+          <div className="resource-content">
+            <div className="resource-content__type">
+              Type: {this.props.type}
+            </div>
+            <h1 className="resource-content__title">{this.props.title}</h1>
+            <div className="resource-content__authors">{authors}</div>
+            <div
+              className={[
+                'resource-content__description',
+                this.state.moreDescription ? 'expanded' : null
+              ].join(' ')}
             >
-              {this.state.moreDescription ? 'Show less -' : 'Show more +'}
-            </Button>
-          ) : null}
+              {this.props.description}
+            </div>
+
+            {this.props.description && this.props.description.length > 250 ? (
+              <div className="align-rigth">
+                <Button
+                  mode="flat"
+                  onClick={() =>
+                    this.readMoreHandler(this.state.moreDescription)
+                  }
+                >
+                  {this.state.moreDescription ? 'Show less -' : 'Show more +'}
+                </Button>
+              </div>
+            ) : null}
+          </div>
         </div>
-      </div>
+      )
     ) : (
       <Loader />
     );
@@ -134,7 +145,8 @@ const mapStateToProps = state => {
     image: state.resource.image,
     description: state.resource.description,
     loadingResource: state.resource.loadingResource,
-    loadingStatus: state.resource.loadingStatus
+    loadingStatus: state.resource.loadingStatus,
+    error: state.common.error
   };
 };
 

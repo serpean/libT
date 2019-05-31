@@ -52,4 +52,5 @@
 .status--2,
 .status--3 {
   cursor: not-allowed;
+  pointer-events: none;
 }

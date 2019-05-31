@@ -1,0 +1,11 @@
+.search__icon {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  color: #000;
+}
+
+@media (min-width: 768px) {
+  .search__icon {
+    display: none;
+  }
+}
