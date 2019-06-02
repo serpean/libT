@@ -99,7 +99,7 @@ export const loadList = listId => {
   return dispatch => {
     dispatch(listStart());
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:3001/api/lists/list/${listId}`, {
+    fetch(`/api/lists/list/${listId}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -161,10 +161,6 @@ export const updateLibraryHandler = list => {
   return dispatch => dispatch(editListStart(list));
 };
 
-export const startEditPostHandler = data => {
-  return dispatch => dispatch(editListStart(data));
-};
-
 export const cancelEditHandler = () => {
   return dispatch => dispatch(editListFail());
 };
@@ -177,10 +173,10 @@ export const finishEditHandler = (listData, editList) => {
     formData.append('title', listData.title);
     formData.append('description', listData.description);
     formData.append('public', listData.public);
-    let url = 'http://localhost:3001/api/lists/';
+    let url = '/api/lists/';
     let method = 'POST';
     if (editList) {
-      url = 'http://localhost:3001/api/lists/' + editList._id;
+      url = '/api/lists/' + editList._id;
       method = 'PUT';
     }
 
@@ -204,6 +200,7 @@ export const finishEditHandler = (listData, editList) => {
       })
       .catch(err => {
         dispatch(editListFail(err));
+        dispatch(addError(err));
       });
   };
 };
@@ -212,7 +209,7 @@ export const deletePostHandler = (listId, nextList) => {
   return dispatch => {
     dispatch(listsStart());
     const token = localStorage.getItem('token');
-    fetch('http://localhost:3001/api/lists/' + listId, {
+    fetch('/api/lists/' + listId, {
       method: 'DELETE',
       headers: {
         Authorization: 'Bearer ' + token
@@ -231,6 +228,7 @@ export const deletePostHandler = (listId, nextList) => {
       })
       .catch(err => {
         dispatch(listsFail(err));
+        dispatch(addError(err));
       });
   };
 };

@@ -23,7 +23,7 @@ class Resource extends Component {
   }
   componentDidUpdate() {
     const searchId = this.props.match.params.id;
-    if (this.props.id !== null && this.props.id != searchId) {
+    if (searchId && this.props.id !== null && this.props.id !== searchId) {
       const type = this.props.match.params.type;
       this.props.onLoadResource(type, searchId);
       this.props.onLoadStatus(searchId);

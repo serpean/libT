@@ -5,8 +5,8 @@ import './NavigationItems.css';
 
 const navItems = [
   { id: 'home', text: 'Home', link: '/', auth: true },
-  { id: 'library', text: 'Bibliotecas', link: '/library', auth: true },
-  { id: 'perfil', text: 'Perfil', link: '/profile', auth: true },
+  { id: 'library', text: 'My libraries', link: '/library', auth: true },
+  { id: 'perfil', text: 'Profile', link: '/profile', auth: true },
   { id: 'login', text: 'Login', link: '/login', auth: false },
   { id: 'signup', text: 'Signup', link: '/signup', auth: false }
 ];

@@ -1,0 +1,15 @@
+.profile-lib__entry-title a {
+  color: black;
+  font-size: 1.2rem;
+}
+
+.profile-lib__entry-title a:hover,
+.profile-lib__entry-title a:active {
+  color: #4b4b4b;
+}
+
+.profile-lib__entry-number,
+.profile-lib__entry-description {
+  color: #808080;
+  font-size: 0.75rem;
+}

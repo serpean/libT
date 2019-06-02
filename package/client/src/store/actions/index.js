@@ -17,3 +17,11 @@ export {
 } from './library';
 
 export { onSearch, handleFilter } from './search';
+
+export {
+  loadProfile,
+  handleTab,
+  cancelProfileEditHandler,
+  finishProfileEditHandler,
+  updateProfileHandler
+} from './profile';

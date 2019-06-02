@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Image from './Image';
 import './Avatar.css';
 
 const avatar = props => (
@@ -8,7 +7,11 @@ const avatar = props => (
     className="avatar"
     style={{ width: props.size + 'rem', height: props.size + 'rem' }}
   >
-    <Image imageUrl={props.image} />
+    <img
+      style={{ color: 'black', width: '100%', height: '100%' }}
+      alt={props.alt}
+      src={props.src}
+    />
   </div>
 );
 

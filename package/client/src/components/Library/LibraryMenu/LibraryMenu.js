@@ -29,11 +29,13 @@ const library = props => {
           </Link>
         </li>
         <hr />
-        <li>
-          <Button design="success" onClick={() => props.addList(props.token)}>
-            + New
-          </Button>
-        </li>
+        {props.userId === props.username && (
+          <li>
+            <Button design="success" onClick={() => props.addList(props.token)}>
+              + New
+            </Button>
+          </li>
+        )}
         {props.extraLists.map(list => {
           return (
             <li key={list._id} className="sideNav__link">
@@ -51,6 +53,7 @@ const library = props => {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
+    username: state.auth.userId,
     wantList: state.library.wantList,
     inProgressList: state.library.inProgressList,
     doneList: state.library.doneList,

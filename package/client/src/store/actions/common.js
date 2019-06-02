@@ -5,6 +5,5 @@ export const errorHandler = () => {
 };
 
 export const addError = error => {
-  console.log(error);
   return { type: actionTypes.ADD_ERROR, error: error };
 };

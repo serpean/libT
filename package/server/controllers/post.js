@@ -7,12 +7,12 @@ exports.getPosts = async (req, res, next) => {
     const maxResults = req.query.maxResults || 10;
     const user = await User.findById(req.userId);
     const totalItemsPromise = Post.find({
-      creator: { $in: [...user.followed, user.id] }
+      creator: { $in: [...user.following, user.id] }
     })
       .countDocuments()
       .exec();
     const postsPromise = Post.find({
-      creator: { $in: [...user.followed, user.id] }
+      creator: { $in: [...user.following, user.id] }
     })
       .skip((currentPage - 1) * maxResults)
       .limit(maxResults)

@@ -35,7 +35,7 @@ const userSchema = new Schema(
         ref: 'User'
       }
     ],
-    followed: [
+    following: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -89,15 +89,17 @@ userSchema.methods.toProfileJSONFor = function(user) {
   return {
     username: this.username,
     bio: this.bio,
-    image:
-      this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
-    isFollowing: user ? user.isFollowing(this._id) : false
+    image: this.image || '/api/public/images/default_user.svg',
+    isFollowing: user ? user.isFollowing(this._id) : false,
+    lists: this.lists,
+    following: this.following,
+    followers: this.followers
   };
 };
 
 userSchema.methods.follow = async function(id) {
-  if (this.followed.indexOf(id) === -1) {
-    this.followed.push(id);
+  if (this.following.indexOf(id) === -1) {
+    this.following.push(id);
     const unfollowUser = await this.findById(id);
     if (unfollowUser.followers.indexOf(id) === -1) {
       unfollowUser.followers.remove(this._id);
@@ -109,7 +111,7 @@ userSchema.methods.follow = async function(id) {
 };
 
 userSchema.methods.unfollow = async function(id) {
-  this.followed.remove(id);
+  this.following.remove(id);
   const unfollowUser = await this.findById(id);
   if (unfollowUser.followers.indexOf(this._id) !== -1) {
     unfollowUser.followers.remove(this._id);
@@ -120,7 +122,7 @@ userSchema.methods.unfollow = async function(id) {
 };
 
 userSchema.methods.isFollowing = function(id) {
-  return this.followed.some(followId => {
+  return this.following.some(followId => {
     return followId.toString() === id.toString();
   });
 };

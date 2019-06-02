@@ -21,7 +21,7 @@ const mainNavigation = props => (
     </div>
     <div className="main-nav__search">{props.isAuth && <SearchButton />}</div>
 
-    <SearchMobile />
+    {props.isAuth && <SearchMobile />}
     <MobileToggle onOpen={props.onOpenMobileNav} />
     <ul className="main-nav__items">
       <NavigationItems isAuth={props.isAuth} onLogout={props.onLogout} />

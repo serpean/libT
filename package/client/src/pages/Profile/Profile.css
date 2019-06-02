@@ -1,0 +1,26 @@
+.profile {
+  display: flex;
+  width: 100%;
+}
+
+.profile__sidenav {
+  width: 30%;
+}
+
+.profile__main {
+  width: 70%;
+}
+
+@media (max-width: 768px) {
+  .profile {
+    display: block;
+  }
+
+  .profile__sidenav {
+    width: 100%;
+  }
+
+  .profile__main {
+    width: 100%;
+  }
+}
