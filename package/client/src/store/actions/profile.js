@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { addError } from './common';
+import { updateUser } from './auth';
 
 export const profileStart = () => {
   return {
@@ -32,7 +33,6 @@ export const loadProfile = username => {
         throw new Error('Failed to fetch user.');
       }
       const resData = await res.json();
-      console.log(resData);
       dispatch(profileSuccess(resData.user));
     } catch (err) {
       dispatch(profileFail());
@@ -56,10 +56,11 @@ export const editProfileStart = data => {
   };
 };
 
-export const editProfileSuccess = () => {
+export const editProfileSuccess = user => {
   return {
+    user: user,
     isEditing: false,
-    editPost: null,
+    editProfile: null,
     editProfileLoading: false,
     type: actionTypes.EDIT_PROFILE_SUCCESS
   };
@@ -82,6 +83,7 @@ export const editProfileLoadStart = () => {
 };
 
 export const updateProfileHandler = user => {
+  console.log(user);
   return dispatch => dispatch(editProfileStart(user));
 };
 
@@ -89,15 +91,16 @@ export const cancelProfileEditHandler = () => {
   return dispatch => dispatch(editProfileFail());
 };
 
-export const finishProfileEditHandler = (profileData, editProfile) => {
+export const finishProfileEditHandler = profileData => {
   return async dispatch => {
     dispatch(editProfileLoadStart());
     const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
     const formData = new FormData();
     formData.append('username', profileData.username);
     formData.append('bio', profileData.bio);
-    formData.append('image', profileData.public);
-    let url = '/api/user/' + editProfile.username;
+    formData.append('image', profileData.image);
+    let url = `/api/user/${userId}`;
     let method = 'PUT';
     try {
       const res = await fetch(url, {
@@ -107,15 +110,40 @@ export const finishProfileEditHandler = (profileData, editProfile) => {
           Authorization: 'Bearer ' + token
         }
       });
+      if (res.status === 401) {
+        throw new Error('Username already take it!');
+      }
       if (res.status !== 200 && res.status !== 201) {
-        throw new Error('Creating or Editing a list failed!');
+        throw new Error('User update failed!');
       }
       const resData = await res.json();
-      dispatch(editProfileSuccess(resData));
-      //cambiar userId del estado
+      dispatch(editProfileSuccess(resData.user));
+      dispatch(updateUser(resData.user.username));
     } catch (err) {
       dispatch(editProfileFail(err));
       dispatch(addError(err));
     }
+  };
+};
+
+export const followUser = (followers, following) => {
+  return {
+    type: actionTypes.FOLLOW_USER,
+    followers: followers,
+    following: following
+  };
+};
+
+export const onFollow = followUser => {
+  return async dispatch => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`/api/user/follow/${followUser}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    const resData = await res.json();
+
+    // get followers and following
   };
 };

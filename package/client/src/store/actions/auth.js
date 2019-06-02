@@ -121,3 +121,11 @@ export const authCheckState = () => {
     }
   };
 };
+
+export const updateUser = userId => {
+  localStorage.setItem('userId', userId);
+  return {
+    type: actionTypes.UPDATE_USER,
+    userId: userId
+  };
+};

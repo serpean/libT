@@ -29,6 +29,7 @@ const userSchema = new Schema(
       require: true
     },
     bio: String,
+    image: String,
     followers: [
       {
         type: Schema.Types.ObjectId,
@@ -89,7 +90,9 @@ userSchema.methods.toProfileJSONFor = function(user) {
   return {
     username: this.username,
     bio: this.bio,
-    image: this.image || '/api/public/images/default_user.svg',
+    image: this.image
+      ? `/api/${this.image}`
+      : '/api/public/images/default_user.svg',
     isFollowing: user ? user.isFollowing(this._id) : false,
     lists: this.lists,
     following: this.following,

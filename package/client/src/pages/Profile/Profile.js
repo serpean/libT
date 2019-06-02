@@ -37,21 +37,32 @@ class Profile extends Component {
         <div className="profile">
           <div className="profile__sidenav">
             <Avatar alt={this.props.username} src={this.props.user.image} />
-            <div className="profile__username">{this.props.user.username}</div>
-            <div className="profile__bio">{this.props.user.bio}</div>
-            <div className="profile__controls">
-              {this.props.user.username === this.props.userId ? (
-                <Button
-                  mode="flat"
-                  onClick={this.props.onEditProfile.bind(this, this.props.user)}
-                >
-                  Edit
-                </Button>
-              ) : (
-                <Button mode="flat" onClick={this.handleFollow}>
-                  {this.props.user.isFollowing ? 'Unfollow' : 'Follow'}
-                </Button>
-              )}
+            <div className="profile__meta">
+              <div className="profile__username">
+                {this.props.user.username}
+              </div>
+              <div className="profile__bio">{this.props.user.bio}</div>
+              <div className="profile__controls">
+                {this.props.user.username === this.props.userId ? (
+                  <Button
+                    mode=""
+                    onClick={this.props.onEditProfile.bind(
+                      this,
+                      this.props.user
+                    )}
+                  >
+                    Edit
+                  </Button>
+                ) : (
+                  <Button
+                    design=""
+                    mode={this.props.user.isFollowing ? 'danger' : 'success'}
+                    onClick={this.handleFollow}
+                  >
+                    {this.props.user.isFollowing ? 'Unfollow' : 'Follow'}
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
           <div className="profile__main">

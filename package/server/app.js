@@ -11,8 +11,34 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/images/users');
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      new Date().toISOString().replace(/:/g, '_') + '-' + file.originalname
+    );
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 app.use(logger('dev'));
-app.use(multer().none());
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/public', express.static(path.join(__dirname, 'public')));

@@ -15,13 +15,13 @@ const PROFILE_FORM = {
     value: '',
     valid: false,
     touched: false,
-    validators: [required, length({ min: 5 })]
+    validators: [required, length({ min: 3 })]
   },
   bio: {
     value: '',
     valid: false,
     touched: false,
-    validators: [required, length({ min: 5 })]
+    validators: [required, length({ min: 3 })]
   },
   image: {
     value: true,
@@ -126,9 +126,9 @@ class FeedEdit extends Component {
     const profile = {
       username: this.state.profileForm.username.value,
       bio: this.state.profileForm.bio.value,
-      public: this.state.profileForm.public.value
+      image: this.state.profileForm.image.value
     };
-    this.props.onFinishEdit(profile, this.props.editProfile);
+    this.props.onFinishEdit(profile);
     this.setState({
       profileForm: PROFILE_FORM,
       formIsValid: false
@@ -204,8 +204,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFinishEdit: (list, editProfile) =>
-      dispatch(actions.finishProfileEditHandler(list, editProfile)),
+    onFinishEdit: profile =>
+      dispatch(actions.finishProfileEditHandler(profile)),
     onCancelEdit: () => dispatch(actions.cancelProfileEditHandler())
   };
 };

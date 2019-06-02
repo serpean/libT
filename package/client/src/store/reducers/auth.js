@@ -33,6 +33,10 @@ const setAuthRedirectPath = (state, action) => {
   return updateObject(state, { authRedirectPath: action.path });
 };
 
+const updateUser = (state, action) => {
+  return updateObject(state, { userId: action.userId });
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
@@ -45,6 +49,8 @@ export default (state = initialState, action) => {
       return authLogout(state, action);
     case actionTypes.SET_AUTH_REDIRECT_PATH:
       return setAuthRedirectPath(state, action);
+    case actionTypes.UPDATE_USER:
+      return updateUser(state, action);
     default:
       return state;
   }

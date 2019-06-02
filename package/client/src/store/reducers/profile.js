@@ -17,7 +17,6 @@ const profileStart = (state, action) => {
 };
 
 const profileSuccess = (state, action) => {
-  console.log(action);
   return updateObject(state, {
     user: action.user,
     loadingProfile: false
@@ -52,6 +51,12 @@ const editProfileLoadStart = (state, action) => {
 
 const editProfileSuccess = (state, action) => {
   return updateObject(state, {
+    user: {
+      ...state.user,
+      username: action.user.username,
+      bio: action.user.bio,
+      image: action.user.image
+    },
     isEditing: false,
     editLoading: false
   });
@@ -60,7 +65,18 @@ const editProfileSuccess = (state, action) => {
 const editProfileFail = (state, action) => {
   return updateObject(state, {
     isEditing: false,
+    editProfile: null,
     editLoading: false
+  });
+};
+
+const followUser = (state, action) => {
+  return updateObject(state, {
+    user: {
+      ...state.user,
+      following: action.user.following,
+      followers: action.user.followers
+    }
   });
 };
 

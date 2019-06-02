@@ -11,6 +11,17 @@
   width: 70%;
 }
 
+.profile__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__username,
+.profile__bio,
+.profile__controls {
+  margin: 0 auto;
+}
+
 @media (max-width: 768px) {
   .profile {
     display: block;
