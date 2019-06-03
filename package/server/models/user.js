@@ -93,38 +93,19 @@ userSchema.methods.toProfileJSONFor = function(user) {
     image: this.image
       ? `/api/${this.image}`
       : '/api/public/images/default_user.svg',
-    isFollowing: user ? user.isFollowing(this._id) : false,
+    isFollowing: user ? user.isFollowing(this._id) : undefined,
     lists: this.lists,
-    following: this.following,
-    followers: this.followers
+    following: this.following.map(user => {
+      return { ...user._doc, _id: undefined };
+    }),
+    followers: this.followers.map(user => {
+      return { ...user._doc, _id: undefined };
+    })
   };
 };
 
-userSchema.methods.follow = async function(id) {
-  if (this.following.indexOf(id) === -1) {
-    this.following.push(id);
-    const unfollowUser = await this.findById(id);
-    if (unfollowUser.followers.indexOf(id) === -1) {
-      unfollowUser.followers.remove(this._id);
-      await unfollowUser.save();
-    }
-  }
-
-  return this.save();
-};
-
-userSchema.methods.unfollow = async function(id) {
-  this.following.remove(id);
-  const unfollowUser = await this.findById(id);
-  if (unfollowUser.followers.indexOf(this._id) !== -1) {
-    unfollowUser.followers.remove(this._id);
-    await unfollowUser.save();
-  }
-
-  return this.save();
-};
-
 userSchema.methods.isFollowing = function(id) {
+  console.log(id);
   return this.following.some(followId => {
     return followId.toString() === id.toString();
   });

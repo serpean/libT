@@ -23,5 +23,7 @@ export {
   handleTab,
   cancelProfileEditHandler,
   finishProfileEditHandler,
-  updateProfileHandler
+  updateProfileHandler,
+  onFollow,
+  isFollowing
 } from './profile';

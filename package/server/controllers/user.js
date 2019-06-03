@@ -9,9 +9,10 @@ const { newError } = require('../util/errorHandler');
 exports.getUser = async (req, res, next) => {
   const username = req.params.username;
   try {
-    const user = await User.findOne({ username: username }).populate(
-      'lists followers following'
-    );
+    const user = await User.findOne({ username: username })
+      .populate('lists')
+      .populate('followers', 'username image')
+      .populate('following', 'username image');
 
     if (user === null) {
       const error = new Error('Not user found!');
@@ -87,30 +88,41 @@ exports.updateUser = async (req, res, next) => {
 
 exports.followUser = async (req, res, next) => {
   const username = req.params.username;
-
+  // Username a object instead of a string
+  console.log(req.params);
   try {
-    const userPromise = User.findById(req.userId);
-    const userToFollowPromise = User.findOne({ username: username });
+    const sourceUserPromise = User.findById(req.userId)
+      .populate('followers', 'username')
+      .populate('following', 'username');
+    const targetUserPromise = User.findOne({ username: username });
 
-    const [user, userToFollow] = await Promise.all([
-      userPromise,
-      userToFollowPromise
+    const [sourceUser, targetUser] = await Promise.all([
+      sourceUserPromise,
+      targetUserPromise
     ]);
 
-    if (user._id === userToFollow._id)
+    if (sourceUser._id === targetUser._id)
       newError(403, 'You cannot follow yourself');
 
-    let result;
+    let sourceUserResult, targetUserResult;
 
-    if (user.isFollowing(userToFollow.id)) {
-      result = await user.follow(userToFollow.id);
+    if (!sourceUser.isFollowing(targetUser.id)) {
+      [sourceUserResult, targetUserResult] = await follow(
+        sourceUser,
+        targetUser
+      );
     } else {
-      result = await user.unfollow(userToFollow.id);
+      [sourceUserResult, targetUserResult] = await unfollow(
+        sourceUser,
+        targetUser
+      );
     }
 
     res.status(200).json({
-      message: user.isFollowing(userToFollow.id) ? 'follow' : 'unfollow',
-      user: result
+      message: sourceUserResult.isFollowing(targetUserResult.id.toString())
+        ? 'follow'
+        : 'unfollow',
+      user: targetUserResult.toProfileJSONFor(sourceUserResult)
     });
   } catch (err) {
     if (!err.statusCode) {
@@ -118,6 +130,62 @@ exports.followUser = async (req, res, next) => {
     }
     next(err);
   }
+};
+
+exports.isFollowing = async (req, res, next) => {
+  const username = req.params.username;
+
+  try {
+    const sourceUserPromise = User.findById(req.userId)
+      .populate('followers', 'username')
+      .populate('following', 'username');
+    const targetUserPromise = User.findOne({ username: username });
+
+    const [sourceUser, targetUser] = await Promise.all([
+      sourceUserPromise,
+      targetUserPromise
+    ]);
+
+    if (sourceUser._id === targetUser._id)
+      newError(403, 'You cannot follow yourself');
+
+    res.status(200).json({
+      isFollowing: sourceUser.isFollowing(targetUser.id.toString())
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+const follow = (sourceUser, targetUser) => {
+  if (sourceUser.following.indexOf(targetUser.id.toString()) === -1) {
+    const updateFollowingList = [...sourceUser.following];
+    updateFollowingList.push(targetUser.id.toString());
+    sourceUser.following = updateFollowingList;
+  }
+  if (targetUser.following.indexOf(sourceUser.id.toString()) === -1) {
+    const updateFollowersList = [...targetUser.followers];
+    updateFollowersList.push(sourceUser.id.toString());
+    targetUser.followers = updateFollowersList;
+  }
+  return Promise.all([sourceUser.save(), targetUser.save()]);
+};
+
+const unfollow = (sourceUser, targetUser) => {
+  if (sourceUser.following.indexOf(targetUser.id.toString()) !== -1) {
+    const updateFollowingList = [...sourceUser.following];
+    updateFollowingList.remove(targetUser.id.toString());
+    sourceUser.following = updateFollowingList;
+  }
+  if (targetUser.following.indexOf(sourceUser.id.toString()) !== -1) {
+    const updateFollowersList = [...targetUser.followers];
+    updateFollowersList.remove(sourceUser.id.toString());
+    targetUser.followers = updateFollowersList;
+  }
+  return Promise.all([sourceUser.save(), targetUser.save()]);
 };
 
 const clearImage = filePath => {

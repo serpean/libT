@@ -126,6 +126,30 @@ export const finishProfileEditHandler = profileData => {
   };
 };
 
+export const isFollowingStart = () => {
+  return {
+    type: actionTypes.ISFOLLOWING_START,
+    loadingFollowing: true,
+    isFolloing: false
+  };
+};
+
+export const isFollowingSuccess = isFollowing => {
+  return {
+    type: actionTypes.ISFOLLOWING_SUCCESS,
+    loadingFollowing: false,
+    isFolloing: isFollowing
+  };
+};
+
+export const isFollowingFail = () => {
+  return {
+    type: actionTypes.ISFOLLOWING_FAIL,
+    loadingFollowing: false,
+    isFolloing: false
+  };
+};
+
 export const followUser = (followers, following) => {
   return {
     type: actionTypes.FOLLOW_USER,
@@ -138,12 +162,33 @@ export const onFollow = followUser => {
   return async dispatch => {
     const token = localStorage.getItem('token');
     const res = await fetch(`/api/user/follow/${followUser}`, {
+      method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
     const resData = await res.json();
 
-    // get followers and following
+    console.log(resData);
+  };
+};
+
+export const isFollowing = username => {
+  return async dispatch => {
+    dispatch(isFollowingStart());
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/user/${username}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const resData = await res.json();
+      dispatch(isFollowingSuccess(resData.isFollowing));
+    } catch (err) {
+      dispatch(isFollowingFail());
+      dispatch(addError(err));
+    }
   };
 };

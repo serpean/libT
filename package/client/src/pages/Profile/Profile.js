@@ -15,6 +15,7 @@ class Profile extends Component {
   componentDidMount() {
     const user = this.props.match.params.username || this.props.userId;
     this.props.onLoadProfile(user);
+    this.props.isFollowing(user);
   }
 
   componentDidUpdate() {
@@ -23,8 +24,10 @@ class Profile extends Component {
       this.props.match.params.username &&
       this.props.user !== null &&
       this.props.match.params.username !== this.props.user.username
-    )
+    ) {
       this.props.onLoadProfile(user);
+      this.props.isFollowing(user);
+    }
   }
 
   handleEdit() {}
@@ -53,14 +56,16 @@ class Profile extends Component {
                   >
                     Edit
                   </Button>
-                ) : (
+                ) : !this.props.loadingFollowing ? (
                   <Button
                     design=""
-                    mode={this.props.user.isFollowing ? 'danger' : 'success'}
-                    onClick={this.handleFollow}
+                    mode={this.props.isFollowing ? 'danger' : 'success'}
+                    onClick={this.props.onFollow.bind(this.props.user.username)}
                   >
-                    {this.props.user.isFollowing ? 'Unfollow' : 'Follow'}
+                    {this.props.isFollowing ? 'Unfollow' : 'Follow'}
                   </Button>
+                ) : (
+                  <Loader />
                 )}
               </div>
             </div>
@@ -89,14 +94,18 @@ const mapStateToProps = state => {
   return {
     userId: state.auth.userId,
     user: state.profile.user,
-    loadingProfile: state.profile.loadingProfile
+    loadingProfile: state.profile.loadingProfile,
+    loadingFollowing: state.profile.loadingFollowing,
+    isFollowing: state.profile.isFollowing
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onLoadProfile: username => dispatch(actions.loadProfile(username)),
-    onEditProfile: username => dispatch(actions.updateProfileHandler(username))
+    onEditProfile: username => dispatch(actions.updateProfileHandler(username)),
+    onFollow: username => dispatch(actions.onFollow(username)),
+    isFollowing: username => dispatch(actions.isFollowing(username))
   };
 };
 

@@ -24,4 +24,6 @@ router.put(
 
 router.put('/follow/:username', isAuth, userController.followUser);
 
+router.get('/follow/:username', isAuth, userController.isFollowing);
+
 module.exports = router;

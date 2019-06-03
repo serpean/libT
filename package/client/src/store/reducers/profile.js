@@ -5,9 +5,11 @@ const initialState = {
   user: null,
   loadingProfile: false,
   tab: 0,
+  isFolling: false,
   isEditing: false,
   editProfile: null,
-  editLoading: false
+  editLoading: false,
+  loadingFollowing: false
 };
 
 const profileStart = (state, action) => {
@@ -80,6 +82,27 @@ const followUser = (state, action) => {
   });
 };
 
+const isFollowingStart = (state, action) => {
+  return updateObject(state, {
+    isFollowing: false,
+    loadingFollowing: true
+  });
+};
+
+const isFollowingSuccess = (state, action) => {
+  return updateObject(state, {
+    isFollowing: action.isFollowing,
+    loadingFollowing: false
+  });
+};
+
+const isFollowingFail = (state, action) => {
+  return updateObject(state, {
+    isFollowing: false,
+    loadingFollowing: false
+  });
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PROFILE_START:
@@ -100,6 +123,12 @@ export default (state = initialState, action) => {
       return editProfileFail(state, action);
     case actionTypes.FOLLOW_USER:
       return followUser(state, action);
+    case actionTypes.ISFOLLOWING_START:
+      return isFollowingStart(state, action);
+    case actionTypes.ISFOLLOWING_SUCCESS:
+      return isFollowingSuccess(state, action);
+    case actionTypes.ISFOLLOWING_FAIL:
+      return isFollowingFail(state, action);
     default:
       return state;
   }
