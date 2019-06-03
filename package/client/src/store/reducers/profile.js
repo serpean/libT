@@ -98,6 +98,8 @@ export default (state = initialState, action) => {
       return editProfileSuccess(state, action);
     case actionTypes.EDIT_PROFILE_FAIL:
       return editProfileFail(state, action);
+    case actionTypes.FOLLOW_USER:
+      return followUser(state, action);
     default:
       return state;
   }
