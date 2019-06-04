@@ -130,7 +130,7 @@ export const isFollowingStart = () => {
   return {
     type: actionTypes.ISFOLLOWING_START,
     loadingFollowing: true,
-    isFolloing: false
+    isFollowing: false
   };
 };
 
@@ -138,7 +138,7 @@ export const isFollowingSuccess = isFollowing => {
   return {
     type: actionTypes.ISFOLLOWING_SUCCESS,
     loadingFollowing: false,
-    isFolloing: isFollowing
+    isFollowing: isFollowing
   };
 };
 
@@ -146,30 +146,34 @@ export const isFollowingFail = () => {
   return {
     type: actionTypes.ISFOLLOWING_FAIL,
     loadingFollowing: false,
-    isFolloing: false
+    isFollowing: false
   };
 };
 
-export const followUser = (followers, following) => {
+export const followUser = isFollowing => {
   return {
     type: actionTypes.FOLLOW_USER,
-    followers: followers,
-    following: following
+    isFollowing: isFollowing
   };
 };
 
-export const onFollow = followUser => {
+export const onFollow = user => {
   return async dispatch => {
-    const token = localStorage.getItem('token');
-    const res = await fetch(`/api/user/follow/${followUser}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    const resData = await res.json();
-
-    console.log(resData);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/user/follow`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: user })
+      });
+      const resData = await res.json();
+      dispatch(followUser(resData.isFollowing));
+    } catch (err) {
+      addError(err);
+    }
   };
 };
 
@@ -178,13 +182,14 @@ export const isFollowing = username => {
     dispatch(isFollowingStart());
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/user/${username}`, {
+      const res = await fetch(`/api/user/follow/${username}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
       const resData = await res.json();
+
       dispatch(isFollowingSuccess(resData.isFollowing));
     } catch (err) {
       dispatch(isFollowingFail());

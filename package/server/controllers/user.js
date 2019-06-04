@@ -87,13 +87,9 @@ exports.updateUser = async (req, res, next) => {
 };
 
 exports.followUser = async (req, res, next) => {
-  const username = req.params.username;
-  // Username a object instead of a string
-  console.log(req.params);
+  const username = req.body.username;
   try {
-    const sourceUserPromise = User.findById(req.userId)
-      .populate('followers', 'username')
-      .populate('following', 'username');
+    const sourceUserPromise = User.findById(req.userId);
     const targetUserPromise = User.findOne({ username: username });
 
     const [sourceUser, targetUser] = await Promise.all([
@@ -106,6 +102,7 @@ exports.followUser = async (req, res, next) => {
 
     let sourceUserResult, targetUserResult;
 
+    console.log(sourceUser.isFollowing(targetUser.id));
     if (!sourceUser.isFollowing(targetUser.id)) {
       [sourceUserResult, targetUserResult] = await follow(
         sourceUser,
@@ -117,12 +114,10 @@ exports.followUser = async (req, res, next) => {
         targetUser
       );
     }
-
+    const isFollowing = sourceUserResult.isFollowing(targetUserResult.id);
     res.status(200).json({
-      message: sourceUserResult.isFollowing(targetUserResult.id.toString())
-        ? 'follow'
-        : 'unfollow',
-      user: targetUserResult.toProfileJSONFor(sourceUserResult)
+      message: `Now, you ${isFollowing ? 'follow' : 'unfollow'} ${username}`,
+      isFollowing: isFollowing
     });
   } catch (err) {
     if (!err.statusCode) {
@@ -136,21 +131,15 @@ exports.isFollowing = async (req, res, next) => {
   const username = req.params.username;
 
   try {
-    const sourceUserPromise = User.findById(req.userId)
-      .populate('followers', 'username')
-      .populate('following', 'username');
-    const targetUserPromise = User.findOne({ username: username });
+    const targetUser = await User.findOne({ username: username });
 
-    const [sourceUser, targetUser] = await Promise.all([
-      sourceUserPromise,
-      targetUserPromise
-    ]);
-
-    if (sourceUser._id === targetUser._id)
+    if (req.userId === targetUser._id.toString())
       newError(403, 'You cannot follow yourself');
 
     res.status(200).json({
-      isFollowing: sourceUser.isFollowing(targetUser.id.toString())
+      isFollowing: targetUser.followers.some(
+        item => item._id.toString() === req.userId
+      )
     });
   } catch (err) {
     if (!err.statusCode) {
@@ -166,7 +155,7 @@ const follow = (sourceUser, targetUser) => {
     updateFollowingList.push(targetUser.id.toString());
     sourceUser.following = updateFollowingList;
   }
-  if (targetUser.following.indexOf(sourceUser.id.toString()) === -1) {
+  if (targetUser.followers.indexOf(sourceUser.id.toString()) === -1) {
     const updateFollowersList = [...targetUser.followers];
     updateFollowersList.push(sourceUser.id.toString());
     targetUser.followers = updateFollowersList;
@@ -176,13 +165,15 @@ const follow = (sourceUser, targetUser) => {
 
 const unfollow = (sourceUser, targetUser) => {
   if (sourceUser.following.indexOf(targetUser.id.toString()) !== -1) {
-    const updateFollowingList = [...sourceUser.following];
-    updateFollowingList.remove(targetUser.id.toString());
+    const updateFollowingList = sourceUser.following.filter(
+      item => item.toString() !== targetUser.id.toString()
+    );
     sourceUser.following = updateFollowingList;
   }
-  if (targetUser.following.indexOf(sourceUser.id.toString()) !== -1) {
-    const updateFollowersList = [...targetUser.followers];
-    updateFollowersList.remove(sourceUser.id.toString());
+  if (targetUser.followers.indexOf(sourceUser.id.toString()) !== -1) {
+    const updateFollowersList = targetUser.followers.filter(
+      item => item.toString() !== sourceUser.id.toString()
+    );
     targetUser.followers = updateFollowersList;
   }
   return Promise.all([sourceUser.save(), targetUser.save()]);

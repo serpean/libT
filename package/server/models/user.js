@@ -90,22 +90,27 @@ userSchema.methods.toProfileJSONFor = function(user) {
   return {
     username: this.username,
     bio: this.bio,
-    image: this.image
-      ? `/api/${this.image}`
-      : '/api/public/images/default_user.svg',
+    image: imageWithApi(this.image),
     isFollowing: user ? user.isFollowing(this._id) : undefined,
     lists: this.lists,
     following: this.following.map(user => {
-      return { ...user._doc, _id: undefined };
+      return {
+        ...user._doc,
+        _id: undefined,
+        image: imageWithApi(user._doc.image)
+      };
     }),
     followers: this.followers.map(user => {
-      return { ...user._doc, _id: undefined };
+      return {
+        ...user._doc,
+        _id: undefined,
+        image: imageWithApi(user._doc.image)
+      };
     })
   };
 };
 
 userSchema.methods.isFollowing = function(id) {
-  console.log(id);
   return this.following.some(followId => {
     return followId.toString() === id.toString();
   });
@@ -116,6 +121,10 @@ userSchema.methods.addList = function(id) {
     this.lists.push(id);
   }
   return this.save();
+};
+
+const imageWithApi = image => {
+  return image ? `/api/${image}` : '/api/public/images/default_user.svg';
 };
 
 module.exports = mongoose.model('User', userSchema);

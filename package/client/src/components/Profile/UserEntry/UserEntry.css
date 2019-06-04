@@ -1,0 +1,17 @@
+.profile-usr__entry {
+  display: flex;
+  align-items: center;
+}
+
+.profile-usr__entry > * {
+  padding-right: 2rem;
+}
+
+.profile-usr__entry-name > a {
+  color: black;
+}
+
+.profile-usr__entry-name > a:hover,
+.profile-usr__entry-name > a:active {
+  color: #808080;
+}

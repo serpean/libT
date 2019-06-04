@@ -5,7 +5,7 @@ const initialState = {
   user: null,
   loadingProfile: false,
   tab: 0,
-  isFolling: false,
+  isFollowing: false,
   isEditing: false,
   editProfile: null,
   editLoading: false,
@@ -74,11 +74,7 @@ const editProfileFail = (state, action) => {
 
 const followUser = (state, action) => {
   return updateObject(state, {
-    user: {
-      ...state.user,
-      following: action.user.following,
-      followers: action.user.followers
-    }
+    isFollowing: action.isFollowing
   });
 };
 

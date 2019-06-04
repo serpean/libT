@@ -6,8 +6,16 @@ const userController = require('../../controllers/user');
 
 const router = express.Router();
 
+// /api/user/follow/:username
+router.get('/follow/:username', isAuth, userController.isFollowing);
+
+// /api/user/follow/
+router.put('/follow', isAuth, userController.followUser);
+
+// /api/user/:username
 router.get('/:username', userController.getUser);
 
+// /api/user/:username
 router.put(
   '/:username',
   isAuth,
@@ -21,9 +29,5 @@ router.put(
   ],
   userController.updateUser
 );
-
-router.put('/follow/:username', isAuth, userController.followUser);
-
-router.get('/follow/:username', isAuth, userController.isFollowing);
 
 module.exports = router;

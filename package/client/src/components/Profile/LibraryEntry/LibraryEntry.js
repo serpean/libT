@@ -5,7 +5,7 @@ import './LibraryEntry.css';
 
 const libraryEntry = props => {
   return (
-    <div class="profile-lib__entry">
+    <div className="profile-lib__entry">
       <div className="profile-lib__entry-title">
         <Link to={`/library/${props.user}/${props.list._id}`}>
           {props.list.name}
