@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Layout from './Components/Layout/Layout.js';
+import Layout from './Components/Layout/Layout';
 import Backdrop from './Components/Backdrop/Backdrop';
 import ErrorHandler from './Components/ErrorHandler/ErrorHandler';
 import FeedPage from './Pages/Feed/Feed';
