@@ -1,6 +1,6 @@
-import React from './node_modules/react';
-import { NavLink } from './node_modules/react-router-dom';
-import { connect } from './node_modules/react-redux';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import MobileToggle from '../MobileToggle/MobileToggle';
 import Logo from '../../Logo/Logo';

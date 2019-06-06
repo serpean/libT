@@ -1,4 +1,4 @@
-import React, { Fragment } from './node_modules/react';
+import React, { Fragment } from 'react';
 
 import NavigationItems from '../NavigationItems/NavigationItems';
 import Backdrop from '../../Backdrop/Backdrop';

@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from './node_modules/react';
-import { connect } from './node_modules/react-redux';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
 import LibraryMenu from '../../Components/Library/LibraryMenu/LibraryMenu';

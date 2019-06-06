@@ -1,5 +1,5 @@
-import React, { Fragment } from './node_modules/react';
-import Typist from './node_modules/react-typist';
+import React, { Fragment } from 'react';
+import Typist from 'react-typist';
 
 import Card from '../../Components/Card/Card';
 

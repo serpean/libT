@@ -1,8 +1,8 @@
-import React from './node_modules/react';
+import React from 'react';
 
 import LibraryEntry from '../LibraryEntry/LibraryEntry';
 
-import { connect } from './node_modules/react-redux';
+import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
 
 import './ProfileTabs.css';

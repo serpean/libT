@@ -1,5 +1,5 @@
-import React, { Component } from './node_modules/react';
-import { connect } from './node_modules/react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Input from '../../Components/Form/Input/Input';
 import Button from '../../Components/Button/Button';

@@ -1,4 +1,4 @@
-import React from './node_modules/react';
+import React from 'react';
 
 import Button from '../../Button/Button';
 import Loader from '../../Loader/Loader';
