@@ -1,0 +1,64 @@
+.resource {
+  padding-top: 3rem;
+  display: flex;
+  margin: auto;
+  width: 80%;
+  max-width: 700px;
+}
+
+.resource-img {
+  margin: 0 1rem 1rem 0;
+  text-align: center;
+  align-items: center;
+}
+
+.resource-img__img {
+  display: block;
+  margin: auto;
+  width: 100%;
+  min-width: 10rem;
+  max-width: 10rem;
+  background-image: url('http://www.clker.com/cliparts/t/r/j/z/w/i/no-camera-allowed-hi.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0);
+}
+
+.resource-content__description {
+  width: 100%;
+  max-width: 400px;
+  max-height: 100px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.resource-content__description.expanded {
+  overflow: initial;
+  max-height: none;
+}
+
+.resource-content__title {
+  margin: 3px 0;
+}
+.resource-content__description {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .resource,
+  .resource-content__type {
+    display: block;
+    text-align: center;
+  }
+  .resource-content {
+    text-align: left;
+  }
+  .resource-content__description {
+    max-width: none;
+  }
+  .resource-img__img {
+    min-width: none;
+  }
+}

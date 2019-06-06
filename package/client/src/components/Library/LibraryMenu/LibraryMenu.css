@@ -1,0 +1,38 @@
+.sideNav {
+  height: 100%; /* 100% Full-height */
+  padding-top: 60px; /* Place content 60px from the top */
+  position: fixed;
+}
+
+.sideNav__link {
+  text-decoration: none;
+  color: #818181;
+  width: 100%;
+}
+
+.sideNav__link:active,
+.sideNav__link:hover {
+  background: #818181;
+  color: white;
+}
+.sideNav__link a {
+  color: inherit;
+  padding: 8px;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+}
+.sideNav__link a:active,
+.sideNav__link a:hover {
+  color: inherit;
+}
+
+.sideNav li {
+  list-style: none;
+}
+
+.sideNav-list {
+  padding: 0;
+  padding-right: 3rem;
+  margin: 0;
+}

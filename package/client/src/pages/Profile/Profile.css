@@ -1,0 +1,38 @@
+.profile {
+  display: flex;
+  width: 100%;
+}
+
+.profile__sidenav {
+  width: 30%;
+}
+
+.profile__main {
+  width: 70%;
+}
+
+.profile__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__username,
+.profile__bio,
+.profile__controls {
+  margin: 0 auto;
+  padding: 3px;
+}
+
+@media (max-width: 768px) {
+  .profile {
+    display: block;
+  }
+
+  .profile__sidenav {
+    width: 100%;
+  }
+
+  .profile__main {
+    width: 100%;
+  }
+}

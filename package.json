@@ -3,10 +3,17 @@
   "version": "1.0.0",
   "description": "LibT is a \"social cataloging\" website that allows individuals to freely search and reviews books, movies, \"series\" and videogames.",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "package/client",
+    "package/server",
+    "package/merge-api"
+  ],
   "scripts": {
-    "client": "cd client && npm start",
-    "server": "cd server && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client": "cd package/client && npm start",
+    "server": "cd package/server && npm start",
+    "merge-api": "cd package/merge-api && yarn start",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run merge-api\""
   },
   "repository": {
     "type": "git",

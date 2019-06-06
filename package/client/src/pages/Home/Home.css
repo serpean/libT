@@ -1,0 +1,32 @@
+.home__container {
+  display: block;
+  width: 100%;
+}
+
+.home {
+  position: relative;
+  height: 30vh;
+}
+
+.home__text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+}
+
+.cards {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 786px) {
+  .cards {
+    display: block;
+  }
+  .cards .card {
+    margin: 1rem auto;
+  }
+}

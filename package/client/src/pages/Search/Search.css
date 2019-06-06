@@ -1,0 +1,18 @@
+.search {
+  width: 100%;
+  max-width: 50rem;
+  margin: auto;
+}
+
+.search__options {
+  width: 100%;
+}
+
+.search__options > * {
+  margin: 0.5rem 0;
+}
+
+.search__item {
+  border-bottom: 1px solid #d3d1ca;
+  padding: 0.5rem;
+}

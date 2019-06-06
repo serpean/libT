@@ -1,0 +1,40 @@
+.profile__tabs-control {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.profile__tabs-control li {
+  list-style: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.profile__tabs-control li:active,
+.profile__tabs-control li:hover {
+  border-bottom: 2px solid #808080;
+}
+
+.profile__tabs-control li.open {
+  border-bottom: 2px solid orange;
+}
+
+.profile__tabs-content {
+  display: none;
+}
+
+.profile__tabs-content.open {
+  display: block;
+}
+
+.profile__tabs-content > li.tab__title {
+  list-style: none;
+  font-size: 2rem;
+  padding-top: 1rem;
+}
+
+.profile__tabs-content > li.tab__content {
+  list-style: none;
+  border-bottom: 1px solid #808080;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+}

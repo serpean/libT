@@ -1,0 +1,91 @@
+.search-dropdown {
+  position: relative;
+  display: inline-block;
+  color: #241912;
+}
+
+.search-dropdown:hover .search-dropdown-content {
+  display: block;
+}
+
+.show {
+  display: block;
+}
+
+.search-dropdown-content {
+  margin: 0;
+  position: absolute;
+  display: none;
+  background-color: #f9f9f9;
+  min-width: 15rem;
+  max-height: 30vh;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  z-index: 1;
+}
+
+.search-dropdown-content li {
+  margin: 0;
+  min-width: 160px;
+  padding: 0.25rem;
+  text-align: left;
+  list-style: none;
+  display: block;
+}
+
+.search-dropdown-content li:hover,
+.search-dropdown-content li:active {
+  background: #e6e6e6;
+}
+
+.search-dropdown-content li.saerch-dropdown-content__loader {
+  display: flex;
+}
+
+li.search-dropdown-content__search {
+  border-top: 1px solid black;
+}
+
+.search-dropdown-content li.search-dropdown-content__search a {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.saerch-dropdown-content__loader .loader {
+  margin: auto;
+}
+
+.search-dropdown-content li a {
+  display: flex;
+  align-items: center;
+}
+
+.search-dropdown-content li a {
+  color: #241912;
+  text-decoration: none;
+}
+
+.search-dropdown-content li a:hover,
+.search-dropdown-content li a:active {
+  color: #241912;
+}
+
+.search-dropdown__img {
+  width: 48px;
+  margin-right: 0.5rem;
+  background-image: url('http://www.clker.com/cliparts/t/r/j/z/w/i/no-camera-allowed-hi.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0);
+}
+
+.search-dropdown__card-authors {
+  font-size: 0.8rem;
+}
+
+.search-dropdown__card-type {
+  font-size: 0.8rem;
+}
