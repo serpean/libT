@@ -7,6 +7,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import configureStore, { history } from './store/configureStore';
 
 import './index.css';
+import 'react-typist/dist/Typist.css';
 import App from './App';
 
 const store = configureStore();

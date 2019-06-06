@@ -12,7 +12,7 @@ import SignupPage from './pages/Auth/Signup';
 import ProfilePage from './pages/Profile/Profile';
 import ResourcePage from './pages/Resource/Resource';
 import SearchPage from './pages/Search/Search';
-import Home from './pages/Home/home';
+import Home from './pages/Home/Home';
 import * as actions from './store/actions/index';
 import './App.css';
 
