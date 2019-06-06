@@ -1,5 +1,5 @@
 {
-  "root": "package/client/build/",
+  "root": "package/client/build",
   "routes": {
     "/**": "index.html"
   },
