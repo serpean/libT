@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Input from '../../Components/Form/Input/Input';
-import Button from '../../Components/Button/Button';
+import Input from '../../components/Form/Input/Input';
+import Button from '../../components/Button/Button';
 import { required, length, email } from '../../util/validators';
 import * as actions from '../../store/actions/index';
 import Auth from './Auth';

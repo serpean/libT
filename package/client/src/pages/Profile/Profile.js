@@ -2,14 +2,14 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
-import Avatar from '../../Components/Image/Avatar';
-import Loader from '../../Components/Loader/Loader';
+import Avatar from '../../components/Image/Avatar';
+import Loader from '../../components/Loader/Loader';
 
-import ProfileTabs from '../../Components/Profile/ProfileTabs/ProfileTabs';
+import ProfileTabs from '../../components/Profile/ProfileTabs/ProfileTabs';
 
 import './Profile.css';
-import ProfileEditor from '../../Components/Profile/ProfileEditor/ProfileEditor';
-import FollowButton from '../../Components/Profile/FollowButton/FollowButton';
+import ProfileEditor from '../../components/Profile/ProfileEditor/ProfileEditor';
+import FollowButton from '../../components/Profile/FollowButton/FollowButton';
 
 class Profile extends Component {
   componentDidMount() {

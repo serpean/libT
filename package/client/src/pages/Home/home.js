@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import Typist from 'react-typist';
 
-import Card from '../../Components/Card/Card';
+import Card from '../../components/Card/Card';
 
 import './Home.css';
 

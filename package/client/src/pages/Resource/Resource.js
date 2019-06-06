@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 
-import Button from '../../Components/Button/Button';
-import Loader from '../../Components/Loader/Loader';
-import Image from '../../Components/Image/Image';
-import ResourceButton from '../../Components/Button/ResourceButton/ResourceButton';
+import Button from '../../components/Button/Button';
+import Loader from '../../components/Loader/Loader';
+import Image from '../../components/Image/Image';
+import ResourceButton from '../../components/Button/ResourceButton/ResourceButton';
 
 import './Resource.css';
 
