@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from './node_modules/react';
+import { connect } from './node_modules/react-redux';
 import * as actions from '../../store/actions/index';
 
-import Input from '../../components/Form/Input/Input';
-import Loader from '../../components/Loader/Loader';
-import Paginator from '../../components/Paginator/Paginator';
-import ResourceEntry from '../../components/Library/ResourceEntry/ResourceEntry';
+import Input from '../../Components/Form/Input/Input';
+import Loader from '../../Components/Loader/Loader';
+import Paginator from '../../Components/Paginator/Paginator';
+import ResourceEntry from '../../Components/Library/ResourceEntry/ResourceEntry';
 
 import './Search.css';
 

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from './node_modules/react';
 
 import Backdrop from '../Backdrop/Backdrop';
 import Modal from '../Modal/Modal';

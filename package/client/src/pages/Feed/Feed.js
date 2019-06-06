@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, Fragment } from './node_modules/react';
+import { connect } from './node_modules/react-redux';
 
-import LibraryMenu from '../../components/Library/LibraryMenu/LibraryMenu';
-import Post from '../../components/Feed/Post/Post';
-import Paginator from '../../components/Paginator/Paginator';
-import Loader from '../../components/Loader/Loader';
+import LibraryMenu from '../../Components/Library/LibraryMenu/LibraryMenu';
+import Post from '../../Components/Feed/Post/Post';
+import Paginator from '../../Components/Paginator/Paginator';
+import Loader from '../../Components/Loader/Loader';
 import * as actions from '../../store/actions/index';
 import './Feed.css';
 

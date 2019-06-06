@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, Fragment } from './node_modules/react';
+import { connect } from './node_modules/react-redux';
 import * as actions from '../../store/actions/index';
 
-import LibraryMenu from '../../components/Library/LibraryMenu/LibraryMenu';
-import ResourceEntry from '../../components/Library/ResourceEntry/ResourceEntry';
-import Loader from '../../components/Loader/Loader';
-import ListEditor from '../../components/Library/LibraryEditor/LibraryEditor';
+import LibraryMenu from '../../Components/Library/LibraryMenu/LibraryMenu';
+import ResourceEntry from '../../Components/Library/ResourceEntry/ResourceEntry';
+import Loader from '../../Components/Loader/Loader';
+import ListEditor from '../../Components/Library/LibraryEditor/LibraryEditor';
 
 import './Library.css';
 

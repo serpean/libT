@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, Fragment } from './node_modules/react';
+import { connect } from './node_modules/react-redux';
 
 import Backdrop from '../../Backdrop/Backdrop';
 import Modal from '../../Modal/Modal';

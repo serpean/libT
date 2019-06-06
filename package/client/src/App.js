@@ -2,17 +2,17 @@ import React, { Component, Fragment } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Layout from './components/Layout/Layout';
-import Backdrop from './components/Backdrop/Backdrop';
-import ErrorHandler from './components/ErrorHandler/ErrorHandler';
-import FeedPage from './pages/Feed/Feed';
-import LibraryPage from './pages/Library/Library';
-import LoginPage from './pages/Auth/Login';
-import SignupPage from './pages/Auth/Signup';
-import ProfilePage from './pages/Profile/Profile';
-import ResourcePage from './pages/Resource/Resource';
-import SearchPage from './pages/Search/Search';
-import Home from './pages/Home/Home';
+import Layout from './Components/Layout/Layout';
+import Backdrop from './Components/Backdrop/Backdrop';
+import ErrorHandler from './Components/ErrorHandler/ErrorHandler';
+import FeedPage from './Pages/Feed/Feed';
+import LibraryPage from './Pages/Library/Library';
+import LoginPage from './Pages/Auth/Login';
+import SignupPage from './Pages/Auth/Signup';
+import ProfilePage from './Pages/Profile/Profile';
+import ResourcePage from './Pages/Resource/Resource';
+import SearchPage from './Pages/Search/Search';
+import Home from './Pages/Home/Home';
 import * as actions from './store/actions/index';
 import './App.css';
 

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from './node_modules/react';
 
-import Button from '../../../components/Button/Button';
-import Loader from '../../../components/Loader/Loader';
+import Button from '../../Button/Button';
+import Loader from '../../Loader/Loader';
 
 const followButton = props => {
   const userId = localStorage.getItem('userId');
