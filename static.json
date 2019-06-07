@@ -6,9 +6,6 @@
   "proxies": {
     "/api/v1/": {
       "origin": "${API_URL}"
-    },
-    "/api/v2/": {
-      "origin": "${API_URL_2}"
     }
   }
 }
