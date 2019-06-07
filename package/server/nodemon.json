@@ -1,6 +1,7 @@
 {
   "env": {
     "PORT": 3001,
+    "MONGO_URL": "mongodb://liboft:zYvbgi5laDeXMen2puWAnvkHS8a9eJFwp6ObcazqEymrkSDkrSWFvvZEX8jXeaxsLQ4TmHuDey6IVz1doqWoGg==@liboft.documents.azure.com:10255/liboft?ssl=true&replicaSet=globaldb",
     "MONGO_USER": "sergio",
     "MONGO_PASSWORD": "R6vs9TSoHZyOsQnW",
     "MONGO_DB": "libT",

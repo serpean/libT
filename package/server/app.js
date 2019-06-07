@@ -68,11 +68,8 @@ app.use(function(err, req, res, next) {
   res.status(err.statusCode || 500).json({ message: message, data: data });
 });
 
-mongoose
-  .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${
-      process.env.MONGO_PASSWORD
-    }@cluster0-yylxr.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`,
+mongoose.connect(
+    process.emit.MONGO_URL,
     { useNewUrlParser: true }
   )
   .then(result => {
@@ -80,3 +77,4 @@ mongoose
     console.log('Server on!');
   })
   .catch(err => console.log(err));
+
