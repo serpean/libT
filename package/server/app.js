@@ -69,10 +69,7 @@ app.use(function(err, req, res, next) {
 });
 
 mongoose
-  .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${
-      process.env.MONGO_PASSWORD
-    }@cluster0-yylxr.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`,
+  .connect(process.env.MONGO_URL,
     { useNewUrlParser: true }
   )
   .then(result => {
