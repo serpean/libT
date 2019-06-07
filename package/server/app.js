@@ -68,8 +68,10 @@ app.use(function(err, req, res, next) {
   res.status(err.statusCode || 500).json({ message: message, data: data });
 });
 
+console.log(process.env.MONGO_URL)
 mongoose
-  .connect(process.env.MONGO_URL,
+  .connect(
+    "mongodb://liboft:zYvbgi5laDeXMen2puWAnvkHS8a9eJFwp6ObcazqEymrkSDkrSWFvvZEX8jXeaxsLQ4TmHuDey6IVz1doqWoGg==@liboft.documents.azure.com:10255/liboft?ssl=true&replicaSet=globaldb",
     { useNewUrlParser: true }
   )
   .then(result => {
@@ -77,3 +79,6 @@ mongoose
     console.log('Server on!');
   })
   .catch(err => console.log(err));
+
+
+    // "MONGO_URL": "mongodb+srv://sergio:R6vs9TSoHZyOsQnW@cluster0-yylxr.mongodb.net/libT?retryWrites=true",
