@@ -12,7 +12,7 @@
   "scripts": {
     "client": "cd package/client && yarn start",
     "server": "cd package/server && yarn run dev",
-    "merge-api": "cd package/merge-api && yarn start",
+    "merge-api": "cd package/merge-api && yarn run dev",
     "dev": "concurrently \"yarn run server\" \"yarn run client\" \"yarn run merge-api\"",
     "build": "cd package/client && yarn run build"
   },
