@@ -69,7 +69,7 @@ app.use(function(err, req, res, next) {
 });
 
 mongoose.connect(
-    process.emit.MONGO_URL,
+    process.env.MONGO_URL,
     { useNewUrlParser: true }
   )
   .then(result => {
@@ -77,4 +77,3 @@ mongoose.connect(
     console.log('Server on!');
   })
   .catch(err => console.log(err));
-

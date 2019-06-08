@@ -8,6 +8,7 @@ import Image from '../../components/Image/Image';
 import ResourceButton from '../../components/Button/ResourceButton/ResourceButton';
 
 import './Resource.css';
+import AppApi from '../../util/appApi';
 
 class Resource extends Component {
   state = {
@@ -37,21 +38,23 @@ class Resource extends Component {
 
   resourceHandler(listId) {
     const token = localStorage.getItem('token');
-    fetch(`/api/info`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
+    AppApi.post(
+      `/api/info`,
+      {
         listId: listId,
         id: this.props.id,
         type: this.props.type,
         title: this.props.title,
         description: this.props.description,
         image: this.props.image
-      })
-    })
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
       .then(res => {
         if (res.status !== 200 && res.status !== 201 && res.status !== 304) {
           throw new Error('Error!');

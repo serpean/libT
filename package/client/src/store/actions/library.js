@@ -1,3 +1,4 @@
+import AppApi from '../../util/appApi';
 import * as actionTypes from './actionTypes';
 import { addError } from './common';
 
@@ -71,7 +72,7 @@ export const loadLists = (username, listId) => {
   return dispatch => {
     dispatch(listsStart());
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:3001/api/lists/user/${username}`, {
+    AppApi.get(`/api/lists/user/${username}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -80,7 +81,7 @@ export const loadLists = (username, listId) => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch Lists.');
         }
-        return res.json();
+        return res.data;
       })
       .then(resData => {
         if (listId && listId !== null) {
@@ -99,7 +100,7 @@ export const loadList = listId => {
   return dispatch => {
     dispatch(listStart());
     const token = localStorage.getItem('token');
-    fetch(`/api/lists/list/${listId}`, {
+    AppApi.get(`/api/lists/list/${listId}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -108,7 +109,7 @@ export const loadList = listId => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch Lists.');
         }
-        return res.json();
+        return res.data;
       })
       .then(resData => {
         dispatch(listSuccess(resData));
@@ -180,9 +181,10 @@ export const finishEditHandler = (listData, editList) => {
       method = 'PUT';
     }
 
-    fetch(url, {
+    AppApi.request({
+      url: url,
       method: method,
-      body: formData,
+      data: formData,
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -191,7 +193,7 @@ export const finishEditHandler = (listData, editList) => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Creating or Editing a list failed!');
         }
-        return res.json();
+        return res.data;
       })
       .then(resData => {
         const userId = localStorage.getItem('userId');
@@ -209,8 +211,7 @@ export const deletePostHandler = (listId, nextList) => {
   return dispatch => {
     dispatch(listsStart());
     const token = localStorage.getItem('token');
-    fetch('/api/lists/' + listId, {
-      method: 'DELETE',
+    AppApi.delete(`/api/lists/${listId}`, {
       headers: {
         Authorization: 'Bearer ' + token
       }
@@ -219,7 +220,7 @@ export const deletePostHandler = (listId, nextList) => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Deleting a list failed!');
         }
-        return res.json();
+        return res.data;
       })
       .then(resData => {
         const userId = localStorage.getItem('userId');

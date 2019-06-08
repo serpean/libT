@@ -1,5 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { addError } from './common';
+import AppApi from '../../util/appApi';
+import SearchApi from '../../util/searchApi';
 
 export const resourceStart = (type, id) => {
   return {
@@ -72,7 +74,7 @@ export const getResourceStatus = resourceId => {
   return dispatch => {
     dispatch(resourceStatusStart());
     const token = localStorage.getItem('token');
-    fetch(`/api/info/status/${resourceId}`, {
+    AppApi.get(`/api/info/status/${resourceId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -81,7 +83,7 @@ export const getResourceStatus = resourceId => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch Lists.');
         }
-        return res.json();
+        return res.data;
       })
       .then(resData => {
         console.log(resData);
@@ -99,12 +101,12 @@ export const loadResource = (type, searchId) => {
     dispatch(resourceStart(type, searchId));
     if (!searchId || !type) throw new Error('');
     const id = searchId.split('__')[0];
-    fetch(`http://localhost:3030/${type}/${id}`)
+    SearchApi.get(`/${type}/${id}`)
       .then(res => {
         if (res.status !== 200 && res.status !== 201 && res.status !== 304) {
           throw new Error('Error!');
         }
-        return res.json();
+        return res.data;
       })
       .then(resData => {
         if (resData.response) {

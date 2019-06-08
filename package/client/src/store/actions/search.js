@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { addError } from './common';
+import SearchApi from '../../util/searchApi';
 
 export const searchStartOne = value => {
   return {
@@ -62,13 +63,13 @@ export const onSearch = (id, value, direction, page) => {
 
       if (value.length >= 3) {
         !isDirection && dispatch(searchStartThree(value));
-        const res = await fetch(
-          `http://localhost:3030/?name=${value}&page=${resourcePage}`
+        const res = await SearchApi.get(
+          `/?name=${value}&page=${resourcePage}`
         );
         if (res.status !== 200 && res.status !== 201 && res.status !== 301) {
           throw new Error('Could not authenticate you!');
         }
-        const resData = await res.json();
+        const resData = await res.data;
         if (resData.response) {
           dispatch(searchSuccess(resData));
         }
