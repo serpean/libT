@@ -2,6 +2,8 @@ const express = require("express");
 
 const RequestStrategyFactory = require("./RequestStrategyFactory/RequestStrategyFactory");
 
+const port = process.env.PORT || 3030;
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -49,4 +51,4 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode).json({ message: err.message, response: false });
 });
 
-app.listen(3030, res => console.log(`Server on in http://localhost:3030`));
+app.listen(port, res => console.log(`Server on in port: ${port}`));
