@@ -31,7 +31,7 @@ exports.bookParser = data => {
         id: `${element.id}__google`,
         description: element.volumeInfo.description,
         type: 'book',
-        image: imageLinks && imageLinks.thumbnail ? imageLinks.thumbnail : 'N/A'
+        image: imageLinks && imageLinks.thumbnail ? imageLinks.thumbnail.replace("http", "https") : 'N/A'
       };
     })
   };

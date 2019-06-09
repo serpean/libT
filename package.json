@@ -10,10 +10,11 @@
     "package/merge-api"
   ],
   "scripts": {
-    "client": "cd package/client && npm start",
-    "server": "cd package/server && npm start",
-    "merge-api": "cd package/merge-api && yarn start",
-    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run merge-api\""
+    "client": "cd package/client && yarn start",
+    "server": "cd package/server && yarn run dev",
+    "merge-api": "cd package/merge-api && yarn run dev",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\" \"yarn run merge-api\"",
+    "build": "cd package/client && yarn run build"
   },
   "repository": {
     "type": "git",

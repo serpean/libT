@@ -1,3 +1,4 @@
+import AppApi from '../../util/appApi';
 import * as actionTypes from './actionTypes';
 import { addError } from './common';
 import { updateUser } from './auth';
@@ -28,11 +29,11 @@ export const loadProfile = username => {
   return async dispatch => {
     try {
       dispatch(profileStart());
-      const res = await fetch(`/api/user/${username}`);
+      const res = await AppApi.get(`/api/user/${username}`);
       if (res.status !== 200 && res.status !== 304) {
         throw new Error('Failed to fetch user.');
       }
-      const resData = await res.json();
+      const resData = await res.data;
       dispatch(profileSuccess(resData.user));
     } catch (err) {
       dispatch(profileFail());
@@ -101,11 +102,8 @@ export const finishProfileEditHandler = profileData => {
     formData.append('bio', profileData.bio);
     formData.append('image', profileData.image);
     let url = `/api/user/${userId}`;
-    let method = 'PUT';
     try {
-      const res = await fetch(url, {
-        method: method,
-        body: formData,
+      const res = await AppApi.put(url, formData, {
         headers: {
           Authorization: 'Bearer ' + token
         }
@@ -116,7 +114,7 @@ export const finishProfileEditHandler = profileData => {
       if (res.status !== 200 && res.status !== 201) {
         throw new Error('User update failed!');
       }
-      const resData = await res.json();
+      const resData = await res.data;
       dispatch(editProfileSuccess(resData.user));
       dispatch(updateUser(resData.user.username));
     } catch (err) {
@@ -161,15 +159,17 @@ export const onFollow = user => {
   return async dispatch => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/user/follow`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username: user })
-      });
-      const resData = await res.json();
+      const res = await AppApi.put(
+        `/api/user/follow`,
+        { username: user },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const resData = await res.data;
       dispatch(followUser(resData.isFollowing));
     } catch (err) {
       addError(err);
@@ -182,13 +182,13 @@ export const isFollowing = username => {
     dispatch(isFollowingStart());
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/user/follow/${username}`, {
+      const res = await AppApi.get(`/api/user/follow/${username}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
-      const resData = await res.json();
+      const resData = await res.data;
 
       dispatch(isFollowingSuccess(resData.isFollowing));
     } catch (err) {

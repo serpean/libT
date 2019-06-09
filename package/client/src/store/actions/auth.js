@@ -1,3 +1,4 @@
+import AppApi from "../../util/appApi";
 import * as actionTypes from './actionTypes';
 import { history } from '../configureStore';
 import { addError } from './common';
@@ -46,27 +47,27 @@ export const checkAuthTimeout = milliseconds => {
 export const auth = params => {
   return dispatch => {
     dispatch(authStart());
-    let options, url;
+    let reqData;
     if (params.isSignUp) {
-      url = 'http://localhost:3001/auth/login';
-      options = {
+      reqData = {
+        url: '/auth/login',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
+        data: JSON.stringify({
           email: params.email,
           password: params.password
         })
       };
     } else {
-      url = 'http://localhost:3001/auth/signup';
-      options = {
+      reqData = {
+        url: '/auth/signup',
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
+        data: JSON.stringify({
           email: params.email,
           password: params.password,
           name: params.name
@@ -74,7 +75,7 @@ export const auth = params => {
       };
     }
 
-    fetch(url, options)
+    AppApi.request(reqData)
       .then(res => {
         if (res.status === 422) {
           throw new Error('Validation failed.');
@@ -82,7 +83,9 @@ export const auth = params => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Could not authenticate you!');
         }
-        return res.json();
+
+        console.log(res)
+        return res.data;
       })
       .then(resData => {
         localStorage.setItem('token', resData.user.token);

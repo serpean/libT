@@ -7,6 +7,7 @@ import ResourceButton from '../../Button/ResourceButton/ResourceButton';
 import Loader from '../../Loader/Loader';
 
 import './ResourceEntry.css';
+import AppApi from '../../../util/appApi';
 
 class ResourceEntry extends Component {
   state = {
@@ -19,7 +20,7 @@ class ResourceEntry extends Component {
     this.setState({ loadingStatus: true });
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/info/status/${this.props.id}`, {
+      const res = await AppApi.get(`/api/info/status/${this.props.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -27,7 +28,7 @@ class ResourceEntry extends Component {
       if (res.status !== 200 && res.status !== 201 && res.status !== 304) {
         throw new Error('Error!');
       }
-      const resData = await res.json();
+      const resData = res.data;
       this.setState({
         actualState: resData.status,
         lists: resData.lists.map(list => list._id),
@@ -41,13 +42,9 @@ class ResourceEntry extends Component {
   resourceHandler = listId => {
     const token = localStorage.getItem('token');
     this.setState({ loadingStatus: true });
-    fetch(`/api/info`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
+    AppApi.post(
+      `/api/info`,
+      {
         listId: listId,
         id: this.props.id,
         searchId: this.props.id,
@@ -55,13 +52,19 @@ class ResourceEntry extends Component {
         title: this.props.title,
         description: this.props.description,
         image: this.props.image
-      })
-    })
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
       .then(res => {
         if (res.status !== 200 && res.status !== 201 && res.status !== 304) {
           throw new Error('Error!');
         }
-        return res.json();
+        return res.data;
       })
       .then(resData => {
         this.setState({

@@ -42,7 +42,7 @@ class SearchButton extends Component {
                     src={
                       item.image !== 'N/A'
                         ? item.image
-                        : 'http://www.clker.com/cliparts/t/r/j/z/w/i/no-camera-allowed-hi.png'
+                        : '/images/no_photo.png'
                     }
                     alt={item.title}
                   />

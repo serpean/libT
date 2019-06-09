@@ -1,3 +1,4 @@
+import AppApi from "../../util/appApi";
 import * as actionTypes from './actionTypes';
 import { addError } from './common';
 
@@ -44,7 +45,7 @@ export const loadPosts = (direction, page) => {
     }
     let postPage = page || 1;
 
-    fetch('http://localhost:3001/api/posts/posts?page=' + postPage, {
+    AppApi.get(`/api/posts/posts?page=${postPage}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -53,7 +54,7 @@ export const loadPosts = (direction, page) => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch posts.');
         }
-        return res.json();
+        return res.data;
       })
       .then(resData => {
         dispatch(feedSuccess(resData));
