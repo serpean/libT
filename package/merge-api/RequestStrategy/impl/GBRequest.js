@@ -19,7 +19,7 @@ class GBRequest {
       publishDate: items[0].volumeInfo.publishDate,
       description: items[0].volumeInfo.description,
       image: items[0].volumeInfo.imageLinks
-        ? items[0].volumeInfo.imageLinks.thumbnail
+        ? items[0].volumeInfo.imageLinks.thumbnail.replace("http", "https")
         : 'N/A',
       response: true
     };

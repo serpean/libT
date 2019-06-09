@@ -31,6 +31,8 @@ app.get("/", async (req, res, next) => {
   const type = req.query.type ? `search-${req.query.type}` : "search-all";
   const page = req.query.page;
 
+  if(name === undefined) return res.status(401).json({response: false, message: "Name is required"})
+
   try {
     const factory = new RequestStrategyFactory();
     const requestStrategy = factory.createRequestStrategy(type);
