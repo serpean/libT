@@ -38,6 +38,7 @@ class Layout extends Component {
           isAuth={this.props.isAuth}
         />
         <main className="content">{this.props.children}</main>
+        <footer className="footer">Liboft {new Date().getFullYear()} ©</footer>
       </Fragment>
     );
   }
