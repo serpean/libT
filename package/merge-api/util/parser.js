@@ -18,7 +18,7 @@ exports.createParser = type => {
 };
 
 exports.bookParser = data => {
-  if (!data.items || data.totalItems <= 0)
+  if (!data || !data.items || data.totalItems <= 0)
     return { search: [], totalResults: data.totalItems, response: false };
   return {
     totalResults: data.totalItems,
@@ -38,7 +38,7 @@ exports.bookParser = data => {
 };
 
 exports.omdbParser = data => {
-  if (data.Response === 'False')
+  if (!data || data.Response === 'False')
     return { search: [], totalResults: 0, response: false };
   return {
     totalResults: data.totalResults,
@@ -54,3 +54,11 @@ exports.omdbParser = data => {
     })
   };
 };
+
+exports.emptyParserResponse = () => {
+  return {
+    totalResults: 0,
+    response: false,
+    search: []
+  };
+}

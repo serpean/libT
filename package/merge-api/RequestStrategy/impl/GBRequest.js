@@ -2,7 +2,7 @@ const axios = require('../../axiosConfig');
 
 class GBRequest {
   async doRequest(id) {
-    const response = await axios.get(
+    try {const response = await axios.get(
       `https://www.googleapis.com/books/v1/volumes?q=${id}`
     );
 
@@ -22,7 +22,13 @@ class GBRequest {
         ? items[0].volumeInfo.imageLinks.thumbnail.replace("http", "https")
         : 'N/A',
       response: true
-    };
+    };} catch(err) {
+      return {
+        response: false,
+        message: "GBRequest fail"
+      }
+    }
+    
   }
 }
 

@@ -1,7 +1,7 @@
 const axios = require("axios");
 const axiosCache = require("../../axiosConfig");
 
-const { bookParser, omdbParser } = require("../../util/parser");
+const { bookParser, omdbParser, emptyParserResponse } = require("../../util/parser");
 
 class SearchAllRequest {
   doRequest(data) {
@@ -14,21 +14,21 @@ class SearchAllRequest {
           `http://www.omdbapi.com/?s=${name}&type=game&apikey=${
             process.env.OMDB_API_KEY
           }${OMDBPageSearch}`
-        ),
+        ).catch(err => console.log("GET GAMES FAIL")),
         axiosCache.get(
           `http://www.omdbapi.com/?s=${name}&type=movie&apikey=${
             process.env.OMDB_API_KEY
           }${OMDBPageSearch}`
-        ),
+        ).catch(err => console.log("GET MOVIES FAIL")),
         axiosCache.get(
           `https://www.googleapis.com/books/v1/volumes?q=${name}${GBPageSearch}`
-        )
+        ).catch(err => {console.log("GET BOOKS FAIL") })
       ])
       .then(
-        axios.spread((games, movies, books) => {
-          const cleanGames = omdbParser(games.data);
-          const cleanMovies = omdbParser(movies.data);
-          const cleanBooks = bookParser(books.data);
+        ([games, movies, books])=> {
+          const cleanGames = games ? omdbParser(games.data) : emptyParserResponse();
+          const cleanMovies = movies ? omdbParser(movies.data) : emptyParserResponse();
+          const cleanBooks = books ? bookParser(books.data) : emptyParserResponse();
 
           const itemsOutput = [
             ...cleanBooks.search,
@@ -52,8 +52,10 @@ class SearchAllRequest {
             totalResults: lengthsOutput,
             response: responseOutput ? true : false
           };
-        })
-      );
+        }
+      ).catch(err => {
+        console.error(err);
+      });
   }
 }
 
