@@ -1,23 +1,28 @@
-const User = require('../models/user');
+const AuthApi = require("../util/authApi");
+
 const Post = require('../models/post');
 
 exports.getPosts = async (req, res, next) => {
   try {
     const currentPage = req.query.page || 1;
     const maxResults = req.query.maxResults || 10;
-    const user = await User.findById(req.userId);
+    const followersRequest = await AuthApi.get(`/followers/${req.userId}`, {
+      headers: {
+        Authorization: `Bearer ${req.userToken}`
+      }
+    });
+    const followers = followersRequest.data.followers;
     const totalItemsPromise = Post.find({
-      creator: { $in: [...user.following, user.id] }
+      creator: { $in: [...followers, req.userId] }
     })
       .countDocuments()
       .exec();
     const postsPromise = Post.find({
-      creator: { $in: [...user.following, user.id] }
+      creator: { $in: [...followers, req.userId] }
     })
       .skip((currentPage - 1) * maxResults)
       .limit(maxResults)
       .populate('resource')
-      .populate('creator')
       .sort('-createdAt')
       .exec();
 
@@ -27,16 +32,7 @@ exports.getPosts = async (req, res, next) => {
     ]);
     res.json({
       totalPosts: totalItems,
-      posts: posts.map(post => {
-        return {
-          ...post._doc,
-          creator: post.creator.username,
-          resource: {
-            ...post._doc.resource._doc,
-            creator: post.creator.username
-          }
-        };
-      })
+      posts: posts
     });
   } catch (err) {
     if (!err.statusCode) {

@@ -1,21 +1,18 @@
 const { validationResult } = require('express-validator/check');
 
-const User = require('../models/user');
 const List = require('../models/list');
-const Info = require('../models/info');
 
 exports.getLists = async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.params.username }).populate(
-      'lists'
-    );
-    if (!user) {
-      const error = new Error('User cannot be found.');
+    const lists = await List.find({ creator: req.params.username })
+
+    if (!lists) {
+      const error = new Error('Not lists for this user');
       throw error;
     }
     res.status(200).json(
-      user.lists.map(list => {
-        return { ...list._doc, creator: user.username, __v: undefined };
+      lists.map(list => {
+        return { ...list._doc, __v: undefined };
       })
     );
   } catch (err) {
@@ -35,8 +32,7 @@ exports.getList = async (req, res, next) => {
       const error = new Error('List cannot be found.');
       throw error;
     }
-    const user = await User.findById(list.creator);
-    res.status(200).json({ ...list._doc, creator: user.username });
+    res.status(200).json({...list._doc});
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -52,21 +48,26 @@ exports.createList = async (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
+  if(req.body.type) {
+    const validList = await List.findOne({ creator: req.userId, type: req.body.type})
+    if(validList !== null) {
+      const error = new Error('You cannot create this type of list.');
+      error.statusCode = 403;
+      throw error;
+    }
+  }
   const list = new List({
     name: req.body.title,
     description: req.body.description,
     public: req.body.public,
-    creator: req.userId
+    creator: req.userId,
+    type: req.body.type || 0
   });
   try {
     await list.save();
-    const user = await User.findById(req.userId);
-    user.lists.push(list);
-    await user.save();
     res.status(201).json({
       message: 'List create successfully.',
-      list: list,
-      creator: user.username
+      list: list
     });
   } catch (err) {
     if (!err.statusCode) {
@@ -120,10 +121,6 @@ exports.deleteList = async (req, res, next) => {
       error.statusCode = 403;
       throw error;
     }
-    const user = await User.findById(req.userId);
-    await List.findByIdAndDelete(req.params.listId);
-    user.lists.pull(req.params.listId);
-    await user.save();
     res.status(200).json({
       message: 'List delete successfully.'
     });

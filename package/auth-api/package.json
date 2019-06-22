@@ -1,10 +1,14 @@
 {
-  "name": "server",
-  "version": "0.0.0",
-  "private": true,
+  "name": "auth-api",
+  "version": "1.0.0",
+  "description": "Auth api",
+  "main": "app.js",
+  "repository": "https://github.com/seprean/libT",
+  "author": "serpean",
+  "license": "MIT",
+  "private": false,
   "scripts": {
-    "start": "node ./app.js",
-    "dev": "nodemon ./app.js"
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "axios": "^0.19.0",

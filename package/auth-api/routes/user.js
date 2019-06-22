@@ -1,26 +1,33 @@
 const express = require('express');
 const { body } = require('express-validator/check');
 
-const isAuth = require('../../middleware/is-auth');
-const userController = require('../../controllers/user');
+const isAuth = require('../../server/middleware/is-auth');
+const userController = require('../controllers/user');
 
 const router = express.Router();
 
-// /api/user/follow/:username
+// /followers/:username
+router.get('/followers/:username', isAuth, userController.getFollowers);
+
+// /follow/:username
 router.get('/follow/:username', isAuth, userController.isFollowing);
 
-// /api/user/follow/
+// /follow/
 router.put('/follow', isAuth, userController.followUser);
 
-// /api/user/:username
+// /:username
 router.get('/:username', userController.getUser);
 
-// /api/user/:username
+// /:username
 router.put(
   '/:username',
   isAuth,
   [
     body('username')
+      .trim()
+      .isLength({ min: 3 }),
+    body('name')
+      .isString()
       .trim()
       .isLength({ min: 3 }),
     body('bio')

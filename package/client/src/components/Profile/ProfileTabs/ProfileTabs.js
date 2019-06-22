@@ -7,6 +7,7 @@ import * as actions from '../../../store/actions/index';
 
 import './ProfileTabs.css';
 import UserEntry from '../UserEntry/UserEntry';
+import Loader from '../../Loader/Loader';
 
 const profileTabs = props => {
   return (
@@ -35,11 +36,13 @@ const profileTabs = props => {
         <li key="library" className="tab__title">
           Libraries
         </li>
-        {props.user.lists.map(list => (
+        {        console.log(props.lists)}
+        {// TODO: El user ya no tiene lists, necesitamos una query
+          !props.loadingLists ? props.lists.map(list => (
           <li key={list._id} className="tab__content">
             <LibraryEntry list={list} user={props.user.username} />
           </li>
-        ))}
+        )): <Loader />}
       </ul>
       <ul className={`profile__tabs-content ${props.tab === 1 && 'open'}`}>
         <li className="tab__title">Followers</li>
@@ -63,7 +66,7 @@ const profileTabs = props => {
 
 const mapStateToProps = state => {
   return {
-    tab: state.profile.tab
+    tab: state.profile.tab,
   };
 };
 

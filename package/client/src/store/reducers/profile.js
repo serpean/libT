@@ -56,6 +56,7 @@ const editProfileSuccess = (state, action) => {
     user: {
       ...state.user,
       username: action.user.username,
+      name: action.user.name,
       bio: action.user.bio,
       image: action.user.image
     },

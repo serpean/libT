@@ -7,13 +7,15 @@
   "workspaces": [
     "package/client",
     "package/server",
-    "package/merge-api"
+    "package/merge-api",
+    "package/auth"
   ],
   "scripts": {
     "client": "cd package/client && yarn start",
     "server": "cd package/server && yarn run dev",
+    "auth": "cd package/auth-api && yarn run dev",
     "merge-api": "cd package/merge-api && yarn run dev",
-    "dev": "concurrently \"yarn run server\" \"yarn run client\" \"yarn run merge-api\"",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\" \"yarn run auth\" \"yarn run merge-api\"",
     "build": "cd package/client && yarn run build"
   },
   "repository": {

@@ -79,7 +79,7 @@ class ResourceEntry extends Component {
   };
   render() {
     let authors =
-      this.props.authors.length !== 0 ? (
+      this.props.authros && this.props.authors.length !== 0 ? (
         <h4 className="entry__author">
           by {this.props.authors.map(a => ` ${a}`)}
         </h4>
@@ -141,34 +141,3 @@ class ResourceEntry extends Component {
 }
 
 export default ResourceEntry;
-
-// <main className="post__main">
-// <div className="post__image">
-//   <Link to={`/resource/${this.props.type}/${this.props.searchId}`}>
-//     <Image imageUrl={this.props.image} contain left />
-//   </Link>
-// </div>
-// <div className="post__content">
-//   <h1 className="post__title">
-//     <Link to={`/resource/${this.props.type}/${this.props.searchId}`}>
-//       {this.props.title}
-//     </Link>
-//   </h1>
-//   <h2 className="post__author">{authors}</h2>
-
-//   <div className="post__description">
-//     <div className="post__description-content">
-//       {this.props.content}
-//     </div>
-//     <div className="post__description-more">
-//     <Button
-//       design="flat"
-//       mode="none"
-//       link={`/resource/${this.props.type}/${this.props.searchId}`}
-//     >
-//       Show more +
-//     </Button>
-//     </div>
-//   </div>
-// </div>
-// </main>

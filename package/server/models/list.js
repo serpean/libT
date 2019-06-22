@@ -22,8 +22,8 @@ const listSchema = new Schema(
       default: true
     },
     creator: {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
+      type: String,
+      required: true
     },
     resources: [
       {

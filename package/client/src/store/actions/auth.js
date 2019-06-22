@@ -1,4 +1,4 @@
-import AppApi from "../../util/appApi";
+import AuthApi from '../../util/authApi';
 import * as actionTypes from './actionTypes';
 import { history } from '../configureStore';
 import { addError } from './common';
@@ -70,12 +70,13 @@ export const auth = params => {
         data: JSON.stringify({
           email: params.email,
           password: params.password,
+          username: params.username,
           name: params.name
         })
       };
     }
 
-    AppApi.request(reqData)
+    AuthApi.request(reqData)
       .then(res => {
         if (res.status === 422) {
           throw new Error('Validation failed.');
@@ -84,7 +85,7 @@ export const auth = params => {
           throw new Error('Could not authenticate you!');
         }
 
-        console.log(res)
+        console.log(res);
         return res.data;
       })
       .then(resData => {

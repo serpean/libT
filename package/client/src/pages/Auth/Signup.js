@@ -22,6 +22,12 @@ class Signup extends Component {
         touched: false,
         validators: [required, length({ min: 5 })]
       },
+      username: {
+        value: '',
+        valid: false,
+        touched: false,
+        validators: [required]
+      },
       name: {
         value: '',
         valid: false,
@@ -87,6 +93,18 @@ class Signup extends Component {
             valid={this.state.signupForm['email'].valid}
             touched={this.state.signupForm['email'].touched}
           />
+
+          <Input
+            id="username"
+            label="Your Username"
+            type="text"
+            control="input"
+            onChange={this.inputChangeHandler}
+            onBlur={this.inputBlurHandler.bind(this, 'username')}
+            value={this.state.signupForm['username'].value}
+            valid={this.state.signupForm['username'].valid}
+            touched={this.state.signupForm['username'].touched}
+          />
           <Input
             id="name"
             label="Your Name"
@@ -127,6 +145,7 @@ const mapDispatchToProps = dispatch => {
       const params = {
         email: authData.signupForm.email.value,
         password: authData.signupForm.password.value,
+        username: authData.signupForm.username.value,
         name: authData.signupForm.name.value,
         isSignUp: false
       };

@@ -1,4 +1,4 @@
-import AppApi from '../../util/appApi';
+import AuthApi from '../../util/authApi';
 import * as actionTypes from './actionTypes';
 import { addError } from './common';
 import { updateUser } from './auth';
@@ -29,7 +29,7 @@ export const loadProfile = username => {
   return async dispatch => {
     try {
       dispatch(profileStart());
-      const res = await AppApi.get(`/api/user/${username}`);
+      const res = await AuthApi.get(`/${username}`);
       if (res.status !== 200 && res.status !== 304) {
         throw new Error('Failed to fetch user.');
       }
@@ -99,11 +99,12 @@ export const finishProfileEditHandler = profileData => {
     const userId = localStorage.getItem('userId');
     const formData = new FormData();
     formData.append('username', profileData.username);
+    formData.append('name', profileData.name);
     formData.append('bio', profileData.bio);
     formData.append('image', profileData.image);
-    let url = `/api/user/${userId}`;
+    let url = `/${userId}`;
     try {
-      const res = await AppApi.put(url, formData, {
+      const res = await AuthApi.put(url, formData, {
         headers: {
           Authorization: 'Bearer ' + token
         }
@@ -115,6 +116,7 @@ export const finishProfileEditHandler = profileData => {
         throw new Error('User update failed!');
       }
       const resData = await res.data;
+      console.log(resData.user)
       dispatch(editProfileSuccess(resData.user));
       dispatch(updateUser(resData.user.username));
     } catch (err) {
@@ -159,8 +161,8 @@ export const onFollow = user => {
   return async dispatch => {
     try {
       const token = localStorage.getItem('token');
-      const res = await AppApi.put(
-        `/api/user/follow`,
+      const res = await AuthApi.put(
+        `/follow`,
         { username: user },
         {
           headers: {
@@ -182,7 +184,7 @@ export const isFollowing = username => {
     dispatch(isFollowingStart());
     try {
       const token = localStorage.getItem('token');
-      const res = await AppApi.get(`/api/user/follow/${username}`, {
+      const res = await AuthApi.get(`/follow/${username}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

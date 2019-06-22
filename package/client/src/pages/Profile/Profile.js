@@ -15,6 +15,7 @@ class Profile extends Component {
   componentDidMount() {
     const user = this.props.match.params.username || this.props.userId;
     this.props.onLoadProfile(user);
+    this.props.onLists(user);
     this.props.userId !== user && this.props.isFollowing(user);
   }
 
@@ -34,7 +35,7 @@ class Profile extends Component {
             <Avatar alt={this.props.username} src={this.props.user.image} />
             <div className="profile__meta">
               <div className="profile__username">
-                {this.props.user.username}
+                {this.props.user.name}
               </div>
               <div className="profile__bio">{this.props.user.bio}</div>
               <div className="profile__controls">
@@ -48,7 +49,14 @@ class Profile extends Component {
             </div>
           </div>
           <div className="profile__main">
-            <ProfileTabs user={this.props.user} />
+            <ProfileTabs
+              user={this.props.user}
+              lists={[this.props.wantList, 
+                this.props.doneList, 
+                this.props.inProgressList, 
+                ...this.props.extraLists]}
+              loadingLists={this.props.loadingLists}
+            />
           </div>
         </div>
       ) : (
@@ -73,7 +81,12 @@ const mapStateToProps = state => {
     user: state.profile.user,
     loadingProfile: state.profile.loadingProfile,
     loadingFollowing: state.profile.loadingFollowing,
-    isUserFollowing: state.profile.isFollowing
+    isUserFollowing: state.profile.isFollowing,
+    wantList: state.library.wantList,
+    doneList: state.library.doneList,
+    inProgressList: state.library.inProgressList,
+    extraLists: state.library.extraLists,
+    loadingLists: state.library.loadingLists
   };
 };
 
@@ -82,7 +95,8 @@ const mapDispatchToProps = dispatch => {
     onLoadProfile: username => dispatch(actions.loadProfile(username)),
     onEditProfile: username => dispatch(actions.updateProfileHandler(username)),
     onFollow: username => dispatch(actions.onFollow(username)),
-    isFollowing: username => dispatch(actions.isFollowing(username))
+    isFollowing: username => dispatch(actions.isFollowing(username)),
+    onLists: username => dispatch(actions.loadLists(username))
   };
 };
 

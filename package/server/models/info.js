@@ -12,30 +12,6 @@ const infoSchema = new Schema(
       type: String,
       required: true
     },
-    title: {
-      type: String,
-      required: true
-    },
-    description: {
-      type: String
-    },
-    authors: [
-      {
-        type: String
-      }
-    ],
-    publishDate: {
-      type: String
-    },
-    publisher: {
-      type: String
-    },
-    isbn: {
-      type: String
-    },
-    image: {
-      type: String
-    },
     lists: [
       {
         type: Schema.Types.ObjectId,
@@ -54,8 +30,8 @@ const infoSchema = new Schema(
       enum: [0, 1, 2, 3, 4, 5]
     },
     creator: {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
+      type: String,
+      required: true
     },
     times: [
       {

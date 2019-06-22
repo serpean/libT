@@ -16,7 +16,8 @@ router.post(
       .trim()
       .isLength({ min: 3 }),
     body('description').trim(),
-    body('public').isBoolean()
+    body('public').isBoolean(),
+    body('creator').trim()
   ],
   listController.createList
 );

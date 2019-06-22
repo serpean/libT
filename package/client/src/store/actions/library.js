@@ -1,4 +1,5 @@
 import AppApi from '../../util/appApi';
+import SearchApi from '../../util/searchApi';
 import * as actionTypes from './actionTypes';
 import { addError } from './common';
 
@@ -100,6 +101,7 @@ export const loadList = listId => {
   return dispatch => {
     dispatch(listStart());
     const token = localStorage.getItem('token');
+    let list;
     AppApi.get(`/api/lists/list/${listId}`, {
       headers: {
         Authorization: 'Bearer ' + token
@@ -109,7 +111,27 @@ export const loadList = listId => {
         if (res.status !== 200) {
           throw new Error('Failed to fetch Lists.');
         }
+        list = res.data;
         return res.data;
+      })
+      .then(res => {
+        console.log(res);
+        return Promise.all(
+          res.resources.map(resource => {
+            const { searchId, type } = resource;
+
+            const [id] = searchId.split('__');
+            return SearchApi.get(`/${type}/${id}`);
+          })
+        );
+      })
+      .then(res => {
+        return {
+          ...list,
+          resources: list.resources.map((e, i) => {
+            return { ...e, ...res[i].data };
+          })
+        };
       })
       .then(resData => {
         dispatch(listSuccess(resData));

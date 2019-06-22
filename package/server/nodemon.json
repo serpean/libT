@@ -1,10 +1,12 @@
 {
   "env": {
     "PORT": 3001,
-    "MONGO_URL": "mongodb://liboft:zYvbgi5laDeXMen2puWAnvkHS8a9eJFwp6ObcazqEymrkSDkrSWFvvZEX8jXeaxsLQ4TmHuDey6IVz1doqWoGg==@liboft.documents.azure.com:10255/liboft?ssl=true&replicaSet=globaldb",
+    "MONGO_URL": "mongodb+srv://libt:libt@cluster0-yylxr.mongodb.net/libT-app?retryWrites=true&w=majority",
     "MONGO_USER": "sergio",
     "MONGO_PASSWORD": "R6vs9TSoHZyOsQnW",
     "MONGO_DB": "libT",
-    "SECRET": "secret"
+    "SECRET": "secret",
+    "AUTH_API": "http://localhost:3002",
+    "SEARCH_API": "http://localhost:3030"
   }
 }

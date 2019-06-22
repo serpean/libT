@@ -17,6 +17,12 @@ const PROFILE_FORM = {
     touched: false,
     validators: [required, length({ min: 3 })]
   },
+  name: {
+    value: '',
+    valid: false,
+    touched: false,
+    validators: [required, length({ min: 3 })]
+  },
   bio: {
     value: '',
     valid: false,
@@ -49,6 +55,11 @@ class FeedEdit extends Component {
         username: {
           ...prevState.profileForm.username,
           value: this.props.editProfile.username,
+          valid: true
+        },
+        name: {
+          ...prevState.profileForm.name,
+          value: this.props.editProfile.name,
           valid: true
         },
         bio: {
@@ -125,6 +136,7 @@ class FeedEdit extends Component {
   acceptProfileChangeHandler = () => {
     const profile = {
       username: this.state.profileForm.username.value,
+      name: this.state.profileForm.name.value,
       bio: this.state.profileForm.bio.value,
       image: this.state.profileForm.image.value
     };
@@ -156,6 +168,16 @@ class FeedEdit extends Component {
               valid={this.state.profileForm['username'].valid}
               touched={this.state.profileForm['username'].touched}
               value={this.state.profileForm['username'].value}
+            />
+            <Input
+              id="name"
+              label="Name"
+              control="input"
+              onChange={this.profileInputChangeHandler}
+              onBlur={this.inputBlurHandler.bind(this, 'name')}
+              valid={this.state.profileForm['name'].valid}
+              touched={this.state.profileForm['name'].touched}
+              value={this.state.profileForm['name'].value}
             />
             <Input
               id="bio"

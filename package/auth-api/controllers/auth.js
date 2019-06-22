@@ -1,7 +1,7 @@
+const AppApi = require('../util/appApi');
 const { validationResult } = require('express-validator/check');
 
 const User = require('../models/user');
-const List = require('../models/list');
 
 exports.signup = async (req, res, next) => {
   const error = validationResult(req);
@@ -15,31 +15,36 @@ exports.signup = async (req, res, next) => {
   try {
     const user = new User();
     user.email = req.body.email;
-    user.username = req.body.name;
+    user.username = req.body.username;
+    user.name = req.body.name;
     await user.setPassword(req.body.password);
-    const userSaved = await user.save();
 
-    const wantedList = await libraryBuilder(
+    const token = user.generateJWT();
+    // TODO: si va la primera per no la segunda?
+
+    await libraryBuilder(
       'Want it',
-      `${userSaved.username} want it list`,
+      `${req.body.username} want it list`,
       1,
-      user
+      req.body.username,
+      token
     );
-    await userSaved.addList(wantedList.id);
-    const inProgressList = await libraryBuilder(
+    await libraryBuilder(
       'In progress',
-      `${userSaved.username} in progress list`,
+      `${req.body.username} in progress list`,
       2,
-      user
+      req.body.username,
+      token
     );
-    await userSaved.addList(inProgressList.id);
-    const doneList = await libraryBuilder(
+    await libraryBuilder(
       'Done',
-      `${userSaved.username} done list`,
+      `${req.body.username} done list`,
       3,
-      user
+      req.body.username,
+      token
     );
-    await userSaved.addList(doneList.id);
+
+    const userSaved = await user.save();
 
     res.status(201).json({
       message: 'User created!',
@@ -76,13 +81,22 @@ exports.login = async (req, res, next) => {
   }
 };
 
-const libraryBuilder = async (name, description, type, user) => {
-  const list = new List({
-    name: name,
-    type: type,
-    exclusive: true,
-    creator: user.id,
-    description: description
-  });
-  return list.save();
+const libraryBuilder = async (name, description, type, user, token) => {
+  // Ir al endpoint
+  return AppApi.post(
+    '/api/lists',
+    {
+      title: name,
+      type: type,
+      creator: user,
+      public: true,
+      description: description
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
 };

@@ -4,7 +4,7 @@ const path = require('path');
 const { validationResult } = require('express-validator/check');
 
 const User = require('../models/user');
-const { newError } = require('../util/errorHandler');
+const { newError } = require('../../server/util/errorHandler');
 
 exports.getUser = async (req, res, next) => {
   const username = req.params.username;
@@ -27,6 +27,21 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
+exports.getFollowers = async (req, res, next) => {
+  const username = req.params.username;
+
+  try {
+    const user = await User.findOne({username: username}).populate("followers", "username image");
+    console.log(user.followers)
+    return res.json({followers: user.followers})
+  }catch(err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+}
+
 exports.updateUser = async (req, res, next) => {
   const username = req.params.username;
 
@@ -38,6 +53,7 @@ exports.updateUser = async (req, res, next) => {
       throw error;
     }
     const newUsername = req.body.username;
+    const name = req.body.name;
     const bio = req.body.bio;
     let imageUrl = req.body.image;
     if (req.file) {
@@ -57,11 +73,11 @@ exports.updateUser = async (req, res, next) => {
       const error = new Error('Could not find user.');
       error.statusCode = 404;
       throw error;
-    } else if (newUser !== null && newUser._id.toString() !== req.userId) {
+    } else if (newUser !== null && newUser.username.toString() !== req.userId) {
       const error = new Error('The username already exist.');
       error.statusCode = 401;
       throw error;
-    } else if (user._id.toString() !== req.userId) {
+    } else if (user.username.toString() !== req.userId) {
       const error = new Error('Not authorized!');
       error.statusCode = 403;
       throw error;
@@ -71,6 +87,7 @@ exports.updateUser = async (req, res, next) => {
       clearImage(user.image);
     }
     user.username = newUsername;
+    user.name = name;
     user.bio = bio;
     if (imageUrl !== 'undefined') user.image = imageUrl;
 
@@ -102,7 +119,6 @@ exports.followUser = async (req, res, next) => {
 
     let sourceUserResult, targetUserResult;
 
-    console.log(sourceUser.isFollowing(targetUser.id));
     if (!sourceUser.isFollowing(targetUser.id)) {
       [sourceUserResult, targetUserResult] = await follow(
         sourceUser,
@@ -133,12 +149,12 @@ exports.isFollowing = async (req, res, next) => {
   try {
     const targetUser = await User.findOne({ username: username });
 
-    if (req.userId === targetUser._id.toString())
+    if (req.userId === targetUser.username.toString())
       newError(403, 'You cannot follow yourself');
 
     res.status(200).json({
       isFollowing: targetUser.followers.some(
-        item => item._id.toString() === req.userId
+        item => item.username.toString() === req.userId
       )
     });
   } catch (err) {

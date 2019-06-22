@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const multer = require('multer');
 
-const indexRouter = require('./routes/index');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user')
 
 const app = express();
 
@@ -52,8 +53,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', indexRouter);
-// app.use('/api/feed');
+app.use('/auth', authRoutes);
+app.use('/', userRoutes);
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -71,7 +72,7 @@ mongoose.connect(
     { useNewUrlParser: true }
   )
   .then(result => {
-    app.listen(process.env.PORT || 3001);
+    app.listen(process.env.PORT || 3002);
     console.log('Server on!');
   })
   .catch(err => console.log(err));

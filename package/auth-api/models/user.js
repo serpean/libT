@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs');
+const path = require('path');
+const fs = require('fs');
 
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const secret = process.env.SECRET;
 
 const Schema = mongoose.Schema;
 
@@ -14,6 +15,12 @@ const userSchema = new Schema(
       match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
       lowercase: true,
       unique: true,
+      index: true
+    },
+    name: {
+      type: String,
+      required: [true, "can't be black"],
+      match: [/^[a-zA-Z\s]+$/, 'is invalid'],
       index: true
     },
     email: {
@@ -41,12 +48,6 @@ const userSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'User'
       }
-    ],
-    lists: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'List'
-      }
     ]
   },
   { timestamps: true }
@@ -65,13 +66,20 @@ userSchema.methods.generateJWT = function() {
   let exp = new Date(today);
   exp.setDate(today.getDate() + 60);
 
+  const pathName = path.join(__dirname, '..', 'private.pem');
+  const secret =
+    pathName !== '/' && fs.existsSync(pathName)
+      ? fs.readFileSync(pathName, 'utf8')
+      : undefined;
+
   return jwt.sign(
     {
-      userId: this._id,
+      userId: this.username,
+      name: this.name,
       email: this.email
     },
     secret,
-    { expiresIn: '1h' }
+    { expiresIn: '1h' , algorithm: 'RS256' }
   );
 };
 
@@ -89,10 +97,10 @@ userSchema.methods.toAuthJSON = function() {
 userSchema.methods.toProfileJSONFor = function(user) {
   return {
     username: this.username,
+    name: this.name,
     bio: this.bio,
     image: imageWithApi(this.image),
     isFollowing: user ? user.isFollowing(this._id) : undefined,
-    lists: this.lists,
     following: this.following.map(user => {
       return {
         ...user._doc,
@@ -116,15 +124,8 @@ userSchema.methods.isFollowing = function(id) {
   });
 };
 
-userSchema.methods.addList = function(id) {
-  if (this.lists.indexOf(id) === -1) {
-    this.lists.push(id);
-  }
-  return this.save();
-};
-
 const imageWithApi = image => {
-  return image ? `/api/${image}` : '/api/public/images/default_user.svg';
+  return image ? `${process.env.PUBLIC_URL}/api/${image}` : `${process.env.PUBLIC_URL}/api/public/images/default_user.svg`;
 };
 
 module.exports = mongoose.model('User', userSchema);
