@@ -7,10 +7,10 @@ import createRootReducer from './reducers';
 
 export const history = createBrowserHistory();
 
-const composeEnhancers =
-  process.env.NODE_ENV === 'development'
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : null || compose;
+const composeEnhancers = compose;
+  // process.env.NODE_ENV === 'development'
+  //   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  //   : null || compose;
 
 export default function configureStore(preloadedState) {
   const store = createStore(

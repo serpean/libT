@@ -2,11 +2,12 @@ const axios = require('../../axiosConfig');
 
 class OMDBRequest {
   async doRequest(id) {
-    const response = await axios.get(
-      `http://www.omdbapi.com/?i=${id}&plot=full&apikey=${
+    const response = await axios({
+      url: `http://www.omdbapi.com/?i=${id}&plot=full&apikey=${
         process.env.OMDB_API_KEY
-      }`
-    );
+      }`,
+      method: 'get'
+    });
     const { Response } = response.data;
     if (Response === 'False') {
       const error = new Error('Invalid ID');

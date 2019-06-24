@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {axiosCache} = require('../../axiosConfig');
+const axiosCache = require('../../axiosConfig');
 
 const {
   bookParser,
