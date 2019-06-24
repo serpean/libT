@@ -129,11 +129,13 @@ export const loadList = listId => {
         return {
           ...list,
           resources: list.resources.map((e, i) => {
+            console.log(res[i].data)
             return { ...e, ...res[i].data };
           })
         };
       })
       .then(resData => {
+        console.log({resData})
         dispatch(listSuccess(resData));
       })
       .catch(err => {

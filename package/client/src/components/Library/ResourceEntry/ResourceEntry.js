@@ -97,8 +97,8 @@ class ResourceEntry extends Component {
     return (
       <div className="entry">
         <div className="entry__image">
-          <Link to={`/resource/${this.props.type}/${this.props.id}`}>
-            <Image imageUrl={this.props.image} />
+          <Link to={`/resource/${this.props.type}/${this.props.id}`} id={this.props.id} title={this.props.title}>
+            <Image imageUrl={this.props.image} alt={this.props.title}/>
           </Link>
         </div>
         <div className="entry__content">
