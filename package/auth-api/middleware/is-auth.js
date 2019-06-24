@@ -1,3 +1,6 @@
+const path = require('path')
+const fs = require('fs');
+
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
@@ -10,7 +13,9 @@ module.exports = (req, res, next) => {
   const token = authHeader.split(' ')[1];
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, process.env.SECRET);
+    const pathName = path.join(__dirname, "..", "public.pem")
+    const secret = pathName !== '/' && fs.existsSync(pathName) ? fs.readFileSync(pathName, 'utf8') : undefined;
+    decodedToken = jwt.verify(token, secret, { algorithm: 'RS256' });
   } catch (err) {
     err.statusCode = 500;
     throw err;
